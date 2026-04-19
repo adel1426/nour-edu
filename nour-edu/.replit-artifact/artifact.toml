@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "منصة نور التعليمية"
+version = "1.0.0"
+id = "artifacts/nour-edu"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19612
+
+[services.development]
+run = "pnpm --filter @workspace/nour-edu run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nour-edu", "run", "build" ]
+publicDir = "artifacts/nour-edu/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19612"
+BASE_PATH = "/"

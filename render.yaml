@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: nour-edu
+    runtime: node
+    buildCommand: "npm install -g pnpm && pnpm install && PORT=3000 BASE_PATH=/ pnpm --filter @workspace/nour-edu run build && pnpm --filter @workspace/api-server run build"
+    startCommand: "node artifacts/api-server/dist/index.mjs"
+    healthCheckPath: /api/healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nour-edu-db
+          property: connectionString
+
+databases:
+  - name: nour-edu-db
+    databaseName: nour_edu
+    user: nour_edu_user
