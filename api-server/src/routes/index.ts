@@ -6,7 +6,6 @@ import scoresRouter from "./scores";
 import lessonsRouter from "./lessons";
 
 const router: IRouter = Router();
-
 router.use(authRouter);
 router.use(healthRouter);
 router.use(questionsRouter);

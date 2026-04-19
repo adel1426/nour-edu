@@ -15,7 +15,10 @@ router.post("/auth/login", (req: Request, res: Response) => {
   const { username, password } = req.body;
   if (username === ADMIN_USER && password === ADMIN_PASS) {
     req.session.isAdmin = true;
-    res.json({ success: true });
+    req.session.save((err) => {
+      if (err) return res.status(500).json({ error: "Session error" });
+      res.json({ success: true });
+    });
   } else {
     res.status(401).json({ error: "اسم المستخدم أو كلمة المرور غير صحيحة" });
   }
@@ -23,6 +26,7 @@ router.post("/auth/login", (req: Request, res: Response) => {
 
 router.post("/auth/logout", (req: Request, res: Response) => {
   req.session.destroy(() => {
+    res.clearCookie("nour.sid");
     res.json({ success: true });
   });
 });
@@ -32,9 +36,7 @@ router.get("/auth/me", (req: Request, res: Response) => {
 });
 
 export function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  if (req.session.isAdmin) {
-    return next();
-  }
+  if (req.session.isAdmin) return next();
   res.status(401).json({ error: "غير مصرح. يرجى تسجيل الدخول أولاً." });
 }
 
