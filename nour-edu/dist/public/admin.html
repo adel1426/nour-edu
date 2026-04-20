@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>لوحة إدارة — منصة الثانية والستون</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box}
+    body{font-family:"Cairo",sans-serif;background:#f8f4ff;color:#1e1535;min-height:100vh;margin:0}
+    input,select,textarea{font-family:"Cairo",sans-serif;background:white;border:1.5px solid rgba(124,58,237,.2);border-radius:10px;padding:9px 13px;width:100%;font-size:14px;color:#1e1535;transition:border-color .2s}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+    .btn{cursor:pointer;border:none;font-family:"Cairo",sans-serif;font-size:14px;font-weight:700;border-radius:10px;padding:9px 18px;transition:all .2s}
+    .btn-primary{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;box-shadow:0 4px 12px rgba(124,58,237,.3)}
+    .btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+    .btn-danger{background:rgba(239,68,68,.08);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+    .btn-danger:hover{background:rgba(239,68,68,.15)}
+    .btn-edit{background:rgba(245,158,11,.1);color:#d97706;border:1px solid rgba(245,158,11,.2)}
+    .btn-edit:hover{background:rgba(245,158,11,.18)}
+    .btn-secondary{background:rgba(124,58,237,.08);color:#7c3aed;border:1px solid rgba(124,58,237,.2)}
+    .btn-secondary:hover{background:rgba(124,58,237,.14)}
+    .card{background:white;border:1px solid rgba(124,58,237,.1);border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+    .grade-tab{padding:8px 20px;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;border:none;font-family:"Cairo",sans-serif;transition:all .2s}
+    .grade-tab.on{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;box-shadow:0 4px 12px rgba(124,58,237,.3)}
+    .grade-tab:not(.on){background:rgba(124,58,237,.06);color:#7c3aed;border:1px solid rgba(124,58,237,.15)}
+    .grade-tab:not(.on):hover{background:rgba(124,58,237,.12)}
+    .lesson-item{padding:10px 14px;border-radius:10px;background:rgba(124,58,237,.03);border:1px solid rgba(124,58,237,.08);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px}
+    .lesson-item:hover{background:rgba(124,58,237,.07);border-color:rgba(124,58,237,.2)}
+    .lesson-item.active{background:rgba(124,58,237,.1);border-color:#7c3aed}
+    .q-card{background:white;border:1px solid rgba(124,58,237,.1);border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:box-shadow .2s}
+    .q-card:hover{box-shadow:0 4px 12px rgba(124,58,237,.1)}
+    .cnt{background:rgba(124,58,237,.08);color:#7c3aed;border-radius:8px;font-size:13px;font-weight:700;padding:3px 10px;display:inline-block}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e1535;color:white;padding:10px 20px;border-radius:12px;font-weight:700;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+    .toast.show{opacity:1}
+    .xl-drop{border:2px dashed rgba(124,58,237,.25);border-radius:14px;background:rgba(124,58,237,.02);transition:all .2s;cursor:pointer}
+    .xl-drop:hover,.xl-drop.drag-over{border-color:rgba(124,58,237,.5);background:rgba(124,58,237,.05)}
+    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+    .stat-box{background:white;border:1px solid rgba(124,58,237,.1);border-radius:14px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+    .report-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;background:rgba(124,58,237,.03);border:1px solid rgba(124,58,237,.07);margin-bottom:5px}
+    .prog-bar{flex:1;height:5px;background:rgba(124,58,237,.1);border-radius:99px;overflow:hidden}
+    .prog-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:99px}
+    .tab-btn{padding:7px 14px;border-radius:9px;font-weight:700;font-size:13px;cursor:pointer;border:none;font-family:"Cairo",sans-serif;transition:all .2s}
+    .tab-btn.active{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;box-shadow:0 3px 10px rgba(124,58,237,.25)}
+    .tab-btn:not(.active){background:rgba(124,58,237,.06);color:#7c3aed;border:1px solid rgba(124,58,237,.15)}
+  </style>
+</head>
+<body>
+
+<!-- شاشة الدخول -->
+<div id="login-screen" class="min-h-screen flex items-center justify-center px-4"
+     style="background:linear-gradient(135deg,#5b21b6,#7c3aed,#ec4899)">
+  <div class="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl">
+    <div class="text-center mb-6">
+      <div class="text-5xl mb-3">🔐</div>
+      <h1 class="text-xl font-black" style="color:#7c3aed">دخول المشرفة</h1>
+      <p class="text-sm mt-1" style="color:#94a3b8">منصة الثانية والستون التعليمية</p>
+    </div>
+    <input id="login-user" type="text" placeholder="اسم المستخدم" class="mb-3"/>
+    <input id="login-pass" type="password" placeholder="كلمة المرور" class="mb-4"/>
+    <div id="login-error" class="hidden text-sm text-center mb-3 font-semibold" style="color:#ef4444"></div>
+    <button onclick="doLogin()" class="btn btn-primary w-full py-3">دخول 🚀</button>
+  </div>
+</div>
+
+<!-- لوحة الإدارة -->
+<div id="admin-panel" class="hidden min-h-screen">
+
+  <!-- الرأس -->
+  <div class="sticky top-0 z-40 bg-white border-b shadow-sm" style="border-color:rgba(124,58,237,.1)">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
+             style="background:linear-gradient(135deg,#7c3aed,#ec4899)">📚</div>
+        <div>
+          <div class="font-black text-sm" style="color:#7c3aed">لوحة الإدارة</div>
+          <div id="hdr-total" class="text-xs" style="color:#94a3b8">جاري التحميل...</div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <a href="/" class="btn btn-secondary py-2 px-3 text-sm" style="text-decoration:none">← الموقع</a>
+        <button onclick="doLogout()" class="btn btn-danger py-2 px-3 text-sm">خروج</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-6xl mx-auto px-3 py-5">
+
+    <!-- تبويبات رئيسية -->
+    <div class="flex gap-2 mb-5 flex-wrap">
+      <button class="tab-btn active" id="main-tab-questions" onclick="switchMainTab('questions')">📝 الأسئلة</button>
+      <button class="tab-btn" id="main-tab-reports" onclick="switchMainTab('reports')">📊 التقارير</button>
+      <button class="tab-btn" id="main-tab-settings" onclick="switchMainTab('settings')">⚙️ الإعدادات</button>
+    </div>
+
+    <!-- ══ قسم الأسئلة ══ -->
+    <div id="section-questions">
+      <!-- اختيار الصف -->
+      <div class="flex gap-2 mb-5">
+        <button id="gtab-first" class="grade-tab on flex-1" onclick="switchGrade('first')">📘 الأول متوسط</button>
+        <button id="gtab-second" class="grade-tab flex-1" onclick="switchGrade('second')">📗 الثاني متوسط</button>
+      </div>
+
+      <!-- رفع دفعي للصف كامل -->
+      <div class="card mb-4">
+        <div class="font-black text-sm mb-3" style="color:#1e1535">📤 رفع أسئلة للصف كامل (Excel)</div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <div class="text-xs font-bold mb-1" style="color:#94a3b8">أولى متوسط</div>
+            <input type="file" accept=".xlsx,.xls" id="g-file-first" class="hidden" onchange="onGradeFile('first',this)"/>
+            <button onclick="document.getElementById('g-file-first').click()" class="btn btn-secondary w-full py-2 text-sm">📂 اختر ملف</button>
+            <div id="g-info-first" class="text-xs mt-1" style="color:#94a3b8"></div>
+            <button id="g-import-first" class="hidden btn btn-primary w-full mt-2 py-2 text-sm" onclick="confirmGradeImport('first')">✅ رفع</button>
+          </div>
+          <div>
+            <div class="text-xs font-bold mb-1" style="color:#94a3b8">ثاني متوسط</div>
+            <input type="file" accept=".xlsx,.xls" id="g-file-second" class="hidden" onchange="onGradeFile('second',this)"/>
+            <button onclick="document.getElementById('g-file-second').click()" class="btn btn-secondary w-full py-2 text-sm">📂 اختر ملف</button>
+            <div id="g-info-second" class="text-xs mt-1" style="color:#94a3b8"></div>
+            <button id="g-import-second" class="hidden btn btn-primary w-full mt-2 py-2 text-sm" onclick="confirmGradeImport('second')">✅ رفع</button>
+          </div>
+        </div>
+        <div id="g-result" class="hidden mt-3 rounded-xl p-3 text-sm font-bold"></div>
+      </div>
+
+      <!-- التخطيط الرئيسي -->
+      <div class="flex flex-col lg:flex-row gap-4">
+
+        <!-- الشريط الجانبي -->
+        <div class="lg:w-72 flex-shrink-0">
+          <div class="card">
+            <div class="text-xs font-black mb-3" style="color:#7c3aed">📋 اختر درساً</div>
+            <div id="lessons-tree" class="space-y-3">
+              <div class="text-center text-sm py-4" style="color:#94a3b8">جاري التحميل...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- منطقة المحتوى -->
+        <div class="flex-1 min-w-0 space-y-4">
+
+          <!-- لم يتم الاختيار -->
+          <div id="no-sel" class="card flex flex-col items-center justify-center py-16 text-center">
+            <div class="text-5xl mb-4">👆</div>
+            <div class="font-black text-lg mb-2" style="color:#1e1535">اختاري درساً</div>
+            <div class="text-sm" style="color:#94a3b8">اضغطي على اسم الدرس من القائمة على اليسار</div>
+          </div>
+
+          <!-- لوحة الدرس المختار -->
+          <div id="sel-panel" class="hidden space-y-4">
+
+            <!-- معلومات الدرس -->
+            <div class="card flex items-center justify-between gap-3">
+              <div>
+                <div class="font-black text-base" id="sel-title">—</div>
+                <div class="text-xs mt-0.5" style="color:#94a3b8" id="sel-unit">—</div>
+              </div>
+              <div id="sel-count" class="cnt">—</div>
+            </div>
+
+            <!-- شرح الدرس -->
+            <div class="card">
+              <button onclick="toggleSection('content-body','content-arrow')"
+                class="flex items-center justify-between w-full text-right">
+                <span class="font-black text-sm" style="color:#1e1535">📝 شرح الدرس</span>
+                <span id="content-arrow" class="text-slate-400 font-bold transition-transform">▼</span>
+              </button>
+              <div id="content-body" class="hidden mt-3 space-y-2">
+                <textarea id="lesson-content-editor" rows="6"
+                  placeholder="اكتبي شرح الدرس هنا... (يدعم HTML)"
+                  style="min-height:120px;resize:vertical"></textarea>
+                <div class="flex gap-2">
+                  <button onclick="saveContent()" class="btn btn-primary flex-1 py-2 text-sm">💾 حفظ</button>
+                  <button onclick="resetContent()" class="btn btn-secondary py-2 px-3 text-sm">🔄 افتراضي</button>
+                </div>
+                <div id="content-status" class="text-xs" style="color:#94a3b8"></div>
+              </div>
+            </div>
+
+            <!-- رفع من Excel -->
+            <div class="card">
+              <button onclick="toggleSection('xl-body','xl-arrow')"
+                class="flex items-center justify-between w-full text-right">
+                <span class="font-black text-sm" style="color:#1e1535">📤 رفع أسئلة من Excel</span>
+                <span id="xl-arrow" class="text-slate-400 font-bold transition-transform">▼</span>
+              </button>
+              <div id="xl-body" class="hidden mt-3 space-y-3">
+                <div class="text-xs p-3 rounded-xl" style="background:rgba(124,58,237,.05);color:#64748b">
+                  <strong>تنسيق العمود:</strong> نص السؤال | أ | ب | ج | د | الإجابة (0=أ 1=ب 2=ج 3=د)
+                </div>
+                <button onclick="downloadTemplate()" class="btn btn-secondary w-full py-2 text-sm">📥 تحميل قالب Excel</button>
+                <label class="xl-drop flex flex-col items-center justify-center py-8 text-center" id="xl-drop-label">
+                  <div id="xl-drop-icon" class="text-3xl mb-2">📊</div>
+                  <div id="xl-drop-text" class="font-bold text-sm" style="color:#7c3aed">اضغطي أو اسحبي ملف Excel</div>
+                  <div class="text-xs mt-1" style="color:#94a3b8">.xlsx أو .xls</div>
+                  <input id="xl-file-input" type="file" accept=".xlsx,.xls" class="hidden" onchange="onExcelFile(this)"/>
+                </label>
+                <div id="xl-preview" class="hidden">
+                  <div id="xl-preview-info" class="text-sm font-bold mb-2" style="color:#1e1535"></div>
+                  <div id="xl-rows-preview" class="space-y-1 max-h-40 overflow-y-auto text-xs" style="color:#64748b"></div>
+                </div>
+                <button id="xl-import-btn" class="hidden btn btn-primary w-full py-2" onclick="confirmBulkImport()">✅ استيراد الأسئلة</button>
+                <div id="xl-result" class="hidden rounded-xl p-3 text-sm font-bold"></div>
+              </div>
+            </div>
+
+            <!-- إضافة سؤال يدوي -->
+            <div class="card">
+              <div id="form-title" class="font-black text-sm mb-4" style="color:#1e1535">➕ إضافة سؤال جديد</div>
+              <div class="space-y-3">
+                <div>
+                  <label class="text-xs font-bold block mb-1" style="color:#64748b">نص السؤال *</label>
+                  <textarea id="f-q" rows="2" placeholder="اكتبي السؤال هنا..."></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div><label class="text-xs font-bold block mb-1" style="color:#64748b">الخيار أ *</label><input id="f-a" placeholder="الخيار الأول"/></div>
+                  <div><label class="text-xs font-bold block mb-1" style="color:#64748b">الخيار ب *</label><input id="f-b" placeholder="الخيار الثاني"/></div>
+                  <div><label class="text-xs font-bold block mb-1" style="color:#64748b">الخيار ج *</label><input id="f-c" placeholder="الخيار الثالث"/></div>
+                  <div><label class="text-xs font-bold block mb-1" style="color:#64748b">الخيار د *</label><input id="f-d" placeholder="الخيار الرابع"/></div>
+                </div>
+                <div>
+                  <label class="text-xs font-bold block mb-1" style="color:#64748b">الإجابة الصحيحة *</label>
+                  <select id="f-ans">
+                    <option value="0">أ - الخيار الأول</option>
+                    <option value="1">ب - الخيار الثاني</option>
+                    <option value="2">ج - الخيار الثالث</option>
+                    <option value="3">د - الخيار الرابع</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-bold block mb-1" style="color:#64748b">رابط صورة (اختياري)</label>
+                  <input id="f-img" placeholder="https://..."/>
+                </div>
+                <div class="flex gap-2">
+                  <button onclick="saveQ()" class="btn btn-primary flex-1 py-2.5">💾 حفظ السؤال</button>
+                  <button id="btn-cancel" class="hidden btn btn-secondary py-2.5 px-4" onclick="cancelEdit()">✕ إلغاء</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- قائمة الأسئلة -->
+            <div id="q-list" class="space-y-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ قسم التقارير ══ -->
+    <div id="section-reports" class="hidden">
+      <div class="flex gap-2 mb-4">
+        <button class="tab-btn active" id="rtab-first" onclick="switchReportGrade('first')">📘 أولى متوسط</button>
+        <button class="tab-btn" id="rtab-second" onclick="switchReportGrade('second')">📗 ثاني متوسط</button>
+      </div>
+
+      <!-- إحصائيات -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+        <div class="stat-box"><div class="text-2xl mb-1">📚</div><div class="font-black text-xl" style="color:#7c3aed" id="rs-total-q">—</div><div class="text-xs" style="color:#94a3b8">إجمالي الأسئلة</div></div>
+        <div class="stat-box"><div class="text-2xl mb-1">👩‍🎓</div><div class="font-black text-xl" style="color:#7c3aed" id="rs-students">—</div><div class="text-xs" style="color:#94a3b8">الطالبات</div></div>
+        <div class="stat-box"><div class="text-2xl mb-1">✅</div><div class="font-black text-xl" style="color:#7c3aed" id="rs-tests">—</div><div class="text-xs" style="color:#94a3b8">الاختبارات</div></div>
+        <div class="stat-box"><div class="text-2xl mb-1">🎯</div><div class="font-black text-xl" style="color:#7c3aed" id="rs-avg">—</div><div class="text-xs" style="color:#94a3b8">المتوسط</div></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <!-- لوحة الشرف + حذف -->
+        <div class="card">
+          <div class="flex items-center justify-between mb-3">
+            <div class="font-black text-sm" style="color:#1e1535">🏆 لوحة الشرف</div>
+            <button onclick="clearAllScores()" class="btn btn-danger py-1.5 px-3 text-xs">🗑️ تصفير الكل</button>
+          </div>
+          <div id="r-leaderboard">
+            <div class="text-center py-6 text-sm" style="color:#94a3b8">جاري التحميل...</div>
+          </div>
+        </div>
+
+        <!-- توزيع الأسئلة -->
+        <div class="card">
+          <div class="font-black text-sm mb-3" style="color:#1e1535">📊 توزيع الأسئلة بالوحدات</div>
+          <div id="r-breakdown">
+            <div class="text-center py-6 text-sm" style="color:#94a3b8">جاري التحميل...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- جدول النتائج الكامل -->
+      <div class="card mt-4">
+        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div class="font-black text-sm" style="color:#1e1535">📋 جميع النتائج</div>
+          <button onclick="exportCSV()" class="btn btn-primary py-1.5 px-3 text-sm">⬇️ تصدير CSV</button>
+        </div>
+        <div id="r-table" class="overflow-x-auto">
+          <div class="text-center py-6 text-sm" style="color:#94a3b8">جاري التحميل...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ قسم الإعدادات ══ -->
+    <div id="section-settings" class="hidden space-y-4">
+      <!-- المؤقت -->
+      <div class="card">
+        <div class="font-black mb-1" style="color:#1e1535">⏱️ وقت الاختبار</div>
+        <p class="text-sm mb-4" style="color:#94a3b8">يُطبق على جميع الطالبات</p>
+        <div class="flex flex-wrap gap-2 mb-3">
+          <button class="btn btn-secondary py-2 px-3 text-sm timer-opt" onclick="setTimer(0)">بدون مؤقت</button>
+          <button class="btn btn-secondary py-2 px-3 text-sm timer-opt" onclick="setTimer(5)">5 دقائق</button>
+          <button class="btn btn-secondary py-2 px-3 text-sm timer-opt" onclick="setTimer(10)">10 دقائق</button>
+          <button class="btn btn-secondary py-2 px-3 text-sm timer-opt" onclick="setTimer(15)">15 دقائق</button>
+          <button class="btn btn-secondary py-2 px-3 text-sm timer-opt" onclick="setTimer(20)">20 دقائق</button>
+          <button class="btn btn-secondary py-2 px-3 text-sm timer-opt" onclick="setTimer(30)">30 دقائق</button>
+        </div>
+        <div id="timer-status" class="text-sm font-bold" style="color:#7c3aed">⏱️ المؤقت الحالي: بدون مؤقت</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const API = "/api";
+const CURRICULUM = {
+  first: {
+    name: "الأول متوسط",
+    units: [
+      {title:"الأعداد والعمليات عليها", emoji:"🔢", lessons:[
+        "القوى والأسس","ترتيب العمليات","الأعداد الصحيحة والقيمة المطلقة",
+        "العمليات على الأعداد الصحيحة","الكسور الاعتيادية والعشرية",
+        "النسبة والتناسب","النسبة المئوية"
+      ]},
+      {title:"الجبر والدوال", emoji:"📐", lessons:[
+        "المتغيرات والتعابير الجبرية","الخصائص","المعادلات الجبرية",
+        "الدوال","المتتابعات الحسابية"
+      ]},
+      {title:"الهندسة والقياس", emoji:"📏", lessons:[
+        "الزوايا: العلاقات بين الزوايا","المثلثات: تصنيف المثلثات",
+        "الأشكال الرباعية","المحيط والمساحة",
+        "القياس (النظام المتري)","الأشكال الثلاثية الأبعاد"
+      ]},
+      {title:"الإحصاء والاحتمالات", emoji:"📊", lessons:[
+        "مقاييس النزعة المركزية","تمثيل البيانات",
+        "الاحتمال: حساب احتمال وقوع حدث بسيط","فضاء العينة"
+      ]}
+    ]
+  },
+  second: {
+    name: "الثاني متوسط",
+    units: [
+      {title:"الأعداد والعمليات عليها", emoji:"🔢", lessons:[
+        "الأعداد النسبية","القوى والأسس","الجذور التربيعية",
+        "الأعداد الحقيقية","التناسب المئوي"
+      ]},
+      {title:"الجبر والدوال", emoji:"📐", lessons:[
+        "المعادلات والمتباينات","المتباينات الخطية","الدوال الخطية",
+        "أنظمة المعادلات الخطية","كثيرات الحدود"
+      ]},
+      {title:"الهندسة والقياس", emoji:"📏", lessons:[
+        "نظرية فيثاغورس","التحويلات الهندسية","التشابه والتطابق",
+        "حجم المنشور والأسطوانة","مساحة سطح المنشور والأسطوانة"
+      ]},
+      {title:"الإحصاء والاحتمالات", emoji:"📊", lessons:[
+        "المدى والانحراف المعياري","الاحتمالات المركبة",
+        "التمثيلات البيانية المتقدمة","العد والتوافيق"
+      ]}
+    ]
+  }
+};
+
+let currentGrade = "first";
+let currentUnit = null;
+let currentLesson = null;
+let editingId = null;
+let xlParsed = null;
+let gradeFiles = {first:null, second:null};
+let reportGrade = "first";
+
+// ── Auth ──
+async function checkAuth() {
+  try {
+    const r = await fetch(`${API}/auth/me`);
+    const d = await r.json();
+    if (d.isAdmin) { openPanel(); } else { showLogin(); }
+  } catch { showLogin(); }
+}
+function showLogin() {
+  document.getElementById("login-screen").classList.remove("hidden");
+  document.getElementById("admin-panel").classList.add("hidden");
+}
+async function openPanel() {
+  document.getElementById("login-screen").classList.add("hidden");
+  document.getElementById("admin-panel").classList.remove("hidden");
+  buildTree();
+  loadCounts();
+  loadTimerSettings();
+}
+async function doLogin() {
+  const u = document.getElementById("login-user").value.trim();
+  const p = document.getElementById("login-pass").value;
+  const err = document.getElementById("login-error");
+  err.classList.add("hidden");
+  try {
+    const r = await fetch(`${API}/auth/login`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u,password:p})});
+    const d = await r.json();
+    if (d.success) openPanel();
+    else { err.textContent = d.error||"بيانات خاطئة"; err.classList.remove("hidden"); }
+  } catch { err.textContent="حدث خطأ"; err.classList.remove("hidden"); }
+}
+document.getElementById("login-pass").addEventListener("keydown",e=>{ if(e.key==="Enter") doLogin(); });
+async function doLogout() {
+  await fetch(`${API}/auth/logout`,{method:"POST"});
+  showLogin();
+}
+
+// ── التنقل ──
+function switchMainTab(tab) {
+  ["questions","reports","settings"].forEach(t => {
+    document.getElementById(`main-tab-${t}`)?.classList.toggle("active", t===tab);
+    document.getElementById(`section-${t}`)?.classList.toggle("hidden", t!==tab);
+  });
+  if (tab==="reports") loadReports(reportGrade);
+  if (tab==="settings") loadTimerSettings();
+}
+
+function switchGrade(g) {
+  currentGrade = g; currentUnit = null; currentLesson = null;
+  ["first","second"].forEach(x => document.getElementById(`gtab-${x}`).classList.toggle("on", x===g));
+  document.getElementById("no-sel").classList.remove("hidden");
+  document.getElementById("sel-panel").classList.add("hidden");
+  buildTree();
+  loadCounts();
+}
+
+// ── الشجرة الجانبية ──
+function buildTree() {
+  const tree = document.getElementById("lessons-tree");
+  const data = CURRICULUM[currentGrade];
+  tree.innerHTML = "";
+  data.units.forEach((unit, ui) => {
+    const section = document.createElement("div");
+    section.innerHTML = `
+      <div class="flex items-center gap-2 mb-1.5">
+        <span class="text-base">${unit.emoji}</span>
+        <span class="text-xs font-black" style="color:#1e1535">${unit.title}</span>
+      </div>
+      <div class="space-y-1 mr-5" id="unit-lessons-${ui}"></div>
+    `;
+    tree.appendChild(section);
+    const lessonsDiv = section.querySelector(`#unit-lessons-${ui}`);
+    unit.lessons.forEach((lesson, li) => {
+      const item = document.createElement("div");
+      item.className = "lesson-item";
+      item.id = `lesson-item-${ui}-${li}`;
+      item.innerHTML = `
+        <span class="text-xs font-bold flex-1" style="color:#1e1535">${lesson}</span>
+        <span id="cnt-${ui}-${li}" class="text-xs" style="color:#94a3b8">—</span>
+      `;
+      item.onclick = () => pick(ui, li);
+      lessonsDiv.appendChild(item);
+    });
+  });
+}
+
+async function loadCounts() {
+  try {
+    const r = await fetch(`${API}/questions/counts?gradeKey=${currentGrade}`);
+    const counts = await r.json();
+    let total = 0;
+    CURRICULUM[currentGrade].units.forEach((unit,ui) => {
+      unit.lessons.forEach((_,li) => {
+        const n = counts[`${ui}|${li}`] || 0;
+        total += n;
+        const el = document.getElementById(`cnt-${ui}-${li}`);
+        if (el) el.textContent = n > 0 ? `${n} ✅` : "";
+        if (el) el.style.color = n > 0 ? "#7c3aed" : "#94a3b8";
+      });
+    });
+    document.getElementById("hdr-total").textContent = `إجمالي الأسئلة: ${total}`;
+  } catch {}
+}
+
+async function pick(ui, li) {
+  currentUnit = ui; currentLesson = li;
+  const unit = CURRICULUM[currentGrade].units[ui];
+  const lessonTitle = unit.lessons[li];
+
+  // تمييز العنصر المختار
+  document.querySelectorAll(".lesson-item").forEach(el => el.classList.remove("active"));
+  document.getElementById(`lesson-item-${ui}-${li}`)?.classList.add("active");
+
+  document.getElementById("sel-title").textContent = lessonTitle;
+  document.getElementById("sel-unit").textContent = `${unit.emoji} ${unit.title}`;
+  document.getElementById("no-sel").classList.add("hidden");
+  document.getElementById("sel-panel").classList.remove("hidden");
+
+  resetForm();
+  await loadQ();
+  await loadContent();
+}
+
+// ── الأسئلة ──
+async function loadQ() {
+  const list = document.getElementById("q-list");
+  list.innerHTML = '<div class="text-center py-4 text-sm" style="color:#94a3b8">جاري التحميل...</div>';
+  try {
+    const r = await fetch(`${API}/questions?gradeKey=${currentGrade}&unitIndex=${currentUnit}&lessonIndex=${currentLesson}`);
+    const qs = await r.json();
+    const cnt = document.getElementById(`cnt-${currentUnit}-${currentLesson}`);
+    const selCnt = document.getElementById("sel-count");
+    if (cnt) { cnt.textContent = qs.length > 0 ? `${qs.length} ✅` : ""; cnt.style.color = qs.length > 0 ? "#7c3aed" : "#94a3b8"; }
+    selCnt.textContent = `${qs.length} سؤال`;
+
+    if (!qs.length) { list.innerHTML = '<div class="text-center py-6 text-sm" style="color:#94a3b8">لا توجد أسئلة بعد — أضيفي من الأسفل</div>'; return; }
+
+    const opts = ["أ","ب","ج","د"];
+    list.innerHTML = qs.map(q => `
+      <div class="q-card" id="q-${q.id}">
+        <div class="flex items-start gap-2 mb-2">
+          <div class="flex-1 text-sm font-bold" style="color:#1e1535">${esc(q.question_text)}</div>
+          <div class="flex gap-1 flex-shrink-0">
+            <button onclick="startEdit(${q.id})" class="btn btn-edit py-1 px-2 text-xs">✏️</button>
+            <button onclick="delQ(${q.id})" class="btn btn-danger py-1 px-2 text-xs">🗑️</button>
+          </div>
+        </div>
+        ${q.image_url?`<img src="${q.image_url}" class="h-20 rounded-lg mb-2 object-contain"/>` : ""}
+        <div class="grid grid-cols-2 gap-1">
+          ${[q.option_a,q.option_b,q.option_c,q.option_d].map((o,i)=>`
+            <div class="text-xs px-2 py-1 rounded-lg ${i===q.correct_answer?"font-bold":"opacity-70"}"
+              style="background:${i===q.correct_answer?"rgba(16,185,129,.12)":"rgba(124,58,237,.04)"};
+                     color:${i===q.correct_answer?"#065f46":"#1e1535"}">
+              ${opts[i]}: ${esc(o)} ${i===q.correct_answer?"✅":""}
+            </div>`).join("")}
+        </div>
+      </div>
+    `).join("");
+  } catch(e) { list.innerHTML = `<div class="text-center py-4 text-sm text-red-500">خطأ: ${e.message}</div>`; }
+}
+
+function resetForm() {
+  editingId = null;
+  document.getElementById("form-title").textContent = "➕ إضافة سؤال جديد";
+  document.getElementById("btn-cancel").classList.add("hidden");
+  ["f-q","f-a","f-b","f-c","f-d","f-img"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("f-ans").value = "0";
+}
+
+function startEdit(id) {
+  const card = document.getElementById(`q-${id}`);
+  if (!card) return;
+  const opts = card.querySelectorAll(".grid > div");
+  const q = card.querySelector(".text-sm.font-bold").textContent;
+  editingId = id;
+  document.getElementById("form-title").textContent = "✏️ تعديل السؤال";
+  document.getElementById("btn-cancel").classList.remove("hidden");
+  document.getElementById("f-q").value = q;
+  const optTexts = Array.from(opts).map(o => o.textContent.trim().replace(/^[أبجد]: /, "").replace(" ✅","").trim());
+  ["f-a","f-b","f-c","f-d"].forEach((id,i) => document.getElementById(id).value = optTexts[i] || "");
+  const correct = Array.from(opts).findIndex(o => o.textContent.includes("✅"));
+  document.getElementById("f-ans").value = correct >= 0 ? correct : 0;
+  document.getElementById("f-q").scrollIntoView({behavior:"smooth"});
+}
+
+function cancelEdit() { resetForm(); }
+
+async function saveQ() {
+  if (currentUnit===null||currentLesson===null) return showToast("اختاري درساً أولاً","error");
+  const q = document.getElementById("f-q").value.trim();
+  const a = document.getElementById("f-a").value.trim();
+  const b = document.getElementById("f-b").value.trim();
+  const c = document.getElementById("f-c").value.trim();
+  const d = document.getElementById("f-d").value.trim();
+  const ans = parseInt(document.getElementById("f-ans").value);
+  const img = document.getElementById("f-img").value.trim();
+  if (!q||!a||!b||!c||!d) return showToast("أكملي جميع الحقول المطلوبة","error");
+
+  const body = {grade_key:currentGrade,unit_index:currentUnit,lesson_index:currentLesson,
+                question_text:q,option_a:a,option_b:b,option_c:c,option_d:d,correct_answer:ans,
+                image_url:img||null};
+  try {
+    let r;
+    if (editingId) {
+      r = await fetch(`${API}/questions/${editingId}`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    } else {
+      r = await fetch(`${API}/questions`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    }
+    const data = await r.json();
+    if (!r.ok) return showToast(data.error||"خطأ","error");
+    showToast(editingId?"✅ تم التعديل":"✅ تمت الإضافة");
+    resetForm(); loadQ(); loadCounts();
+  } catch(e) { showToast("خطأ: "+e.message,"error"); }
+}
+
+async function delQ(id) {
+  if (!confirm("حذف هذا السؤال؟")) return;
+  try {
+    const r = await fetch(`${API}/questions/${id}`,{method:"DELETE"});
+    if (r.ok) { showToast("✅ تم الحذف"); loadQ(); loadCounts(); }
+    else showToast("خطأ في الحذف","error");
+  } catch(e) { showToast("خطأ","error"); }
+}
+
+// ── شرح الدرس ──
+async function loadContent() {
+  if (currentUnit===null||currentLesson===null) return;
+  try {
+    const r = await fetch(`${API}/lessons/content?gradeKey=${currentGrade}&unitIndex=${currentUnit}&lessonIndex=${currentLesson}`,{cache:"no-store"});
+    const d = await r.json();
+    document.getElementById("lesson-content-editor").value = d.content||"";
+    document.getElementById("content-status").textContent = d.content ? `آخر تعديل: ${new Date(d.updated_at).toLocaleString("ar")}` : "";
+  } catch {}
+}
+
+async function saveContent() {
+  const content = document.getElementById("lesson-content-editor").value.trim();
+  if (!content) return showToast("الشرح فارغ","error");
+  try {
+    const r = await fetch(`${API}/lessons/content`,{method:"PUT",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({grade_key:currentGrade,unit_index:currentUnit,lesson_index:currentLesson,content})});
+    if ((await r.json()).success) { showToast("✅ تم حفظ الشرح"); loadContent(); }
+    else showToast("خطأ في الحفظ","error");
+  } catch { showToast("خطأ","error"); }
+}
+
+async function resetContent() {
+  if (!confirm("إعادة الشرح للنص الافتراضي؟")) return;
+  try {
+    await fetch(`${API}/lessons/content`,{method:"PUT",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({grade_key:currentGrade,unit_index:currentUnit,lesson_index:currentLesson,content:"__RESET__"})});
+    document.getElementById("lesson-content-editor").value = "";
+    showToast("✅ تمت إعادة التعيين");
+  } catch { showToast("خطأ","error"); }
+}
+
+// ── Excel لدرس واحد ──
+function onExcelFile(input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result,{type:"array"});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws,{header:1}).filter(r=>r.some(c=>c));
+      xlParsed = rows.filter(r=>r[0]).map(r=>({
+        question_text:String(r[0]||"").trim(),
+        option_a:String(r[1]||"").trim(),
+        option_b:String(r[2]||"").trim(),
+        option_c:String(r[3]||"").trim(),
+        option_d:String(r[4]||"").trim(),
+        correct_answer:parseInt(r[5])||0
+      })).filter(q=>q.question_text&&q.option_a);
+
+      document.getElementById("xl-drop-icon").textContent="✅";
+      document.getElementById("xl-drop-text").textContent=`${xlParsed.length} سؤال جاهز`;
+      document.getElementById("xl-preview-info").textContent=`تم قراءة ${xlParsed.length} سؤال`;
+      document.getElementById("xl-rows-preview").innerHTML=xlParsed.slice(0,3).map(q=>`<div class="py-1 border-b" style="border-color:rgba(0,0,0,.05)">${q.question_text}</div>`).join("");
+      document.getElementById("xl-preview").classList.remove("hidden");
+      document.getElementById("xl-import-btn").classList.remove("hidden");
+      document.getElementById("xl-result").classList.add("hidden");
+    } catch(err) { showToast("خطأ في قراءة الملف: "+err.message,"error"); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+async function confirmBulkImport() {
+  if (!xlParsed?.length) return showToast("لا توجد أسئلة","error");
+  if (currentUnit===null||currentLesson===null) return showToast("اختاري درساً أولاً","error");
+  try {
+    const r = await fetch(`${API}/questions/bulk`,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({grade_key:currentGrade,unit_index:currentUnit,lesson_index:currentLesson,questions:xlParsed})});
+    const d = await r.json();
+    const res = document.getElementById("xl-result");
+    res.textContent=`✅ تمت الإضافة: ${d.inserted} | تكرار: ${d.skipped}${d.errors?.length?` | أخطاء: ${d.errors.length}`:""}`;
+    res.style.background="rgba(16,185,129,.08)"; res.style.color="#065f46";
+    res.classList.remove("hidden");
+    xlParsed=null;
+    document.getElementById("xl-drop-icon").textContent="📊";
+    document.getElementById("xl-drop-text").textContent="اضغطي أو اسحبي ملف Excel";
+    document.getElementById("xl-preview").classList.add("hidden");
+    document.getElementById("xl-import-btn").classList.add("hidden");
+    document.getElementById("xl-file-input").value="";
+    loadQ(); loadCounts();
+  } catch(e) { showToast("خطأ: "+e.message,"error"); }
+}
+
+function downloadTemplate() {
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet([
+    ["نص_السؤال","الخيار_أ","الخيار_ب","الخيار_ج","الخيار_د","الإجابة (0=أ 1=ب 2=ج 3=د)"],
+    ["مثال: ما قيمة 2²؟","2","4","8","16","1"]
+  ]);
+  XLSX.utils.book_append_sheet(wb,ws,"أسئلة");
+  XLSX.writeFile(wb,"قالب_الأسئلة.xlsx");
+}
+
+// ── Excel للصف كامل ──
+function onGradeFile(grade, input) {
+  const file = input.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result,{type:"array"});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws,{header:1}).filter(r=>r.some(c=>c));
+
+      // التنسيق: unit_index | lesson_index | question | a | b | c | d | answer
+      const validRows = rows.filter(r=>r[0]!==undefined&&r[1]!==undefined&&r[2]).map(r=>({
+        unit_index:parseInt(r[0]),
+        lesson_index:parseInt(r[1]),
+        question_text:String(r[2]).trim(),
+        option_a:String(r[3]||"").trim(),
+        option_b:String(r[4]||"").trim(),
+        option_c:String(r[5]||"").trim(),
+        option_d:String(r[6]||"").trim(),
+        correct_answer:parseInt(r[7])||0
+      })).filter(r=>!isNaN(r.unit_index)&&!isNaN(r.lesson_index)&&r.question_text);
+
+      gradeFiles[grade] = validRows;
+      document.getElementById(`g-info-${grade}`).textContent = `${validRows.length} سؤال`;
+      document.getElementById(`g-info-${grade}`).style.color = "#7c3aed";
+      document.getElementById(`g-import-${grade}`).classList.remove("hidden");
+    } catch(err) { showToast("خطأ في الملف","error"); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+async function confirmGradeImport(grade) {
+  const rows = gradeFiles[grade];
+  if (!rows?.length) return showToast("لا توجد بيانات","error");
+  if (!confirm(`رفع ${rows.length} سؤال للصف ${grade==="first"?"الأول":"الثاني"}؟`)) return;
+
+  let totalInserted=0, totalSkipped=0;
+  // تجميع حسب unit|lesson
+  const byLesson = {};
+  rows.forEach(r=>{
+    const key=`${r.unit_index}|${r.lesson_index}`;
+    if(!byLesson[key]) byLesson[key]=[];
+    byLesson[key].push(r);
+  });
+
+  try {
+    for (const [key,qs] of Object.entries(byLesson)) {
+      const [ui,li] = key.split("|").map(Number);
+      const r = await fetch(`${API}/questions/bulk`,{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({grade_key:grade,unit_index:ui,lesson_index:li,questions:qs})});
+      const d = await r.json();
+      totalInserted += d.inserted||0;
+      totalSkipped += d.skipped||0;
+    }
+    const res = document.getElementById("g-result");
+    res.textContent=`✅ رفع ${totalInserted} سؤال | تكرار: ${totalSkipped}`;
+    res.style.background="rgba(16,185,129,.08)"; res.style.color="#065f46";
+    res.classList.remove("hidden");
+    gradeFiles[grade]=null;
+    document.getElementById(`g-import-${grade}`).classList.add("hidden");
+    document.getElementById(`g-info-${grade}`).textContent="";
+    document.getElementById(`g-file-${grade}`).value="";
+    loadCounts();
+    if (currentUnit!==null) loadQ();
+  } catch(e) { showToast("خطأ: "+e.message,"error"); }
+}
+
+// ── التقارير ──
+function switchReportGrade(g) {
+  reportGrade = g;
+  ["first","second"].forEach(x=>document.getElementById(`rtab-${x}`)?.classList.toggle("active",x===g));
+  loadReports(g);
+}
+
+async function loadReports(grade) {
+  try {
+    const [leaderResp, countsResp] = await Promise.all([
+      fetch(`${API}/scores/leaderboard?gradeKey=${grade}`),
+      fetch(`${API}/questions/counts?gradeKey=${grade}`)
+    ]);
+    const leaders = await leaderResp.json();
+    const counts = await countsResp.json();
+
+    // إحصائيات
+    const totalQ = Object.values(counts).reduce((s,v)=>s+v,0);
+    const totalStudents = leaders.length;
+    const totalTests = leaders.reduce((s,r)=>s+Number(r.lessons_count),0);
+    const avgPct = leaders.length ? Math.min(100,Math.round(leaders.reduce((s,r)=>s+Number(r.pct),0)/leaders.length)) : 0;
+
+    document.getElementById("rs-total-q").textContent = totalQ;
+    document.getElementById("rs-students").textContent = totalStudents;
+    document.getElementById("rs-tests").textContent = totalTests;
+    document.getElementById("rs-avg").textContent = avgPct + "%";
+
+    // لوحة الشرف
+    const lb = document.getElementById("r-leaderboard");
+    const medals = ["🥇","🥈","🥉","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"];
+    lb.innerHTML = leaders.length ? leaders.map((r,i)=>`
+      <div class="report-row">
+        <span class="text-base">${medals[i]||i+1}</span>
+        <div style="flex:1;min-width:0">
+          <div class="text-sm font-bold truncate" style="color:#1e1535">${esc(r.student_name)}</div>
+          <div class="prog-bar mt-1"><div class="prog-fill" style="width:${r.pct}%"></div></div>
+        </div>
+        <span class="text-sm font-black" style="color:#7c3aed">${r.pct}%</span>
+        <button onclick="deleteStudent('${grade}','${esc(r.student_name)}')"
+          class="btn btn-danger py-1 px-2 text-xs">🗑️</button>
+      </div>`).join("")
+    : '<div class="text-center py-6 text-sm" style="color:#94a3b8">لا توجد نتائج بعد</div>';
+
+    // توزيع الأسئلة
+    const bd = document.getElementById("r-breakdown");
+    const curriculum = CURRICULUM[grade];
+    const byUnit = {};
+    Object.entries(counts).forEach(([k,v])=>{ const[u]=k.split("|"); byUnit[u]=(byUnit[u]||0)+v; });
+    bd.innerHTML = curriculum.units.map((u,i)=>{
+      const n = byUnit[i]||0;
+      const total = totalQ||1;
+      return `<div class="report-row">
+        <span class="text-base">${u.emoji}</span>
+        <div class="text-sm font-bold flex-1" style="color:#1e1535;min-width:80px">${u.title}</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${Math.round(n/total*100)}%"></div></div>
+        <span class="text-xs font-black" style="color:#7c3aed">${n}</span>
+      </div>`;
+    }).join("");
+
+    // جدول كامل
+    const tbl = document.getElementById("r-table");
+    tbl.innerHTML = leaders.length ? `<table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:rgba(124,58,237,.06)">
+        <th style="padding:8px 10px;text-align:right;font-weight:700">الطالبة</th>
+        <th style="padding:8px 10px;text-align:center;font-weight:700">الدروس</th>
+        <th style="padding:8px 10px;text-align:center;font-weight:700">النتيجة</th>
+        <th style="padding:8px 10px;text-align:center;font-weight:700">النسبة</th>
+        <th style="padding:8px 10px;text-align:center;font-weight:700">حذف</th>
+      </tr></thead>
+      <tbody>${leaders.map((r,i)=>`<tr style="border-top:1px solid rgba(0,0,0,.05);background:${i%2?"rgba(124,58,237,.02)":"white"}">
+        <td style="padding:8px 10px;font-weight:600">${esc(r.student_name)}</td>
+        <td style="padding:8px 10px;text-align:center">${r.lessons_count}</td>
+        <td style="padding:8px 10px;text-align:center">${r.total_score}/${r.total_possible}</td>
+        <td style="padding:8px 10px;text-align:center;font-weight:700;color:#7c3aed">${r.pct}%</td>
+        <td style="padding:8px 10px;text-align:center">
+          <button onclick="deleteStudent('${grade}','${esc(r.student_name)}')" class="btn btn-danger py-1 px-2 text-xs">🗑️</button>
+        </td>
+      </tr>`).join("")}</tbody>
+    </table>` : '<div class="text-center py-6 text-sm" style="color:#94a3b8">لا توجد نتائج</div>';
+  } catch(e) { console.error("Reports error:",e); }
+}
+
+async function deleteStudent(grade,name) {
+  if (!confirm(`حذف "${name}" وجميع نتائجها؟`)) return;
+  try {
+    const r = await fetch(`${API}/scores/student?gradeKey=${grade}&studentName=${encodeURIComponent(name)}`,{method:"DELETE"});
+    if (r.ok) { showToast("✅ تم الحذف"); loadReports(grade); }
+    else showToast("خطأ","error");
+  } catch { showToast("خطأ","error"); }
+}
+
+async function clearAllScores() {
+  const label = reportGrade==="first"?"الأول متوسط":"الثاني متوسط";
+  if (!confirm(`تصفير جميع نتائج ${label}؟`)) return;
+  try {
+    await fetch(`${API}/scores?gradeKey=${reportGrade}`,{method:"DELETE"});
+    showToast("✅ تم التصفير"); loadReports(reportGrade);
+  } catch { showToast("خطأ","error"); }
+}
+
+function exportCSV() {
+  const tbl = document.querySelector("#r-table table");
+  if (!tbl) return showToast("لا توجد بيانات","error");
+  const rows = Array.from(tbl.querySelectorAll("tr")).map(tr=>
+    Array.from(tr.querySelectorAll("th,td"))
+      .filter((_,i)=>i<4)
+      .map(td=>td.textContent.trim()).join(",")
+  );
+  const blob = new Blob(["\uFEFF"+rows.join("\n")],{type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`نتائج_${reportGrade}_${Date.now()}.csv`;
+  a.click();
+}
+
+// ── الإعدادات ──
+function loadTimerSettings() {
+  const cur = parseInt(localStorage.getItem("quiz_timer_minutes")||"0");
+  document.querySelectorAll(".timer-opt").forEach(btn=>{
+    const v = parseInt(btn.getAttribute("onclick").match(/\d+/)?.[0]||"0");
+    btn.className = v===cur ? "btn btn-primary py-2 px-3 text-sm timer-opt" : "btn btn-secondary py-2 px-3 text-sm timer-opt";
+  });
+  document.getElementById("timer-status").textContent = cur===0 ? "⏱️ بدون مؤقت" : `⏱️ المؤقت الحالي: ${cur} دقيقة`;
+}
+function setTimer(min) {
+  localStorage.setItem("quiz_timer_minutes",min);
+  loadTimerSettings();
+  showToast(min===0?"✅ تم إلغاء المؤقت":`✅ تم ضبط المؤقت: ${min} دقيقة`);
+}
+
+// ── مساعدات ──
+function toggleSection(bodyId,arrowId) {
+  const body=document.getElementById(bodyId), arrow=document.getElementById(arrowId);
+  const hidden=body.classList.toggle("hidden");
+  if (arrow) arrow.textContent=hidden?"▼":"▲";
+}
+function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function showToast(msg,type="success") {
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.style.background=type==="error"?"#dc2626":"#1e1535";
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+// Drag & Drop للـ Excel
+const xl = document.getElementById("xl-drop-label");
+xl.addEventListener("dragover",e=>{e.preventDefault();xl.classList.add("drag-over");});
+xl.addEventListener("dragleave",()=>xl.classList.remove("drag-over"));
+xl.addEventListener("drop",e=>{e.preventDefault();xl.classList.remove("drag-over");const f=e.dataTransfer.files[0];if(f){document.getElementById("xl-file-input").files=e.dataTransfer.files;onExcelFile(document.getElementById("xl-file-input"));}});
+
+// تهيئة
+checkAuth();
+</script>
+</body>
+</html>
