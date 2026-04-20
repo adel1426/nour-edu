@@ -103,6 +103,87 @@
         padding: 20px;
         box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
       }
+
+      /* إحصائيات */
+      .stat-card {
+        background: white;
+        border: 1px solid rgba(124,58,237,0.1);
+        border-radius: 14px;
+        padding: 16px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        transition: transform 0.2s;
+      }
+      .stat-card:hover { transform: translateY(-2px); }
+      .stat-num { font-size: 28px; font-weight: 900; color: #7c3aed; }
+      .stat-label { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+      .stat-icon { font-size: 22px; margin-bottom: 6px; }
+
+      /* تقارير */
+      .report-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: rgba(124,58,237,0.03);
+        border: 1px solid rgba(124,58,237,0.08);
+        margin-bottom: 6px;
+      }
+      .report-bar-wrap {
+        flex: 1;
+        height: 6px;
+        background: rgba(124,58,237,0.1);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      .report-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #7c3aed, #ec4899);
+        border-radius: 99px;
+        transition: width 1s ease-out;
+      }
+
+      /* تبويبات الإدارة */
+      .admin-tab {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s;
+      }
+      .admin-tab.active {
+        background: linear-gradient(135deg, #7c3aed, #ec4899);
+        color: white;
+        box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+      }
+      .admin-tab:not(.active) {
+        background: rgba(124,58,237,0.06);
+        color: #7c3aed;
+        border: 1px solid rgba(124,58,237,0.15);
+      }
+      .admin-tab:not(.active):hover { background: rgba(124,58,237,0.12); }
+
+      /* إعداد المؤقت */
+      .timer-option {
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 1px solid rgba(124,58,237,0.2);
+        background: white;
+        color: #7c3aed;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .timer-option.selected {
+        background: linear-gradient(135deg, #7c3aed, #ec4899);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 3px 10px rgba(124,58,237,0.3);
+      }
       .lesson-btn {
         display: flex;
         align-items: center;
@@ -214,15 +295,16 @@
       }
       /* ── Excel Drop Zone ── */
       .xl-drop {
-        border: 2px dashed rgba(16, 185, 129, 0.3);
-        border-radius: 14px;
-        background: rgba(16, 185, 129, 0.03);
-        transition: all 0.2s;
+        border: 2px dashed rgba(124, 58, 237, 0.3);
+        border-radius: 16px;
+        background: rgba(124, 58, 237, 0.02);
+        transition: all 0.25s;
         cursor: pointer;
       }
       .xl-drop:hover, .xl-drop.drag-over {
-        border-color: rgba(16, 185, 129, 0.6);
-        background: rgba(16, 185, 129, 0.07);
+        border-color: rgba(124, 58, 237, 0.6);
+        background: rgba(124, 58, 237, 0.06);
+        transform: scale(1.01);
       }
       .xl-badge {
         display: inline-flex;
@@ -490,7 +572,166 @@
         </div>
         <div id="g-result-second" class="hidden rounded-xl p-3 text-sm font-bold mb-4"></div>
 
-        <!-- تخطيط رئيسي: شريط جانبي + منطقة محتوى -->
+        <!-- تبويبات الإدارة الرئيسية -->
+        <div class="flex gap-2 mb-5 flex-wrap">
+          <button class="admin-tab active" id="atab-questions" onclick="switchAdminTab('questions')">📝 الأسئلة</button>
+          <button class="admin-tab" id="atab-curriculum" onclick="switchAdminTab('curriculum')">📚 الوحدات والدروس</button>
+          <button class="admin-tab" id="atab-stats" onclick="switchAdminTab('stats')">📊 الإحصائيات</button>
+          <button class="admin-tab" id="atab-reports" onclick="switchAdminTab('reports')">📈 تقارير الأداء</button>
+          <button class="admin-tab" id="atab-settings" onclick="switchAdminTab('settings')">⚙️ الإعدادات</button>
+        </div>
+
+        <!-- قسم إدارة الوحدات والدروس -->
+        <div id="admin-curriculum-section" class="hidden">
+          <div class="flex gap-2 mb-4">
+            <button class="admin-tab active" id="ctab-first" onclick="switchCurriculumTab('first')">📘 أولى متوسط</button>
+            <button class="admin-tab" id="ctab-second" onclick="switchCurriculumTab('second')">📗 ثاني متوسط</button>
+          </div>
+
+          <div class="card mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="font-black" style="color:#2d2640">📚 هيكل المنهج</div>
+              <button onclick="showAddUnitModal()" class="btn btn-primary py-2 px-3 text-sm">+ إضافة وحدة</button>
+            </div>
+            <div id="curriculum-tree" class="space-y-3">
+              <div class="text-center text-slate-400 py-6 text-sm">جاري التحميل...</div>
+            </div>
+          </div>
+
+          <!-- مودال إضافة/تعديل وحدة -->
+          <div id="unit-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4" style="background:rgba(0,0,0,0.5)">
+            <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+              <h3 class="font-black text-lg mb-4" style="color:#7c3aed" id="unit-modal-title">إضافة وحدة جديدة</h3>
+              <input id="unit-title-input" type="text" placeholder="اسم الوحدة" class="w-full mb-3"/>
+              <div class="flex gap-2 mb-4">
+                <span class="text-sm font-bold self-center" style="color:#64748b">الأيقونة:</span>
+                <div class="flex gap-2 flex-wrap">
+                  <span class="text-2xl cursor-pointer" onclick="selectEmoji('🔢',this)">🔢</span>
+                  <span class="text-2xl cursor-pointer" onclick="selectEmoji('📐',this)">📐</span>
+                  <span class="text-2xl cursor-pointer" onclick="selectEmoji('📏',this)">📏</span>
+                  <span class="text-2xl cursor-pointer" onclick="selectEmoji('📊',this)">📊</span>
+                  <span class="text-2xl cursor-pointer" onclick="selectEmoji('🔣',this)">🔣</span>
+                  <span class="text-2xl cursor-pointer" onclick="selectEmoji('📚',this)">📚</span>
+                </div>
+              </div>
+              <input id="unit-emoji-input" type="text" value="📚" placeholder="الأيقونة" class="w-full mb-4" style="font-size:20px"/>
+              <input id="unit-index-input" type="hidden"/>
+              <div class="flex gap-2">
+                <button onclick="closeUnitModal()" class="flex-1 btn btn-cancel">إلغاء</button>
+                <button onclick="saveUnit()" class="flex-1 btn btn-primary">حفظ</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- مودال إضافة/تعديل درس -->
+          <div id="lesson-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4" style="background:rgba(0,0,0,0.5)">
+            <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+              <h3 class="font-black text-lg mb-4" style="color:#7c3aed" id="lesson-modal-title">إضافة درس جديد</h3>
+              <input id="lesson-title-input" type="text" placeholder="اسم الدرس" class="w-full mb-4"/>
+              <input id="lesson-unit-index-input" type="hidden"/>
+              <input id="lesson-index-input" type="hidden"/>
+              <div class="flex gap-2">
+                <button onclick="closeLessonModal()" class="flex-1 btn btn-cancel">إلغاء</button>
+                <button onclick="saveLesson()" class="flex-1 btn btn-primary">حفظ</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- قسم الإحصائيات -->
+        <div id="admin-stats-section" class="hidden">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            <div class="stat-card">
+              <div class="stat-icon">📚</div>
+              <div class="stat-num" id="stat-total-q">—</div>
+              <div class="stat-label">إجمالي الأسئلة</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">👩‍🎓</div>
+              <div class="stat-num" id="stat-total-students">—</div>
+              <div class="stat-label">الطالبات المشاركات</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✅</div>
+              <div class="stat-num" id="stat-total-lessons-done">—</div>
+              <div class="stat-label">اختبارات مكتملة</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-num" id="stat-avg-score">—</div>
+              <div class="stat-label">متوسط النتائج</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="card">
+              <div class="font-black mb-3" style="color:#2d2640">📘 أولى متوسط - توزيع الأسئلة</div>
+              <div id="stats-first-breakdown" class="space-y-2 text-sm text-slate-400">جاري التحميل...</div>
+            </div>
+            <div class="card">
+              <div class="font-black mb-3" style="color:#2d2640">📗 ثاني متوسط - توزيع الأسئلة</div>
+              <div id="stats-second-breakdown" class="space-y-2 text-sm text-slate-400">جاري التحميل...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- قسم تقارير الأداء -->
+        <div id="admin-reports-section" class="hidden">
+          <div class="flex gap-2 mb-4">
+            <button class="admin-tab active" id="rtab-first" onclick="switchReportTab('first')">📘 أولى متوسط</button>
+            <button class="admin-tab" id="rtab-second" onclick="switchReportTab('second')">📗 ثاني متوسط</button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="card">
+              <div class="font-black mb-3" style="color:#2d2640">🏆 أعلى الطالبات أداءً</div>
+              <div id="report-leaderboard" class="space-y-2">جاري التحميل...</div>
+            </div>
+            <div class="card">
+              <div class="font-black mb-3" style="color:#2d2640">📊 ملخص الأداء</div>
+              <div id="report-lessons" class="space-y-2">جاري التحميل...</div>
+            </div>
+          </div>
+          <div class="card mt-4">
+            <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <div class="font-black" style="color:#2d2640">📋 إدارة نتائج الطالبات</div>
+              <div class="flex gap-2">
+                <button onclick="exportReportCSV()" class="btn btn-primary py-2 px-3 text-sm">⬇️ تصدير CSV</button>
+                <button onclick="clearScores(currentReportGrade)" class="btn btn-danger py-2 px-3 text-sm">🗑️ تصفير الكل</button>
+              </div>
+            </div>
+            <div id="report-all-scores">جاري التحميل...</div>
+          </div>
+        </div>
+
+        <!-- قسم الإعدادات -->
+        <div id="admin-settings-section" class="hidden">
+          <div class="card mb-4">
+            <div class="font-black mb-1" style="color:#2d2640">⏱ إعداد مؤقت الاختبار</div>
+            <p class="text-sm mb-4" style="color:#94a3b8">حددي وقت الاختبار — سيُطبق على جميع الطالبات</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <button class="timer-option" onclick="setTimer(0)">بدون مؤقت</button>
+              <button class="timer-option" onclick="setTimer(5)">5 دقائق</button>
+              <button class="timer-option" onclick="setTimer(10)">10 دقائق</button>
+              <button class="timer-option" onclick="setTimer(15)">15 دقائق</button>
+              <button class="timer-option" onclick="setTimer(20)">20 دقائق</button>
+              <button class="timer-option" onclick="setTimer(30)">30 دقائق</button>
+            </div>
+            <div id="timer-status" class="text-sm font-bold" style="color:#7c3aed">⏱ المؤقت الحالي: بدون مؤقت</div>
+          </div>
+
+          <div class="card">
+            <div class="font-black mb-1" style="color:#2d2640">🗑️ إدارة البيانات</div>
+            <p class="text-sm mb-4" style="color:#94a3b8">حذف بيانات نتائج الطالبات</p>
+            <div class="flex gap-3 flex-wrap">
+              <button onclick="clearScores('first')" class="btn btn-danger py-2 px-4 text-sm">🗑️ حذف نتائج أولى متوسط</button>
+              <button onclick="clearScores('second')" class="btn btn-danger py-2 px-4 text-sm">🗑️ حذف نتائج ثاني متوسط</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- قسم الأسئلة (الافتراضي) -->
+        <div id="admin-questions-section">
+
         <div class="flex flex-col lg:flex-row gap-5">
           <!-- ── شريط الدروس (يسار في RTL) ── -->
           <div class="lg:w-72 flex-shrink-0">
@@ -790,8 +1031,10 @@
           </div>
         </div>
       </div>
-    </div>
 
+        </div> <!-- end admin-questions-section -->
+      </div> <!-- end max-w-6xl -->
+    </div> <!-- end admin-panel -->
     <div id="toast" class="toast hidden"></div>
 
     <script>
@@ -899,6 +1142,350 @@
         counts = {};
 
       // ── Auth ─────────────────────────────────────────────
+      // ===== تبويبات الإدارة =====
+      function switchAdminTab(tab) {
+        ["questions","curriculum","stats","reports","settings"].forEach(t => {
+          document.getElementById(`atab-${t}`)?.classList.toggle("active", t === tab);
+          const sec = document.getElementById(`admin-${t}-section`);
+          if (sec) sec.classList.toggle("hidden", t !== tab);
+        });
+        if (tab === "curriculum") loadCurriculum(currentCurriculumGrade);
+        if (tab === "stats") loadAdminStats();
+        if (tab === "reports") loadReports(currentReportGrade);
+        if (tab === "settings") loadTimerSettings();
+      }
+
+      // ===== إدارة المنهج =====
+      let currentCurriculumGrade = "first";
+      let selectedEmoji = "📚";
+
+      function switchCurriculumTab(grade) {
+        currentCurriculumGrade = grade;
+        ["first","second"].forEach(g => document.getElementById(`ctab-${g}`)?.classList.toggle("active", g === grade));
+        loadCurriculum(grade);
+      }
+
+      async function loadCurriculum(grade) {
+        const el = document.getElementById("curriculum-tree");
+        el.innerHTML = '<div class="text-center text-slate-400 py-6 text-sm">جاري التحميل...</div>';
+        try {
+          const r = await fetch(`/api/curriculum/${grade}`);
+          const data = await r.json();
+          renderCurriculumTree(data, grade);
+        } catch(e) { el.innerHTML = '<div class="text-center text-slate-400 py-4 text-sm">لا توجد وحدات مضافة بعد</div>'; }
+      }
+
+      function renderCurriculumTree(data, grade) {
+        const el = document.getElementById("curriculum-tree");
+        const units = data.filter(d => d.lesson_index === null);
+        if (!units.length) {
+          el.innerHTML = '<div class="text-center text-slate-400 py-4 text-sm">لا توجد وحدات مضافة بعد — اضغطي "إضافة وحدة"</div>';
+          return;
+        }
+        el.innerHTML = units.map(unit => {
+          const lessons = data.filter(d => d.unit_index === unit.unit_index && d.lesson_index !== null);
+          return `
+            <div class="border rounded-xl p-4" style="border-color:rgba(124,58,237,0.15)">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">${unit.emoji}</span>
+                  <span class="font-black" style="color:#2d2640">${esc(unit.title)}</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(124,58,237,0.08);color:#7c3aed">وحدة ${unit.unit_index+1}</span>
+                </div>
+                <div class="flex gap-1">
+                  <button onclick="showAddLessonModal(${unit.unit_index})" class="btn btn-edit py-1 px-2 text-xs">+ درس</button>
+                  <button onclick="editUnit(${unit.unit_index},'${esc(unit.title)}','${unit.emoji}')" class="btn btn-edit py-1 px-2 text-xs">✏️</button>
+                  <button onclick="deleteUnit('${grade}',${unit.unit_index},'${esc(unit.title)}')" class="btn btn-danger py-1 px-2 text-xs">🗑️</button>
+                </div>
+              </div>
+              <div class="space-y-1 mr-6">
+                ${lessons.length === 0 ? '<div class="text-xs text-slate-400">لا توجد دروس — اضغطي "+ درس"</div>' :
+                  lessons.map(lesson => `
+                    <div class="flex items-center justify-between py-1.5 px-3 rounded-lg" style="background:rgba(124,58,237,0.04)">
+                      <span class="text-sm font-medium" style="color:#2d2640">📖 ${esc(lesson.title)}</span>
+                      <div class="flex gap-1">
+                        <button onclick="editLesson(${unit.unit_index},${lesson.lesson_index},'${esc(lesson.title)}')" class="btn btn-edit py-1 px-2 text-xs">✏️</button>
+                        <button onclick="deleteLesson('${grade}',${unit.unit_index},${lesson.lesson_index},'${esc(lesson.title)}')" class="btn btn-danger py-1 px-2 text-xs">🗑️</button>
+                      </div>
+                    </div>`).join("")
+                }
+              </div>
+            </div>`;
+        }).join("");
+      }
+
+      function selectEmoji(emoji, el) { selectedEmoji = emoji; document.getElementById("unit-emoji-input").value = emoji; }
+
+      function showAddUnitModal() {
+        document.getElementById("unit-modal-title").textContent = "إضافة وحدة جديدة";
+        document.getElementById("unit-title-input").value = "";
+        document.getElementById("unit-emoji-input").value = "📚";
+        document.getElementById("unit-index-input").value = "";
+        document.getElementById("unit-modal").classList.remove("hidden");
+      }
+
+      function editUnit(unitIdx, title, emoji) {
+        document.getElementById("unit-modal-title").textContent = "تعديل الوحدة";
+        document.getElementById("unit-title-input").value = title;
+        document.getElementById("unit-emoji-input").value = emoji;
+        document.getElementById("unit-index-input").value = unitIdx;
+        document.getElementById("unit-modal").classList.remove("hidden");
+      }
+
+      function closeUnitModal() { document.getElementById("unit-modal").classList.add("hidden"); }
+
+      async function saveUnit() {
+        const title = document.getElementById("unit-title-input").value.trim();
+        const emoji = document.getElementById("unit-emoji-input").value.trim() || "📚";
+        const unitIdx = document.getElementById("unit-index-input").value;
+        if (!title) { showToast("أدخلي اسم الوحدة", "error"); return; }
+        try {
+          if (unitIdx !== "") {
+            await fetch("/api/curriculum", { method:"PUT", headers:{"Content-Type":"application/json"},
+              body: JSON.stringify({ grade_key: currentCurriculumGrade, unit_index: Number(unitIdx), lesson_index: null, title, emoji }) });
+          } else {
+            await fetch("/api/curriculum/unit", { method:"POST", headers:{"Content-Type":"application/json"},
+              body: JSON.stringify({ grade_key: currentCurriculumGrade, title, emoji }) });
+          }
+          closeUnitModal();
+          showToast("✅ تم حفظ الوحدة");
+          loadCurriculum(currentCurriculumGrade);
+        } catch(e) { showToast("حدث خطأ", "error"); }
+      }
+
+      async function deleteUnit(grade, unitIdx, title) {
+        if (!confirm(`هل أنتِ متأكدة من حذف وحدة "${title}"؟\nسيتم حذف جميع الدروس والأسئلة المرتبطة بها.`)) return;
+        try {
+          await fetch(`/api/curriculum/unit/${grade}/${unitIdx}`, { method:"DELETE" });
+          showToast("✅ تم حذف الوحدة");
+          loadCurriculum(grade);
+          loadCounts();
+        } catch(e) { showToast("حدث خطأ", "error"); }
+      }
+
+      function showAddLessonModal(unitIdx) {
+        document.getElementById("lesson-modal-title").textContent = "إضافة درس جديد";
+        document.getElementById("lesson-title-input").value = "";
+        document.getElementById("lesson-unit-index-input").value = unitIdx;
+        document.getElementById("lesson-index-input").value = "";
+        document.getElementById("lesson-modal").classList.remove("hidden");
+      }
+
+      function editLesson(unitIdx, lessonIdx, title) {
+        document.getElementById("lesson-modal-title").textContent = "تعديل الدرس";
+        document.getElementById("lesson-title-input").value = title;
+        document.getElementById("lesson-unit-index-input").value = unitIdx;
+        document.getElementById("lesson-index-input").value = lessonIdx;
+        document.getElementById("lesson-modal").classList.remove("hidden");
+      }
+
+      function closeLessonModal() { document.getElementById("lesson-modal").classList.add("hidden"); }
+
+      async function saveLesson() {
+        const title = document.getElementById("lesson-title-input").value.trim();
+        const unitIdx = document.getElementById("lesson-unit-index-input").value;
+        const lessonIdx = document.getElementById("lesson-index-input").value;
+        if (!title) { showToast("أدخلي اسم الدرس", "error"); return; }
+        try {
+          if (lessonIdx !== "") {
+            await fetch("/api/curriculum", { method:"PUT", headers:{"Content-Type":"application/json"},
+              body: JSON.stringify({ grade_key: currentCurriculumGrade, unit_index: Number(unitIdx), lesson_index: Number(lessonIdx), title, emoji: "📖" }) });
+          } else {
+            await fetch("/api/curriculum/lesson", { method:"POST", headers:{"Content-Type":"application/json"},
+              body: JSON.stringify({ grade_key: currentCurriculumGrade, unit_index: Number(unitIdx), title }) });
+          }
+          closeLessonModal();
+          showToast("✅ تم حفظ الدرس");
+          loadCurriculum(currentCurriculumGrade);
+        } catch(e) { showToast("حدث خطأ", "error"); }
+      }
+
+      async function deleteLesson(grade, unitIdx, lessonIdx, title) {
+        if (!confirm(`هل أنتِ متأكدة من حذف درس "${title}"؟\nسيتم حذف جميع الأسئلة المرتبطة به.`)) return;
+        try {
+          await fetch(`/api/curriculum/lesson/${grade}/${unitIdx}/${lessonIdx}`, { method:"DELETE" });
+          showToast("✅ تم حذف الدرس");
+          loadCurriculum(grade);
+          loadCounts();
+        } catch(e) { showToast("حدث خطأ", "error"); }
+      }
+
+      // ===== إحصائيات =====
+      async function loadAdminStats() {
+        try {
+          const [fCounts, sCounts, fScores, sScores] = await Promise.all([
+            fetch("/api/questions/counts?gradeKey=first").then(r=>r.json()),
+            fetch("/api/questions/counts?gradeKey=second").then(r=>r.json()),
+            fetch("/api/scores/leaderboard?gradeKey=first").then(r=>r.json()),
+            fetch("/api/scores/leaderboard?gradeKey=second").then(r=>r.json()),
+          ]);
+
+          const totalQ = Object.values(fCounts).reduce((s,v)=>s+v,0) + Object.values(sCounts).reduce((s,v)=>s+v,0);
+          const allStudents = new Set([...fScores.map(r=>r.student_name), ...sScores.map(r=>r.student_name)]);
+          const totalLessons = [...fScores,...sScores].reduce((s,r)=>s+Number(r.lessons_count),0);
+          const allPcts = [...fScores,...sScores].map(r=>Number(r.pct));
+          const avgPct = allPcts.length ? Math.round(allPcts.reduce((a,b)=>a+b,0)/allPcts.length) : 0;
+
+          document.getElementById("stat-total-q").textContent = totalQ;
+          document.getElementById("stat-total-students").textContent = allStudents.size;
+          document.getElementById("stat-total-lessons-done").textContent = totalLessons;
+          document.getElementById("stat-avg-score").textContent = avgPct + "%";
+
+          // توزيع الأسئلة
+          renderBreakdown("stats-first-breakdown", fCounts);
+          renderBreakdown("stats-second-breakdown", sCounts);
+        } catch(e) {
+          console.error("Stats error:", e);
+        }
+      }
+
+      function renderBreakdown(elId, counts) {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        const byUnit = {};
+        Object.entries(counts).forEach(([key, cnt]) => {
+          const [u] = key.split("|");
+          byUnit[u] = (byUnit[u] || 0) + cnt;
+        });
+        const total = Object.values(byUnit).reduce((s,v)=>s+v,0);
+        if (!total) { el.innerHTML = '<p class="text-slate-400 text-sm">لا توجد أسئلة</p>'; return; }
+        el.innerHTML = Object.entries(byUnit).map(([u,cnt]) => {
+          const pct = Math.round(cnt/total*100);
+          return `<div class="report-row">
+            <div class="text-sm font-bold" style="color:#2d2640;min-width:65px">الوحدة ${Number(u)+1}</div>
+            <div class="report-bar-wrap"><div class="report-bar-fill" style="width:${pct}%"></div></div>
+            <div class="text-xs font-bold" style="color:#7c3aed;min-width:40px;text-align:left">${cnt} سؤال</div>
+          </div>`;
+        }).join("");
+      }
+
+      // ===== تقارير الأداء =====
+      let currentReportGrade = "first";
+
+      function switchReportTab(grade) {
+        currentReportGrade = grade;
+        ["first","second"].forEach(g => {
+          document.getElementById(`rtab-${g}`)?.classList.toggle("active", g === grade);
+        });
+        loadReports(grade);
+      }
+
+      async function loadReports(grade) {
+        currentReportGrade = grade;
+        try {
+          const leaders = await fetch(`/api/scores/leaderboard?gradeKey=${grade}`).then(r=>r.json());
+
+          const lbEl = document.getElementById("report-leaderboard");
+          if (lbEl) {
+            if (!leaders.length) { lbEl.innerHTML = '<p class="text-sm text-slate-400">لا توجد نتائج بعد</p>'; }
+            else {
+              const medals = ["🥇","🥈","🥉","4️⃣","5️⃣","6️⃣","7️⃣","8️⃣","9️⃣","🔟"];
+              lbEl.innerHTML = leaders.map((r,i) => `
+                <div class="report-row">
+                  <div class="text-lg">${medals[i] || (i+1)}</div>
+                  <div class="flex-1">
+                    <div class="text-sm font-bold" style="color:#2d2640">${esc(r.student_name)}</div>
+                    <div class="report-bar-wrap mt-1"><div class="report-bar-fill" style="width:${r.pct}%"></div></div>
+                  </div>
+                  <div class="text-sm font-black ml-2" style="color:#7c3aed">${r.pct}%</div>
+                  <button onclick="deleteStudent('${grade}','${esc(r.student_name)}')" class="btn btn-danger py-1 px-2 text-xs mr-1">🗑️</button>
+                </div>`).join("");
+            }
+          }
+
+          const lessonsEl = document.getElementById("report-lessons");
+          if (lessonsEl) {
+            if (!leaders.length) { lessonsEl.innerHTML = '<p class="text-sm text-slate-400">لا توجد بيانات</p>'; }
+            else {
+              const totalLessons = leaders.reduce((s,r)=>s+Number(r.lessons_count),0);
+              const avgPct = Math.min(100, Math.round(leaders.reduce((s,r)=>s+Number(r.pct),0)/leaders.length));
+              const topStudent = leaders[0];
+              lessonsEl.innerHTML = `
+                <div class="report-row"><div class="text-sm font-bold flex-1" style="color:#2d2640">👩‍🎓 عدد المشاركات</div><div class="text-sm font-black" style="color:#7c3aed">${leaders.length} طالبة</div></div>
+                <div class="report-row"><div class="text-sm font-bold flex-1" style="color:#2d2640">✅ إجمالي الاختبارات</div><div class="text-sm font-black" style="color:#7c3aed">${totalLessons}</div></div>
+                <div class="report-row"><div class="text-sm font-bold flex-1" style="color:#2d2640">📊 متوسط النتائج</div><div class="text-sm font-black" style="color:#7c3aed">${avgPct}%</div></div>
+                <div class="report-row"><div class="text-sm font-bold flex-1" style="color:#2d2640">🏆 المتصدرة</div><div class="text-sm font-black" style="color:#7c3aed">${esc(topStudent.student_name)}</div></div>`;
+            }
+          }
+
+          const allEl = document.getElementById("report-all-scores");
+          if (allEl) {
+            if (!leaders.length) { allEl.innerHTML = '<p class="text-sm text-slate-400">لا توجد نتائج</p>'; }
+            else {
+              allEl.innerHTML = `<div class="overflow-x-auto"><table style="width:100%;border-collapse:collapse;font-size:13px;">
+                <thead><tr style="background:rgba(124,58,237,0.06);">
+                  <th style="padding:8px 12px;text-align:right;font-weight:700;min-width:120px">الطالبة</th>
+                  <th style="padding:8px 12px;text-align:center;font-weight:700">الدروس</th>
+                  <th style="padding:8px 12px;text-align:center;font-weight:700">النتيجة</th>
+                  <th style="padding:8px 12px;text-align:center;font-weight:700">النسبة</th>
+                  <th style="padding:8px 12px;text-align:center;font-weight:700">حذف</th>
+                </tr></thead>
+                <tbody>${leaders.map((r,i) => `<tr style="border-top:1px solid rgba(0,0,0,0.05);background:${i%2===0?'white':'rgba(124,58,237,0.02)'}">
+                  <td style="padding:8px 12px;font-weight:600;">${esc(r.student_name)}</td>
+                  <td style="padding:8px 12px;text-align:center;">${r.lessons_count}</td>
+                  <td style="padding:8px 12px;text-align:center;">${r.total_score}/${r.total_possible}</td>
+                  <td style="padding:8px 12px;text-align:center;font-weight:700;color:#7c3aed;">${r.pct}%</td>
+                  <td style="padding:8px 12px;text-align:center;">
+                    <button onclick="deleteStudent('${grade}','${esc(r.student_name)}')" class="btn btn-danger py-1 px-2 text-xs">🗑️ حذف</button>
+                  </td>
+                </tr>`).join("")}</tbody>
+              </table></div>`;
+            }
+          }
+        } catch(e) { console.error("Reports error:", e); }
+      }
+
+      async function deleteStudent(grade, studentName) {
+        if (!confirm(`هل أنتِ متأكدة من حذف "${studentName}" وجميع نتائجها؟`)) return;
+        try {
+          const r = await fetch(`/api/scores/student?gradeKey=${grade}&studentName=${encodeURIComponent(studentName)}`, { method:"DELETE" });
+          if (r.ok) { showToast("✅ تم حذف الطالبة"); loadReports(grade); }
+          else showToast("حدث خطأ", "error");
+        } catch(e) { showToast("حدث خطأ", "error"); }
+      }
+
+      function exportReportCSV() {
+        const table = document.querySelector("#report-all-scores table");
+        if (!table) { showToast("لا توجد بيانات للتصدير", "error"); return; }
+        const rows = Array.from(table.querySelectorAll("tr")).map(tr =>
+          Array.from(tr.querySelectorAll("th,td")).map(td => td.textContent.trim()).join(",")
+        );
+        const csv = "\uFEFF" + rows.join("\n");
+        const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `تقرير_${currentReportGrade}_${new Date().toLocaleDateString("ar")}.csv`;
+        a.click();
+      }
+
+      // ===== المؤقت =====
+      function loadTimerSettings() {
+        const current = parseInt(localStorage.getItem("quiz_timer_minutes") || "0");
+        document.querySelectorAll(".timer-option").forEach(btn => {
+          const val = parseInt(btn.getAttribute("onclick").match(/\d+/)?.[0] || "0");
+          btn.classList.toggle("selected", val === current);
+        });
+        const statusEl = document.getElementById("timer-status");
+        if (statusEl) statusEl.textContent = current === 0 ? "⏱ المؤقت الحالي: بدون مؤقت" : `⏱ المؤقت الحالي: ${current} دقيقة`;
+      }
+
+      function setTimer(minutes) {
+        localStorage.setItem("quiz_timer_minutes", minutes);
+        loadTimerSettings();
+        showToast(minutes === 0 ? "✅ تم إلغاء المؤقت" : `✅ تم ضبط المؤقت على ${minutes} دقيقة`);
+      }
+
+      // ===== حذف النتائج =====
+      async function clearScores(grade) {
+        const label = grade === "first" ? "أولى متوسط" : "ثاني متوسط";
+        if (!confirm(`هل أنتِ متأكدة من حذف جميع نتائج ${label}؟\nلا يمكن التراجع عن هذا الإجراء.`)) return;
+        try {
+          const resp = await fetch(`/api/scores?gradeKey=${grade}`, { method: "DELETE" });
+          if (resp.ok) showToast(`✅ تم حذف نتائج ${label}`);
+          else showToast("حدث خطأ أثناء الحذف", "error");
+        } catch(e) { showToast("حدث خطأ في الاتصال", "error"); }
+      }
+
       async function checkAuth() {
         try {
           const r = await fetch(`${API}/auth/me`, {

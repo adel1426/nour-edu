@@ -309,6 +309,56 @@
           font-size: 1.05rem;
         }
       }
+      /* المؤقت */
+      .quiz-timer {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 99px;
+        font-weight: 900;
+        font-size: 15px;
+        transition: all 0.3s;
+        background: rgba(124,58,237,0.08);
+        color: #7c3aed;
+        border: 1px solid rgba(124,58,237,0.2);
+        min-width: 70px;
+        justify-content: center;
+      }
+      .quiz-timer.warning {
+        background: rgba(245,158,11,0.12);
+        color: #d97706;
+        border-color: rgba(245,158,11,0.3);
+        animation: timerPulse 1s ease-in-out infinite;
+      }
+      .quiz-timer.danger {
+        background: rgba(239,68,68,0.12);
+        color: #ef4444;
+        border-color: rgba(239,68,68,0.3);
+        animation: timerPulse 0.5s ease-in-out infinite;
+      }
+      @keyframes timerPulse {
+        0%,100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+
+      /* نجوم التقييم */
+      .star-rating { display:flex; gap:4px; justify-content:center; margin:12px 0; }
+      .star { font-size:28px; cursor:default; transition:transform 0.2s; }
+      .result-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 16px;
+        border-radius: 99px;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .badge-excellent { background: rgba(16,185,129,0.12); color: #059669; border: 1px solid rgba(16,185,129,0.3); }
+      .badge-good { background: rgba(59,130,246,0.12); color: #2563eb; border: 1px solid rgba(59,130,246,0.3); }
+      .badge-tryagain { background: rgba(239,68,68,0.1); color: #dc2626; border: 1px solid rgba(239,68,68,0.25); }
+
       .quiz-option:hover {
         border-color: rgba(124, 58, 237, 0.4);
         background: rgba(124, 58, 237, 0.06);
@@ -339,6 +389,7 @@
       .lb-on {
         background: linear-gradient(135deg, #7c3aed, #ec4899);
         color: white;
+        box-shadow: 0 4px 15px rgba(124,58,237,0.35);
       }
       .lb-off {
         background: rgba(124, 58, 237, 0.06);
@@ -350,28 +401,208 @@
         color: #7c3aed;
       }
 
+      /* لوحة الشرف المحسّنة */
+      .lb-podium {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding: 0 8px;
+      }
+      .lb-podium-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        max-width: 120px;
+        animation: podiumRise 0.6s ease-out forwards;
+        opacity: 0;
+      }
+      .lb-podium-item:nth-child(1) { animation-delay: 0.2s; }
+      .lb-podium-item:nth-child(2) { animation-delay: 0s; }
+      .lb-podium-item:nth-child(3) { animation-delay: 0.4s; }
+
+      @keyframes podiumRise {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .lb-podium-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 6px;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      .lb-podium-avatar.rank-1 {
+        width: 62px;
+        height: 62px;
+        font-size: 26px;
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        box-shadow: 0 6px 20px rgba(251,191,36,0.5);
+      }
+      .lb-podium-avatar.rank-2 {
+        background: linear-gradient(135deg, #94a3b8, #64748b);
+        box-shadow: 0 4px 12px rgba(148,163,184,0.4);
+      }
+      .lb-podium-avatar.rank-3 {
+        background: linear-gradient(135deg, #cd7f32, #b45309);
+        box-shadow: 0 4px 12px rgba(205,127,50,0.4);
+      }
+
+      .lb-podium-crown {
+        position: absolute;
+        top: -14px;
+        font-size: 18px;
+      }
+
+      .lb-podium-name {
+        font-size: 11px;
+        font-weight: 700;
+        text-align: center;
+        color: #2d2640;
+        margin-bottom: 4px;
+        max-width: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .lb-podium-pct {
+        font-size: 13px;
+        font-weight: 900;
+        color: #7c3aed;
+        margin-bottom: 4px;
+      }
+
+      .lb-podium-base {
+        width: 100%;
+        border-radius: 12px 12px 6px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 900;
+        color: white;
+      }
+      .lb-podium-base.rank-1 {
+        height: 70px;
+        background: linear-gradient(180deg, #fbbf24, #f59e0b);
+        box-shadow: 0 4px 15px rgba(251,191,36,0.4);
+      }
+      .lb-podium-base.rank-2 {
+        height: 55px;
+        background: linear-gradient(180deg, #94a3b8, #64748b);
+        box-shadow: 0 4px 12px rgba(100,116,139,0.3);
+      }
+      .lb-podium-base.rank-3 {
+        height: 42px;
+        background: linear-gradient(180deg, #cd7f32, #b45309);
+        box-shadow: 0 4px 12px rgba(180,83,9,0.3);
+      }
+
       .lb-card {
         background: white;
         border: 1px solid rgba(124, 58, 237, 0.08);
         border-radius: 14px;
-        padding: 14px 18px;
+        padding: 12px 16px;
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        transition: transform 0.2s, box-shadow 0.2s;
+        animation: slideIn 0.4s ease-out forwards;
+        opacity: 0;
       }
-      .lb-rank-1 {
-        border-color: rgba(251, 191, 36, 0.45);
-        background: rgba(254, 249, 195, 0.5);
+      .lb-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,58,237,0.12); }
+
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
       }
-      .lb-rank-2 {
-        border-color: rgba(148, 163, 184, 0.3);
-        background: white;
+      .lb-card:nth-child(1) { animation-delay: 0.1s; }
+      .lb-card:nth-child(2) { animation-delay: 0.2s; }
+
+      .lb-rank-badge {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 900;
+        flex-shrink: 0;
+        color: white;
       }
-      .lb-rank-3 {
-        border-color: rgba(205, 127, 50, 0.35);
-        background: rgba(255, 237, 213, 0.4);
+      .lb-rank-4 { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+      .lb-rank-5 { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+      .lb-progress-bar {
+        height: 4px;
+        background: rgba(124,58,237,0.1);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-top: 4px;
       }
+      .lb-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #7c3aed, #ec4899);
+        border-radius: 99px;
+        transition: width 1s ease-out;
+      }
+
+      .lb-stats-bar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 12px 14px;
+        background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(236,72,153,0.06));
+        border-radius: 16px;
+        border: 1px solid rgba(124,58,237,0.1);
+      }
+      .lb-stat-item {
+        flex: 1;
+        text-align: center;
+      }
+      .lb-stat-num {
+        font-size: 18px;
+        font-weight: 900;
+        color: #7c3aed;
+      }
+      .lb-stat-label {
+        font-size: 10px;
+        color: #94a3b8;
+        margin-top: 2px;
+      }
+      .lb-divider {
+        width: 1px;
+        background: rgba(124,58,237,0.15);
+        align-self: stretch;
+      }
+
+      .lb-refresh-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(124,58,237,0.08);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        color: #7c3aed;
+        font-size: 16px;
+      }
+      .lb-refresh-btn:hover { background: rgba(124,58,237,0.15); transform: rotate(180deg); }
+      .lb-refresh-btn.spinning { animation: spin 0.8s linear; }
+      @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
       #name-modal input:focus {
         border-color: #7c3aed;
@@ -537,42 +768,61 @@
         style="background: #fffbf7"
       >
         <div class="max-w-lg mx-auto">
+          <!-- العنوان -->
           <div class="flex items-center justify-between mb-1">
-            <h2
-              class="text-xl md:text-2xl font-black flex items-center gap-2"
-              style="color: #2d2640"
-            >
+            <h2 class="text-xl md:text-2xl font-black flex items-center gap-2" style="color: #2d2640">
               لوحة الشرف <span>🏆</span>
             </h2>
-            <span
-              class="text-xs font-semibold px-2 py-1 rounded-full"
-              style="background: rgba(124, 58, 237, 0.08); color: #7c3aed"
-              >أعلى 5 طالبات</span
-            >
+            <button id="lb-refresh-btn" class="lb-refresh-btn" onclick="refreshLeaderboard()" title="تحديث">
+              🔄
+            </button>
           </div>
-          <p class="text-sm mb-5" style="color: #94a3b8">
-            الأكثر تميزاً في كل مرحلة دراسية
+          <p class="text-sm mb-4" style="color: #94a3b8">
+            الأكثر تميزاً في كل مرحلة دراسية ✨
           </p>
-          <div class="flex gap-2 justify-center mb-5">
-            <button
-              id="lb-tab-first"
-              onclick="switchLbTab('first')"
-              class="lb-tab lb-on px-4 py-2.5 rounded-2xl font-bold text-sm transition-all"
-            >
+
+          <!-- تبويبات الصف -->
+          <div class="flex gap-2 justify-center mb-4">
+            <button id="lb-tab-first" onclick="switchLbTab('first')"
+              class="lb-tab lb-on px-4 py-2.5 rounded-2xl font-bold text-sm transition-all flex-1">
               📘 الأول متوسط
             </button>
-            <button
-              id="lb-tab-second"
-              onclick="switchLbTab('second')"
-              class="lb-tab lb-off px-4 py-2.5 rounded-2xl font-bold text-sm transition-all"
-            >
+            <button id="lb-tab-second" onclick="switchLbTab('second')"
+              class="lb-tab lb-off px-4 py-2.5 rounded-2xl font-bold text-sm transition-all flex-1">
               📗 الثاني متوسط
             </button>
           </div>
+
+          <!-- إحصائيات سريعة -->
+          <div id="lb-stats-bar" class="lb-stats-bar hidden">
+            <div class="lb-stat-item">
+              <div id="lb-stat-students" class="lb-stat-num">0</div>
+              <div class="lb-stat-label">طالبة</div>
+            </div>
+            <div class="lb-divider"></div>
+            <div class="lb-stat-item">
+              <div id="lb-stat-lessons" class="lb-stat-num">0</div>
+              <div class="lb-stat-label">درس مكتمل</div>
+            </div>
+            <div class="lb-divider"></div>
+            <div class="lb-stat-item">
+              <div id="lb-stat-avg" class="lb-stat-num">0%</div>
+              <div class="lb-stat-label">متوسط النتائج</div>
+            </div>
+          </div>
+
+          <!-- المحتوى -->
           <div id="lb-body" class="space-y-2.5">
             <div class="text-center py-8 text-sm" style="color: #94a3b8">
               جاري تحميل الإحصائيات...
             </div>
+          </div>
+
+          <!-- زر تصفير لوحة الشرف (للمشرفة فقط) -->
+          <div id="lb-admin-actions" class="hidden mt-4 pt-4 border-t" style="border-color:rgba(124,58,237,0.1)">
+            <button onclick="clearLeaderboard()" class="w-full py-2 rounded-xl text-sm font-bold" style="background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.2);">
+              🗑️ تصفير لوحة الشرف لهذا الصف
+            </button>
           </div>
         </div>
       </section>
@@ -641,6 +891,113 @@
               class="grade-card-1 rounded-[28px] p-6"
               onclick="showUnits('first')"
             >
+              <div
+                style="
+                  position: absolute;
+                  top: -20px;
+                  right: -20px;
+                  width: 110px;
+                  height: 110px;
+                  background: rgba(255, 255, 255, 0.25);
+                  border-radius: 50%;
+                  filter: blur(20px);
+                "
+              ></div>
+              <div class="flex items-center justify-between relative z-10">
+                <div>
+                  <h3 class="text-2xl font-black mb-1" style="color: #8a2387">
+                    الأول متوسط
+                  </h3>
+                  <p
+                    class="text-sm font-medium"
+                    style="color: rgba(138, 35, 135, 0.7)"
+                  >
+                    الجبر · الهندسة · الإحصاء
+                  </p>
+                </div>
+                <div
+                  class="w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg"
+                  style="
+                    background: rgba(255, 255, 255, 0.55);
+                    backdrop-filter: blur(6px);
+                  "
+                >
+                  📐
+                </div>
+              </div>
+              <div class="mt-4 flex gap-2 relative z-10">
+                <div
+                  class="flex-1 inline-flex items-center justify-center gap-2 text-sm font-bold px-4 py-2 rounded-xl"
+                  style="background: rgba(255,255,255,0.4); color: #8a2387; backdrop-filter: blur(4px);"
+                >
+                  <span>دخول للدروس</span>
+                </div>
+                <div
+                  onclick="event.stopPropagation(); startComprehensiveTest('first')"
+                  class="inline-flex items-center justify-center gap-1 text-sm font-bold px-3 py-2 rounded-xl"
+                  style="background: rgba(138,35,135,0.15); color: #8a2387; backdrop-filter: blur(4px);"
+                >
+                  <span>🎯 اختبار شامل</span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="grade-card-2 rounded-[28px] p-6"
+              onclick="showUnits('second')"
+            >
+              <div
+                style="
+                  position: absolute;
+                  bottom: -20px;
+                  left: -20px;
+                  width: 110px;
+                  height: 110px;
+                  background: rgba(255, 255, 255, 0.25);
+                  border-radius: 50%;
+                  filter: blur(20px);
+                "
+              ></div>
+              <div class="flex items-center justify-between relative z-10">
+                <div>
+                  <h3 class="text-2xl font-black mb-1" style="color: #1e3a8a">
+                    الثاني متوسط
+                  </h3>
+                  <p
+                    class="text-sm font-medium"
+                    style="color: rgba(30, 58, 138, 0.7)"
+                  >
+                    المعادلات · النسبة · التحويلات
+                  </p>
+                </div>
+                <div
+                  class="w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg"
+                  style="
+                    background: rgba(255, 255, 255, 0.55);
+                    backdrop-filter: blur(6px);
+                  "
+                >
+                  🧮
+                </div>
+              </div>
+              <div class="mt-4 flex gap-2 relative z-10">
+                <div
+                  class="flex-1 inline-flex items-center justify-center gap-2 text-sm font-bold px-4 py-2 rounded-xl"
+                  style="background: rgba(255,255,255,0.4); color: #1e3a8a; backdrop-filter: blur(4px);"
+                >
+                  <span>دخول للدروس</span>
+                </div>
+                <div
+                  onclick="event.stopPropagation(); startComprehensiveTest('second')"
+                  class="inline-flex items-center justify-center gap-1 text-sm font-bold px-3 py-2 rounded-xl"
+                  style="background: rgba(30,58,138,0.15); color: #1e3a8a; backdrop-filter: blur(4px);"
+                >
+                  <span>🎯 اختبار شامل</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
               <div
                 style="
                   position: absolute;
@@ -830,6 +1187,9 @@
                 >
                   السؤال <span id="current-q">1</span> من
                   <span id="total-q">5</span>
+                </div>
+                <div id="quiz-timer" class="quiz-timer hidden">
+                  ⏱ <span id="timer-display">00:00</span>
                 </div>
               </div>
               <div
@@ -2782,6 +3142,9 @@
         );
         document.getElementById("quiz-section").classList.remove("hidden");
 
+        const timerSecs = getTimerSetting();
+        startTimer(timerSecs);
+
         displayCurrentQuestion();
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
@@ -2883,26 +3246,44 @@
         } catch (e) {}
       }
 
-      function showQuizResults() {
+      function showQuizResults(timeUp = false) {
+        stopTimer();
         const state = window._quizState;
         submitScore();
         const container = document.getElementById("quiz-question-container");
         const pct = Math.round((state.score / state.quiz.length) * 100);
-        const emoji = pct >= 80 ? "🎉" : pct >= 50 ? "👍" : "💪";
+
+        // نجوم التقييم
+        let stars = pct >= 90 ? 5 : pct >= 75 ? 4 : pct >= 60 ? 3 : pct >= 40 ? 2 : 1;
+        const starsHTML = Array.from({length:5}, (_,i) =>
+          `<span class="star">${i < stars ? "⭐" : "☆"}</span>`
+        ).join("");
+
+        // شارة الأداء
+        let badge, badgeClass, emoji;
+        if (pct >= 80) { badge="ممتاز 🌟"; badgeClass="badge-excellent"; emoji="🎉"; }
+        else if (pct >= 60) { badge="جيد 👍"; badgeClass="badge-good"; emoji="😊"; }
+        else { badge="حاولي مجدداً 💪"; badgeClass="badge-tryagain"; emoji="💪"; }
+
+        // وقت الإجابة
+        const mins = Math.floor(_timerElapsed / 60);
+        const secs = _timerElapsed % 60;
+        const timeStr = mins > 0 ? `${mins} دقيقة ${secs} ثانية` : `${secs} ثانية`;
 
         let resultHTML = `
-        <div class="text-center mb-8">
-          <div class="text-6xl mb-4">${emoji}</div>
-          <h2 class="text-3xl font-black mb-2">النتيجة النهائية</h2>
-          <p class="text-4xl font-bold mb-4" style="color:#7C3AED;">${toArabicDigits(state.score)} / ${toArabicDigits(state.quiz.length)}</p>
-          <p class="text-xl font-bold mb-6" style="color:#EC4899;">${toArabicDigits(pct)}%</p>
-          <p class="text-base" style="color:#64748b;">${pct >= 80 ? "ممتاز! أداء رائع جداً 🌟" : pct >= 50 ? "جيد! واصلي التعلم والمراجعة 📚" : "استمري في المحاولة! أنتِ قادرة 💪"}</p>
+        <div class="text-center mb-6">
+          ${timeUp ? '<div class="text-sm font-bold mb-2" style="color:#ef4444;">⏰ انتهى الوقت!</div>' : ''}
+          <div class="text-6xl mb-3">${emoji}</div>
+          <div class="star-rating">${starsHTML}</div>
+          <span class="result-badge ${badgeClass}">${badge}</span>
+          <h2 class="text-2xl font-black mb-1" style="color:#2d2640">النتيجة النهائية</h2>
+          <p class="text-4xl font-bold mb-1" style="color:#7C3AED;">${toArabicDigits(state.score)} / ${toArabicDigits(state.quiz.length)}</p>
+          <p class="text-2xl font-bold mb-2" style="color:#EC4899;">${toArabicDigits(pct)}%</p>
+          <p class="text-xs" style="color:#94a3b8;">⏱ وقت الإجابة: ${timeStr}</p>
         </div>
 
         <div class="quiz-results-scroll space-y-3 mb-6 max-h-96 overflow-y-auto pr-1">
-          ${state.answers
-            .map(
-              (answer, idx) => `
+          ${state.answers.map((answer, idx) => `
             <div class="rounded-xl p-4 border-r-4" style="background:white;border-top:1px solid rgba(0,0,0,0.05);border-bottom:1px solid rgba(0,0,0,0.05);border-left:1px solid rgba(0,0,0,0.05);border-right-color:${answer.isCorrect ? "#10b981" : "#ef4444"};">
               <p class="text-sm font-bold mb-2" style="color:${answer.isCorrect ? "#10b981" : "#ef4444"};">
                 السؤال ${toArabicDigits(idx + 1)}: ${answer.isCorrect ? "✓ صحيح" : "✗ خاطئ"}
@@ -2911,9 +3292,7 @@
               <p class="text-sm mb-1" style="color:#64748b;"><strong>إجابتك:</strong> ${toArabicDigits(answer.userAnswer)}</p>
               ${!answer.isCorrect ? `<p class="text-sm font-semibold" style="color:#10b981;"><strong>الإجابة الصحيحة:</strong> ${toArabicDigits(answer.correctAnswer)}</p>` : ""}
             </div>
-          `,
-            )
-            .join("")}
+          `).join("")}
         </div>
 
         <div class="flex gap-3">
@@ -2926,7 +3305,7 @@
             <span>إعادة الاختبار</span>
           </button>
         </div>
-      `;
+        `;
 
         container.innerHTML = resultHTML;
         document.getElementById("quiz-progress-bar").style.display = "none";
@@ -2961,48 +3340,250 @@
         loadLeaderboard(grade);
       }
 
+      // ======== اختبار شامل ========
+      async function startComprehensiveTest(grade) {
+        const studentName = getStudentName(grade);
+        if (!studentName) { showNameModal(grade, () => startComprehensiveTest(grade)); return; }
+
+        try {
+          const resp = await fetch(`/api/questions/comprehensive?gradeKey=${grade}`);
+          if (!resp.ok) throw new Error("fetch error");
+          const rawQuestions = await resp.json();
+
+          if (!rawQuestions.length) {
+            alert("لا توجد أسئلة كافية للاختبار الشامل بعد");
+            return;
+          }
+
+          // تحويل الأسئلة مع خلط الإجابات
+          const quizArr = rawQuestions.map(q => {
+            const opts = [q.option_a, q.option_b, q.option_c, q.option_d];
+            const correctText = opts[q.correct_answer];
+            // خلط عشوائي للخيارات
+            const shuffled = [...opts].sort(() => Math.random() - 0.5);
+            const newAnswer = shuffled.indexOf(correctText);
+            return {
+              q: q.question_text,
+              options: shuffled,
+              answer: newAnswer,
+              image: q.image_url || null,
+              lessonIndex: q.lesson_index,
+              unitIndex: q.unit_index,
+              isComprehensive: true,
+            };
+          });
+
+          // خلط ترتيب الأسئلة نفسها
+          quizArr.sort(() => Math.random() - 0.5);
+
+          currentGrade = grade;
+          window._comprehensiveMode = true;
+          window._quizState = {
+            quiz: quizArr,
+            currentQuestion: 0,
+            score: 0,
+            answers: [],
+            finished: false,
+          };
+
+          const progressDiv = document.getElementById("quiz-progress");
+          if (progressDiv) progressDiv.innerHTML = `🎯 اختبار شامل — السؤال <span id="current-q">1</span> من <span id="total-q">${quizArr.length}</span>`;
+          const progressBar = document.getElementById("quiz-progress-bar");
+          if (progressBar) progressBar.style.display = "";
+
+          ["hero-section","subjects-section","units-section","lessons-section","lesson-content-section"]
+            .forEach(s => document.getElementById(s)?.classList.add("hidden"));
+          document.getElementById("quiz-section").classList.remove("hidden");
+
+          const timerSecs = getTimerSetting();
+          startTimer(timerSecs);
+
+          displayCurrentQuestion();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch(e) {
+          alert("حدث خطأ في تحميل الأسئلة");
+        }
+      }
+
+      function showNameModal(grade, callback) {
+        const modal = document.getElementById("name-modal");
+        if (modal) modal.classList.remove("hidden");
+        window._nameCallback = callback;
+      }
+
+      // تعديل confirmName ليدعم الـ callback
+      const _origConfirmName = window.confirmName;
+
+      let _timerSeconds = 0;
+      let _timerElapsed = 0;
+
+      function startTimer(seconds) {
+        clearInterval(_timerInterval);
+        const timerEl = document.getElementById("quiz-timer");
+        const displayEl = document.getElementById("timer-display");
+        if (!timerEl || !displayEl) return;
+
+        if (!seconds || seconds <= 0) { timerEl.classList.add("hidden"); return; }
+
+        _timerSeconds = seconds;
+        _timerElapsed = 0;
+        timerEl.classList.remove("hidden", "warning", "danger");
+
+        _timerInterval = setInterval(() => {
+          _timerElapsed++;
+          const remaining = _timerSeconds - _timerElapsed;
+          const mins = Math.floor(remaining / 60);
+          const secs = remaining % 60;
+          displayEl.textContent = `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
+
+          timerEl.classList.remove("warning","danger");
+          if (remaining <= 30) timerEl.classList.add("danger");
+          else if (remaining <= 60) timerEl.classList.add("warning");
+
+          if (remaining <= 0) {
+            clearInterval(_timerInterval);
+            const state = window._quizState;
+            if (state && !state.finished) {
+              state.finished = true;
+              showQuizResults(true);
+            }
+          }
+        }, 1000);
+      }
+
+      function stopTimer() {
+        clearInterval(_timerInterval);
+        const timerEl = document.getElementById("quiz-timer");
+        if (timerEl) timerEl.classList.add("hidden");
+      }
+
+      function getTimerSetting() {
+        try { return parseInt(localStorage.getItem("quiz_timer_minutes") || "0") * 60; } catch(e) { return 0; }
+      }
+
       async function loadLeaderboard(grade) {
+        currentLbGrade = grade;
         const body = document.getElementById("lb-body");
         if (!body) return;
-        body.innerHTML =
-          '<div class="text-center text-slate-500 py-8 text-sm">جاري التحميل...</div>';
+        body.innerHTML = '<div class="text-center py-10"><div style="font-size:32px;animation:spin 1s linear infinite;display:inline-block">⏳</div></div>';
         try {
           const resp = await fetch("/api/scores/leaderboard?gradeKey=" + grade);
           if (!resp.ok) throw new Error("fetch error");
           const rows = await resp.json();
+
+          // فحص إذا كانت المشرفة مسجلة دخول لإظهار أزرار الحذف
+          const meResp = await fetch("/api/auth/me");
+          const me = await meResp.json();
+          window._isAdmin = me.isAdmin || false;
+          const adminActions = document.getElementById("lb-admin-actions");
+          if (adminActions) adminActions.classList.toggle("hidden", !window._isAdmin);
+
           renderLeaderboard(rows);
         } catch (e) {
-          body.innerHTML =
-            '<div class="text-center text-slate-600 py-8 text-sm">تعذّر تحميل البيانات</div>';
+          body.innerHTML = '<div class="text-center text-slate-600 py-8 text-sm">تعذّر تحميل البيانات 😕</div>';
         }
+      }
+
+      async function deleteLbStudent(grade, studentName) {
+        if (!confirm(`حذف "${studentName}" من لوحة الشرف؟`)) return;
+        try {
+          const r = await fetch(`/api/scores/student?gradeKey=${grade}&studentName=${encodeURIComponent(studentName)}`, { method: "DELETE" });
+          if (r.ok) loadLeaderboard(grade);
+          else alert("حدث خطأ في الحذف");
+        } catch(e) { alert("حدث خطأ"); }
+      }
+
+      async function clearLeaderboard() {
+        const label = currentLbGrade === "first" ? "الأول متوسط" : "الثاني متوسط";
+        if (!confirm(`تصفير لوحة شرف ${label} بالكامل؟`)) return;
+        try {
+          await fetch(`/api/scores?gradeKey=${currentLbGrade}`, { method: "DELETE" });
+          loadLeaderboard(currentLbGrade);
+        } catch(e) { alert("حدث خطأ"); }
+      }
+
+      function refreshLeaderboard() {
+        const btn = document.getElementById("lb-refresh-btn");
+        if (btn) { btn.classList.add("spinning"); setTimeout(() => btn.classList.remove("spinning"), 800); }
+        loadLeaderboard(currentLbGrade);
       }
 
       function renderLeaderboard(rows) {
         const body = document.getElementById("lb-body");
+        const statsBar = document.getElementById("lb-stats-bar");
+        const isAdmin = window._isAdmin || false;
+
         if (!rows || rows.length === 0) {
-          body.innerHTML =
-            '<div class="text-center text-slate-500 py-8 text-sm">لا توجد نتائج حتى الآن — كوني أول المتصدرات! 🌟</div>';
+          body.innerHTML = `
+            <div class="text-center py-10">
+              <div style="font-size:48px;margin-bottom:12px">🌟</div>
+              <div class="font-bold" style="color:#2d2640">لا توجد نتائج حتى الآن</div>
+              <div class="text-sm mt-1" style="color:#94a3b8">كوني أول المتصدرات!</div>
+            </div>`;
+          if (statsBar) statsBar.classList.add("hidden");
           return;
         }
-        const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
-        const rankCls = ["lb-rank-1", "lb-rank-2", "lb-rank-3", "", ""];
-        body.innerHTML = rows
-          .map(
-            (r, i) => `
-        <div class="lb-card ${rankCls[i]}">
-          <div class="text-2xl w-8 text-center flex-shrink-0">${medals[i]}</div>
-          <div class="flex-1 min-w-0">
-            <div class="font-bold text-sm truncate">${escapeHtml(r.student_name)}</div>
-            <div class="text-xs text-slate-400 mt-0.5">${toArabicDigits(r.lessons_count)} درس مكتمل</div>
-          </div>
-          <div class="text-left flex-shrink-0">
-            <div class="font-black text-lg" style="color:#7C3AED;">${toArabicDigits(r.pct)}%</div>
-            <div class="text-xs" style="color:#94a3b8;">${toArabicDigits(r.total_score)} / ${toArabicDigits(r.total_possible)}</div>
-          </div>
-        </div>
-      `,
-          )
-          .join("");
+
+        if (statsBar) {
+          statsBar.classList.remove("hidden");
+          const totalLessons = rows.reduce((s, r) => s + Number(r.lessons_count), 0);
+          const avgPct = Math.min(100, Math.round(rows.reduce((s, r) => s + Number(r.pct), 0) / rows.length));
+          document.getElementById("lb-stat-students").textContent = toArabicDigits(rows.length);
+          document.getElementById("lb-stat-lessons").textContent = toArabicDigits(totalLessons);
+          document.getElementById("lb-stat-avg").textContent = toArabicDigits(avgPct) + "%";
+        }
+
+        const top3 = rows.slice(0, 3);
+        const rest = rows.slice(3);
+        const podiumOrder = top3.length >= 2 ? [top3[1], top3[0], top3[2]].filter(Boolean) : top3;
+        const podiumRanks = top3.length >= 2 ? [2, 1, 3] : [1, 2, 3];
+
+        let html = "";
+
+        if (top3.length > 0) {
+          html += `<div class="lb-podium mb-4">`;
+          podiumOrder.forEach((r, idx) => {
+            const rank = podiumRanks[idx];
+            const realRank = top3.indexOf(r) + 1;
+            const avatarEmojis = ["👩‍🎓","🌟","💫","✨","🎓"];
+            html += `
+              <div class="lb-podium-item">
+                <div class="lb-podium-avatar rank-${rank}" style="position:relative">
+                  ${rank === 1 ? '<span class="lb-podium-crown">👑</span>' : ''}
+                  ${avatarEmojis[realRank-1]}
+                </div>
+                <div class="lb-podium-name">${escapeHtml(r.student_name)}</div>
+                <div class="lb-podium-pct">${toArabicDigits(Math.min(100, Number(r.pct)))}%</div>
+                ${isAdmin ? `<button onclick="deleteLbStudent('${currentLbGrade}','${escapeHtml(r.student_name)}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:none;border-radius:6px;padding:2px 6px;font-size:10px;cursor:pointer;margin-bottom:2px">🗑️</button>` : ''}
+                <div class="lb-podium-base rank-${rank}">${rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉"}</div>
+              </div>`;
+          });
+          html += `</div>`;
+        }
+
+        if (rest.length > 0) {
+          html += `<div class="space-y-2">`;
+          rest.forEach((r, i) => {
+            const rank = i + 4;
+            const pct = Math.min(100, Number(r.pct));
+            html += `
+              <div class="lb-card" style="animation-delay:${i * 0.1}s">
+                <div class="lb-rank-badge lb-rank-${rank}">${rank}</div>
+                <div class="flex-1 min-w-0">
+                  <div class="font-bold text-sm truncate" style="color:#2d2640">${escapeHtml(r.student_name)}</div>
+                  <div class="lb-progress-bar mt-1.5"><div class="lb-progress-fill" style="width:${pct}%"></div></div>
+                </div>
+                <div class="text-left flex-shrink-0">
+                  <div class="font-black text-base" style="color:#7C3AED;">${toArabicDigits(pct)}%</div>
+                  <div class="text-xs" style="color:#94a3b8;">${toArabicDigits(r.lessons_count)} درس</div>
+                </div>
+                ${isAdmin ? `<button onclick="deleteLbStudent('${currentLbGrade}','${escapeHtml(r.student_name)}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:none;border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer">🗑️</button>` : ''}
+              </div>`;
+          });
+          html += `</div>`;
+        }
+
+        body.innerHTML = html;
       }
 
       function escapeHtml(str) {
