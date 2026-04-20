@@ -1,1219 +1,520 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>منصة رحلتك التفاعلية نحو التميز</title>
-    <meta name="description" content="منصة تعليمية تفاعلية لطالبات المرحلة المتوسطة — اكتشفي الدروس وتنافسي مع زميلاتك!" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="منصة رحلتك التفاعلية نحو التميز" />
-    <meta property="og:description" content="منصة تعليمية تفاعلية لطالبات المرحلة المتوسطة — اكتشفي الدروس وتنافسي مع زميلاتك!" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="منصة رحلتك التفاعلية نحو التميز" />
-    <meta name="twitter:description" content="منصة تعليمية تفاعلية لطالبات المرحلة المتوسطة — اكتشفي الدروس وتنافسي مع زميلاتك!" />
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-      }
-      body {
-        font-family: "Cairo", sans-serif;
-        -webkit-tap-highlight-color: transparent;
-        background: #fffbf7;
-        color: #2d2640;
-      }
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>منصة الثانية والستون التعليمية</title>
+  <meta name="description" content="منصة تعليمية تفاعلية لطالبات المرحلة المتوسطة"/>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%;margin:0}
+    body{font-family:"Cairo",sans-serif;background:#f8f4ff;color:#1e1535;overflow-x:hidden}
 
-      :root {
-        --spacing: 16px;
-      }
-      @media (min-width: 640px) {
-        :root {
-          --spacing: 24px;
-        }
-      }
+    :root{
+      --primary:#7c3aed;
+      --primary-light:#a855f7;
+      --pink:#ec4899;
+      --gold:#f59e0b;
+      --success:#10b981;
+      --danger:#ef4444;
+      --bg:#f8f4ff;
+      --card:#ffffff;
+      --text:#1e1535;
+      --muted:#94a3b8;
+      --border:rgba(124,58,237,0.12);
+    }
 
-      .hero-pattern {
-        background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
-        position: relative;
-        overflow: hidden;
-        border-radius: 0 0 40px 40px;
-      }
-      .hero-pattern::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(
-            circle at 85% 15%,
-            rgba(255, 255, 255, 0.18) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 10% 85%,
-            rgba(236, 72, 153, 0.35) 0%,
-            transparent 50%
-          );
-        pointer-events: none;
-      }
+    /* ── تأثيرات الدخول ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes scaleIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+    @keyframes pulse-ring{0%{transform:scale(1);opacity:.5}70%{transform:scale(1.6);opacity:0}100%{transform:scale(1.6);opacity:0}}
+    @keyframes shimmer{0%{left:-100%}100%{left:150%}}
+    @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+    @keyframes timerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+    @keyframes podiumRise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slideIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes bounceIn{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
 
-      .grade-card-1 {
-        cursor: pointer;
-        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 12px 24px -8px rgba(255, 154, 158, 0.5);
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
-        position: relative;
-        overflow: hidden;
-      }
-      .grade-card-1:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 18px 32px -8px rgba(255, 154, 158, 0.6);
-      }
-      .grade-card-1:active {
-        transform: scale(0.97);
-      }
+    .fade-up{animation:fadeUp .5s ease-out both}
+    .fade-in{animation:fadeIn .4s ease both}
+    .scale-in{animation:scaleIn .35s ease both}
 
-      .grade-card-2 {
-        cursor: pointer;
-        background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 12px 24px -8px rgba(161, 196, 253, 0.5);
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
-        position: relative;
-        overflow: hidden;
-      }
-      .grade-card-2:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 18px 32px -8px rgba(161, 196, 253, 0.6);
-      }
-      .grade-card-2:active {
-        transform: scale(0.97);
-      }
+    /* ── Hero ── */
+    .hero-bg{
+      background:linear-gradient(145deg,#5b21b6 0%,#7c3aed 40%,#c026d3 80%,#ec4899 100%);
+      border-radius:0 0 48px 48px;
+      position:relative;overflow:hidden;
+    }
+    .hero-bg::before{
+      content:"";position:absolute;inset:0;
+      background:radial-gradient(circle at 80% 20%,rgba(255,255,255,.15) 0%,transparent 55%),
+                 radial-gradient(circle at 10% 80%,rgba(236,72,153,.3) 0%,transparent 50%);
+      pointer-events:none;
+    }
+    .hero-orb{
+      position:absolute;border-radius:50%;filter:blur(50px);pointer-events:none;
+    }
 
-      .subject-card {
-        cursor: pointer;
-        transition: transform 0.25s ease;
-      }
-      .subject-card:hover {
-        transform: translateY(-4px);
-      }
-      .subject-card:active {
-        transform: scale(0.97);
-      }
+    /* ── بطاقات الصفوف ── */
+    .grade-card{
+      cursor:pointer;border-radius:28px;padding:24px;position:relative;overflow:hidden;
+      transition:transform .25s ease,box-shadow .25s ease;
+      border:1px solid rgba(255,255,255,.6);
+    }
+    .grade-card:hover{transform:translateY(-5px)}
+    .grade-card:active{transform:scale(.97)}
+    .grade-card-first{background:linear-gradient(135deg,#fda4af,#fbcfe8,#f9a8d4)}
+    .grade-card-second{background:linear-gradient(135deg,#93c5fd,#c4b5fd,#a5b4fc)}
 
-      .unit-card {
-        cursor: pointer;
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
-        background: white;
-        border: 1px solid rgba(124, 58, 237, 0.1);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-      }
-      .unit-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(124, 58, 237, 0.15);
-      }
-      .unit-card:active {
-        transform: scale(0.97);
-      }
+    /* ── بطاقات الوحدات ── */
+    .unit-card{
+      background:white;border:1px solid var(--border);border-radius:20px;
+      padding:20px;cursor:pointer;
+      transition:transform .22s,box-shadow .22s;
+      box-shadow:0 2px 12px rgba(124,58,237,.06);
+    }
+    .unit-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(124,58,237,.14)}
+    .unit-card:active{transform:scale(.97)}
 
-      .lesson-card {
-        cursor: pointer;
-        transition: all 0.2s ease;
-        background: white;
-        border: 1px solid rgba(124, 58, 237, 0.08);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-      }
-      .lesson-card:hover {
-        background: rgba(124, 58, 237, 0.04);
-        transform: translateX(4px);
-        border-color: rgba(124, 58, 237, 0.2);
-      }
-      .lesson-card:active {
-        transform: scale(0.97);
-      }
+    /* ── بطاقات الدروس ── */
+    .lesson-card{
+      background:white;border:1px solid var(--border);border-radius:16px;
+      padding:16px;cursor:pointer;display:flex;align-items:center;gap:14px;
+      transition:all .2s;box-shadow:0 1px 6px rgba(0,0,0,.04);
+    }
+    .lesson-card:hover{background:rgba(124,58,237,.03);border-color:rgba(124,58,237,.2);transform:translateX(4px)}
+    .lesson-card:active{transform:scale(.97)}
 
-      .glow-btn {
-        transition: all 0.3s ease;
-        background: linear-gradient(135deg, #7c3aed, #ec4899);
-        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
-        min-height: 52px;
-      }
-      .glow-btn:hover {
-        box-shadow: 0 6px 30px rgba(124, 58, 237, 0.5);
-        transform: translateY(-2px);
-      }
+    /* ── زر CTA ── */
+    .glow-btn{
+      background:linear-gradient(135deg,#7c3aed,#ec4899);
+      color:white;border:none;cursor:pointer;font-family:"Cairo",sans-serif;
+      font-weight:800;border-radius:24px;
+      box-shadow:0 6px 24px rgba(124,58,237,.35);
+      transition:all .3s ease;min-height:52px;position:relative;overflow:hidden;
+    }
+    .glow-btn::after{
+      content:"";position:absolute;top:0;left:-100%;width:60%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+      animation:shimmer 2.5s infinite;
+    }
+    .glow-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(124,58,237,.5)}
+    .glow-btn:active{transform:scale(.97)}
 
-      /* ── زر "اكتشفي الدروس" المميز ── */
-      @keyframes pulse-ring {
-        0% {
-          transform: scale(1);
-          opacity: 0.6;
-        }
-        70% {
-          transform: scale(1.55);
-          opacity: 0;
-        }
-        100% {
-          transform: scale(1.55);
-          opacity: 0;
-        }
-      }
-      @keyframes shimmer {
-        0% {
-          left: -80%;
-        }
-        100% {
-          left: 130%;
-        }
-      }
-      @keyframes rocket-bounce {
-        0%,
-        100% {
-          transform: translateX(0) rotate(-15deg);
-        }
-        50% {
-          transform: translateX(5px) rotate(-15deg);
-        }
-      }
-      .hero-cta {
-        position: relative;
-        overflow: hidden;
-        background: linear-gradient(
-          135deg,
-          #6d28d9 0%,
-          #9333ea 45%,
-          #ec4899 100%
-        );
-        box-shadow:
-          0 6px 32px rgba(124, 58, 237, 0.55),
-          0 2px 8px rgba(0, 0, 0, 0.12);
-        min-height: 60px;
-        font-size: 1.2rem;
-        letter-spacing: 0.02em;
-        border: 2px solid rgba(255, 255, 255, 0.25);
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease,
-          filter 0.25s ease;
-      }
-      /* حلقة نبضية خلف الزر */
-      .hero-cta::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: inherit;
-        animation: pulse-ring 2.2s ease-out infinite;
-        z-index: -1;
-      }
-      /* وميض لامع يمر على الزر */
-      .hero-cta::after {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -80%;
-        width: 55%;
-        height: 200%;
-        background: linear-gradient(
-          105deg,
-          transparent 30%,
-          rgba(255, 255, 255, 0.35) 50%,
-          transparent 70%
-        );
-        animation: shimmer 2.8s ease-in-out infinite;
-        pointer-events: none;
-      }
-      .hero-cta:hover {
-        transform: translateY(-4px) scale(1.03);
-        box-shadow:
-          0 12px 48px rgba(124, 58, 237, 0.7),
-          0 4px 12px rgba(0, 0, 0, 0.15);
-        filter: brightness(1.08);
-      }
-      .hero-cta:active {
-        transform: translateY(-1px) scale(0.99);
-        box-shadow: 0 5px 20px rgba(124, 58, 237, 0.45);
-      }
-      .hero-cta .rocket-icon {
-        display: inline-block;
-        animation: rocket-bounce 1.4s ease-in-out infinite;
-        font-style: normal;
-      }
-      .hero-cta:hover .rocket-icon {
-        animation-duration: 0.7s;
-      }
+    .hero-cta{
+      background:linear-gradient(135deg,#5b21b6,#7c3aed,#a855f7);
+      box-shadow:0 8px 32px rgba(91,33,182,.5);
+      position:relative;overflow:hidden;
+    }
+    .hero-cta::before{
+      content:"";position:absolute;inset:-3px;border-radius:26px;
+      background:linear-gradient(135deg,#7c3aed,#ec4899);
+      z-index:-1;animation:pulse-ring 2s ease-out infinite;
+    }
 
-      .back-btn {
-        cursor: pointer;
-        transition: all 0.2s ease;
-        color: #64748b;
-        min-height: 44px;
-        padding: 8px 12px;
-        border-radius: 10px;
-      }
-      .back-btn:hover {
-        color: #7c3aed;
-      }
-      .back-btn:active {
-        background: rgba(124, 58, 237, 0.06);
-      }
+    /* ── خيارات الاختبار ── */
+    .quiz-option{
+      background:white;border:2px solid rgba(124,58,237,.12);border-radius:16px;
+      padding:14px 18px;cursor:pointer;transition:all .2s;
+      font-family:"Cairo",sans-serif;font-weight:600;color:#1e1535;
+      box-shadow:0 1px 4px rgba(0,0,0,.04);
+    }
+    .quiz-option:hover{border-color:rgba(124,58,237,.35);background:rgba(124,58,237,.04);transform:scale(1.01)}
+    .quiz-option.selected{border-color:#7c3aed;background:rgba(124,58,237,.08)}
+    .quiz-option.correct{border-color:#10b981!important;background:rgba(16,185,129,.1)!important;color:#065f46}
+    .quiz-option.wrong{border-color:#ef4444!important;background:rgba(239,68,68,.08)!important;color:#991b1b}
+    @media(max-width:639px){.quiz-option{padding:12px 14px}}
 
-      .fade-in {
-        animation: fadeIn 0.4s ease forwards;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+    /* ── المؤقت ── */
+    .quiz-timer{
+      display:flex;align-items:center;gap:5px;padding:6px 13px;border-radius:99px;
+      font-weight:900;font-size:14px;transition:all .3s;
+      background:rgba(124,58,237,.08);color:#7c3aed;border:1.5px solid rgba(124,58,237,.2);
+    }
+    .quiz-timer.warning{background:rgba(245,158,11,.12);color:#d97706;border-color:rgba(245,158,11,.3);animation:timerPulse 1s ease-in-out infinite}
+    .quiz-timer.danger{background:rgba(239,68,68,.12);color:#ef4444;border-color:rgba(239,68,68,.3);animation:timerPulse .5s ease-in-out infinite}
 
-      .quiz-option {
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border: 2px solid rgba(124, 58, 237, 0.12);
-        background: white;
-        color: #2d2640;
-        min-height: 52px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 14px 16px;
-        font-size: 1rem;
-        line-height: 1.4;
-      }
-      @media (min-width: 640px) {
-        .quiz-option {
-          min-height: 56px;
-          padding: 14px 20px;
-          font-size: 1.05rem;
-        }
-      }
-      /* المؤقت */
-      .quiz-timer {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 14px;
-        border-radius: 99px;
-        font-weight: 900;
-        font-size: 15px;
-        transition: all 0.3s;
-        background: rgba(124,58,237,0.08);
-        color: #7c3aed;
-        border: 1px solid rgba(124,58,237,0.2);
-        min-width: 70px;
-        justify-content: center;
-      }
-      .quiz-timer.warning {
-        background: rgba(245,158,11,0.12);
-        color: #d97706;
-        border-color: rgba(245,158,11,0.3);
-        animation: timerPulse 1s ease-in-out infinite;
-      }
-      .quiz-timer.danger {
-        background: rgba(239,68,68,0.12);
-        color: #ef4444;
-        border-color: rgba(239,68,68,0.3);
-        animation: timerPulse 0.5s ease-in-out infinite;
-      }
-      @keyframes timerPulse {
-        0%,100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-      }
+    /* ── نجوم ── */
+    .star-rating{display:flex;gap:3px;justify-content:center;margin:10px 0}
+    .star{font-size:26px}
 
-      /* نجوم التقييم */
-      .star-rating { display:flex; gap:4px; justify-content:center; margin:12px 0; }
-      .star { font-size:28px; cursor:default; transition:transform 0.2s; }
-      .result-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 16px;
-        border-radius: 99px;
-        font-weight: 700;
-        font-size: 13px;
-        margin-bottom: 8px;
-      }
-      .badge-excellent { background: rgba(16,185,129,0.12); color: #059669; border: 1px solid rgba(16,185,129,0.3); }
-      .badge-good { background: rgba(59,130,246,0.12); color: #2563eb; border: 1px solid rgba(59,130,246,0.3); }
-      .badge-tryagain { background: rgba(239,68,68,0.1); color: #dc2626; border: 1px solid rgba(239,68,68,0.25); }
+    /* ── شارة النتيجة ── */
+    .result-badge{
+      display:inline-flex;align-items:center;gap:5px;
+      padding:5px 14px;border-radius:99px;font-weight:700;font-size:12px;margin-bottom:6px;
+    }
+    .badge-excellent{background:rgba(16,185,129,.12);color:#065f46;border:1px solid rgba(16,185,129,.3)}
+    .badge-good{background:rgba(59,130,246,.12);color:#1d4ed8;border:1px solid rgba(59,130,246,.3)}
+    .badge-tryagain{background:rgba(239,68,68,.1);color:#b91c1c;border:1px solid rgba(239,68,68,.25)}
 
-      .quiz-option:hover {
-        border-color: rgba(124, 58, 237, 0.4);
-        background: rgba(124, 58, 237, 0.06);
-      }
-      .quiz-option.selected {
-        border-color: #7c3aed;
-        background: rgba(124, 58, 237, 0.12);
-      }
-      .quiz-option.correct {
-        border-color: #10b981;
-        background: rgba(16, 185, 129, 0.1);
-      }
-      .quiz-option.wrong {
-        border-color: #ef4444;
-        background: rgba(239, 68, 68, 0.08);
-      }
+    /* ── لوحة الشرف ── */
+    .lb-on{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;box-shadow:0 4px 14px rgba(124,58,237,.3)}
+    .lb-off{background:rgba(124,58,237,.06);color:#94a3b8;border:1px solid rgba(124,58,237,.15)}
+    .lb-off:hover{background:rgba(124,58,237,.12);color:#7c3aed}
 
-      .progress-ring {
-        transition: stroke-dashoffset 0.6s ease;
-      }
+    .lb-podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:16px;padding:0 4px}
+    .lb-podium-item{display:flex;flex-direction:column;align-items:center;flex:1;max-width:110px;opacity:0}
+    .lb-podium-item:nth-child(1){animation:podiumRise .6s ease-out .2s both}
+    .lb-podium-item:nth-child(2){animation:podiumRise .6s ease-out 0s both}
+    .lb-podium-item:nth-child(3){animation:podiumRise .6s ease-out .4s both}
 
-      .icon-button svg {
-        width: 32px;
-        height: 32px;
-        stroke-width: 2;
-      }
+    .lb-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:5px;position:relative;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+    .lb-avatar.r1{width:62px;height:62px;font-size:26px;background:linear-gradient(135deg,#fbbf24,#f59e0b);box-shadow:0 6px 20px rgba(251,191,36,.45)}
+    .lb-avatar.r2{background:linear-gradient(135deg,#94a3b8,#64748b)}
+    .lb-avatar.r3{background:linear-gradient(135deg,#cd7f32,#b45309)}
 
-      .lb-on {
-        background: linear-gradient(135deg, #7c3aed, #ec4899);
-        color: white;
-        box-shadow: 0 4px 15px rgba(124,58,237,0.35);
-      }
-      .lb-off {
-        background: rgba(124, 58, 237, 0.06);
-        color: #94a3b8;
-        border: 1px solid rgba(124, 58, 237, 0.15);
-      }
-      .lb-off:hover {
-        background: rgba(124, 58, 237, 0.12);
-        color: #7c3aed;
-      }
+    .lb-crown{position:absolute;top:-13px;font-size:17px}
+    .lb-pname{font-size:11px;font-weight:700;color:#1e1535;margin-bottom:3px;max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+    .lb-ppct{font-size:12px;font-weight:900;color:#7c3aed;margin-bottom:3px}
 
-      /* لوحة الشرف المحسّنة */
-      .lb-podium {
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: 20px;
-        padding: 0 8px;
-      }
-      .lb-podium-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-        max-width: 120px;
-        animation: podiumRise 0.6s ease-out forwards;
-        opacity: 0;
-      }
-      .lb-podium-item:nth-child(1) { animation-delay: 0.2s; }
-      .lb-podium-item:nth-child(2) { animation-delay: 0s; }
-      .lb-podium-item:nth-child(3) { animation-delay: 0.4s; }
+    .lb-base{width:100%;border-radius:12px 12px 6px 6px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:white}
+    .lb-base.r1{height:68px;background:linear-gradient(180deg,#fbbf24,#d97706);box-shadow:0 4px 14px rgba(251,191,36,.35)}
+    .lb-base.r2{height:52px;background:linear-gradient(180deg,#94a3b8,#475569)}
+    .lb-base.r3{height:40px;background:linear-gradient(180deg,#cd7f32,#92400e)}
 
-      @keyframes podiumRise {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
+    .lb-card{
+      background:white;border:1px solid var(--border);border-radius:14px;
+      padding:12px 14px;display:flex;align-items:center;gap:12px;
+      box-shadow:0 1px 6px rgba(0,0,0,.04);
+      transition:transform .2s,box-shadow .2s;opacity:0;
+    }
+    .lb-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(124,58,237,.1)}
 
-      .lb-podium-avatar {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        margin-bottom: 6px;
-        position: relative;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      }
-      .lb-podium-avatar.rank-1 {
-        width: 62px;
-        height: 62px;
-        font-size: 26px;
-        background: linear-gradient(135deg, #fbbf24, #f59e0b);
-        box-shadow: 0 6px 20px rgba(251,191,36,0.5);
-      }
-      .lb-podium-avatar.rank-2 {
-        background: linear-gradient(135deg, #94a3b8, #64748b);
-        box-shadow: 0 4px 12px rgba(148,163,184,0.4);
-      }
-      .lb-podium-avatar.rank-3 {
-        background: linear-gradient(135deg, #cd7f32, #b45309);
-        box-shadow: 0 4px 12px rgba(205,127,50,0.4);
-      }
+    .lb-rank-badge{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;color:white}
+    .lb-rank-4{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+    .lb-rank-5{background:linear-gradient(135deg,#ec4899,#db2777)}
+    .lb-rank-6,.lb-rank-7,.lb-rank-8,.lb-rank-9,.lb-rank-10{background:linear-gradient(135deg,#64748b,#475569)}
 
-      .lb-podium-crown {
-        position: absolute;
-        top: -14px;
-        font-size: 18px;
-      }
+    .lb-progress-bar{height:4px;background:rgba(124,58,237,.1);border-radius:99px;overflow:hidden;margin-top:4px}
+    .lb-progress-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:99px;transition:width 1s ease-out}
 
-      .lb-podium-name {
-        font-size: 11px;
-        font-weight: 700;
-        text-align: center;
-        color: #2d2640;
-        margin-bottom: 4px;
-        max-width: 90px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .lb-podium-pct {
-        font-size: 13px;
-        font-weight: 900;
-        color: #7c3aed;
-        margin-bottom: 4px;
-      }
+    .lb-stats-bar{
+      display:flex;gap:6px;margin-bottom:14px;padding:10px 12px;
+      background:linear-gradient(135deg,rgba(124,58,237,.05),rgba(236,72,153,.05));
+      border-radius:14px;border:1px solid rgba(124,58,237,.1);
+    }
+    .lb-stat-item{flex:1;text-align:center}
+    .lb-stat-num{font-size:17px;font-weight:900;color:#7c3aed}
+    .lb-stat-label{font-size:9px;color:#94a3b8;margin-top:1px}
+    .lb-divider{width:1px;background:rgba(124,58,237,.12);align-self:stretch}
 
-      .lb-podium-base {
-        width: 100%;
-        border-radius: 12px 12px 6px 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        font-weight: 900;
-        color: white;
-      }
-      .lb-podium-base.rank-1 {
-        height: 70px;
-        background: linear-gradient(180deg, #fbbf24, #f59e0b);
-        box-shadow: 0 4px 15px rgba(251,191,36,0.4);
-      }
-      .lb-podium-base.rank-2 {
-        height: 55px;
-        background: linear-gradient(180deg, #94a3b8, #64748b);
-        box-shadow: 0 4px 12px rgba(100,116,139,0.3);
-      }
-      .lb-podium-base.rank-3 {
-        height: 42px;
-        background: linear-gradient(180deg, #cd7f32, #b45309);
-        box-shadow: 0 4px 12px rgba(180,83,9,0.3);
-      }
+    .lb-refresh-btn{width:30px;height:30px;border-radius:50%;background:rgba(124,58,237,.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;color:#7c3aed;font-size:14px}
+    .lb-refresh-btn:hover{background:rgba(124,58,237,.15);transform:rotate(180deg)}
+    .lb-refresh-btn.spinning{animation:spin .7s linear}
 
-      .lb-card {
-        background: white;
-        border: 1px solid rgba(124, 58, 237, 0.08);
-        border-radius: 14px;
-        padding: 12px 16px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        transition: transform 0.2s, box-shadow 0.2s;
-        animation: slideIn 0.4s ease-out forwards;
-        opacity: 0;
-      }
-      .lb-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,58,237,0.12); }
+    /* ── محتوى الدرس ── */
+    .quiz-content-card{
+      background:linear-gradient(160deg,#1a0b2e,#16213e);
+      border:1px solid rgba(124,58,237,.2);border-radius:24px;
+      color:white;
+    }
+    .back-btn{
+      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+      color:rgba(255,255,255,.9);border-radius:12px;cursor:pointer;
+      font-family:"Cairo",sans-serif;font-weight:600;font-size:13px;
+      display:inline-flex;align-items:center;gap:6px;padding:7px 12px;
+      transition:all .2s;
+    }
+    .back-btn:hover{background:rgba(255,255,255,.18)}
 
-      @keyframes slideIn {
-        from { opacity: 0; transform: translateX(20px); }
-        to { opacity: 1; transform: translateX(0); }
-      }
-      .lb-card:nth-child(1) { animation-delay: 0.1s; }
-      .lb-card:nth-child(2) { animation-delay: 0.2s; }
+    /* ── شريط التنقل ── */
+    .glass-nav{
+      background:rgba(255,255,255,.92);backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border-top:1px solid rgba(124,58,237,.1);
+    }
 
-      .lb-rank-badge {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        font-weight: 900;
-        flex-shrink: 0;
-        color: white;
-      }
-      .lb-rank-4 { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
-      .lb-rank-5 { background: linear-gradient(135deg, #ec4899, #db2777); }
+    /* ── بطاقة الاختبار الشامل ── */
+    .comp-card{
+      background:linear-gradient(135deg,#7c3aed,#c026d3,#ec4899);
+      border-radius:20px;padding:20px;cursor:pointer;
+      border:1px solid rgba(255,255,255,.2);
+      transition:transform .25s,box-shadow .25s;
+      box-shadow:0 8px 24px rgba(124,58,237,.35);
+      position:relative;overflow:hidden;
+    }
+    .comp-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(124,58,237,.45)}
+    .comp-card:active{transform:scale(.97)}
+    .comp-card::before{content:"🎯";position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.15}
 
-      .lb-progress-bar {
-        height: 4px;
-        background: rgba(124,58,237,0.1);
-        border-radius: 99px;
-        overflow: hidden;
-        margin-top: 4px;
-      }
-      .lb-progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #7c3aed, #ec4899);
-        border-radius: 99px;
-        transition: width 1s ease-out;
-      }
+    /* مخصصات للجوال */
+    @media(max-width:639px){
+      .quiz-content-card{border-radius:18px}
+      .quiz-results-scroll{max-height:42vh!important}
+      .lb-card{padding:10px 12px;gap:9px}
+    }
+    @media(max-width:359px){
+      #subjects-grid{grid-template-columns:1fr!important}
+    }
 
-      .lb-stats-bar {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 16px;
-        padding: 12px 14px;
-        background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(236,72,153,0.06));
-        border-radius: 16px;
-        border: 1px solid rgba(124,58,237,0.1);
-      }
-      .lb-stat-item {
-        flex: 1;
-        text-align: center;
-      }
-      .lb-stat-num {
-        font-size: 18px;
-        font-weight: 900;
-        color: #7c3aed;
-      }
-      .lb-stat-label {
-        font-size: 10px;
-        color: #94a3b8;
-        margin-top: 2px;
-      }
-      .lb-divider {
-        width: 1px;
-        background: rgba(124,58,237,0.15);
-        align-self: stretch;
-      }
+    /* padding للـ bottom nav */
+    #app-wrapper{padding-bottom:max(88px,calc(env(safe-area-inset-bottom)+88px))}
+    nav{padding-top:max(12px,env(safe-area-inset-top))}
+  </style>
+</head>
+<body>
+<div id="app-wrapper">
 
-      .lb-refresh-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: rgba(124,58,237,0.08);
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
-        color: #7c3aed;
-        font-size: 16px;
-      }
-      .lb-refresh-btn:hover { background: rgba(124,58,237,0.15); transform: rotate(180deg); }
-      .lb-refresh-btn.spinning { animation: spin 0.8s linear; }
-      @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-      #name-modal input:focus {
-        border-color: #7c3aed;
-      }
-
-      @media (max-width: 639px) {
-        .quiz-results-scroll {
-          max-height: 45vh !important;
-        }
-        .lb-card {
-          padding: 12px 14px;
-          gap: 10px;
-        }
-      }
-
-      @media (max-width: 359px) {
-        #subjects-grid {
-          grid-template-columns: 1fr !important;
-        }
-      }
-
-      nav {
-        padding-top: max(12px, env(safe-area-inset-top));
-      }
-      #app-wrapper {
-        padding-bottom: max(88px, calc(env(safe-area-inset-bottom) + 88px));
-        scroll-behavior: smooth;
-      }
-
-      @media (max-width: 479px) {
-        #lb-tab-first,
-        #lb-tab-second {
-          flex: 1;
-          text-align: center;
-        }
-      }
-
-      .glass-bottom-nav {
-        background: rgba(255, 255, 255, 0.94);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(124, 58, 237, 0.1);
-        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.07);
-      }
-
-      .quiz-content-card {
-        background: white;
-        border: 1px solid rgba(124, 58, 237, 0.1);
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-      }
-    </style>
-  </head>
-  <body class="h-full" style="background: #fffbf7; color: #2d2640">
-    <div id="app-wrapper" class="w-full h-full overflow-auto">
-      <nav
-        class="sticky top-0 z-50"
-        style="
-          background: rgba(255, 251, 247, 0.92);
-          backdrop-filter: blur(20px);
-          border-bottom: 1px solid rgba(124, 58, 237, 0.08);
-          box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
-        "
-      >
-        <div
-          class="max-w-lg mx-auto px-4 py-2 flex items-center justify-between"
-        >
-          <div
-            class="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden flex-shrink-0"
-          >
-            <img
-              src="https://i.imgur.com/5qv4Tvq.png"
-              alt="شعار"
-              class="w-full h-full object-cover"
-            />
-          </div>
-          <h1 class="text-base font-black" style="color: #7c3aed">
-            منصة رحلتك التفاعلية نحو التميز
+  <!-- ===== HERO ===== -->
+  <section id="hero-section" class="hero-bg px-4 pt-10 pb-16 relative">
+    <div class="hero-orb" style="top:-60px;left:-60px;width:220px;height:220px;background:rgba(255,255,255,.1)"></div>
+    <div class="hero-orb" style="bottom:-40px;right:-40px;width:180px;height:180px;background:rgba(236,72,153,.2)"></div>
+    <div class="relative z-10 max-w-lg mx-auto fade-up">
+      <div class="flex items-start justify-between mb-6">
+        <div>
+          <div class="text-white/70 text-sm font-semibold mb-1">منصة الثانية والستون 🎓</div>
+          <h1 class="text-3xl sm:text-4xl font-black text-white leading-tight">
+            رحلتُكِ نحو<br>التميز ✨
           </h1>
-          <div
-            class="w-12 h-12 md:w-14 md:h-14 rounded-xl overflow-hidden flex-shrink-0"
-          >
-            <img
-              src="https://i.imgur.com/H1ymLXw.png"
-              alt="شعار"
-              class="w-full h-full object-cover"
-            />
-          </div>
+          <p class="text-white/75 text-sm mt-2">ابدئي رحلة تعلّمك التفاعلية الآن</p>
         </div>
-      </nav>
-      <section id="hero-section" class="hero-pattern relative px-4 pt-10 pb-14">
-        <!-- Decorative blobs -->
-        <div
-          style="
-            position: absolute;
-            top: -10%;
-            left: -5%;
-            width: 220px;
-            height: 220px;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 50%;
-            filter: blur(40px);
-            pointer-events: none;
-          "
-        ></div>
-        <div
-          style="
-            position: absolute;
-            bottom: -10%;
-            right: -5%;
-            width: 180px;
-            height: 180px;
-            background: rgba(236, 72, 153, 0.25);
-            border-radius: 50%;
-            filter: blur(40px);
-            pointer-events: none;
-          "
-        ></div>
-        <div class="relative z-10 w-full max-w-lg mx-auto fade-in">
-          <!-- Greeting row -->
-          <div class="flex items-start justify-between mb-5">
-            <div>
-              <h1
-                id="hero-heading"
-                class="text-3xl sm:text-4xl font-black text-white mb-1 leading-tight"
-              >
-                رحلتُكِ نحو التميز ✨
-              </h1>
-              <p id="hero-subtitle" class="text-white/80 text-sm font-medium">
-                مرحباً بك! ابدئي رحلة تعلّمك التفاعلية
-              </p>
-            </div>
-            <div
-              class="w-14 h-14 rounded-2xl flex-shrink-0 flex items-center justify-center text-3xl"
-              style="
-                background: rgba(255, 255, 255, 0.2);
-                backdrop-filter: blur(8px);
-                border: 1px solid rgba(255, 255, 255, 0.3);
-              "
-            >
-              👩🏻‍🎓
-            </div>
-          </div>
-          <!-- CTA button -->
-          <button
-            onclick="startJourney()"
-            class="hero-cta glow-btn w-full text-white font-bold rounded-3xl flex items-center justify-center gap-3 py-4"
-          >
-            <i class="rocket-icon">🚀</i>
-            <span>اكتشفي الدروس</span>
-          </button>
-          <!-- Credits -->
-          <div class="mt-5 text-center text-xs text-white/65 leading-relaxed">
-            <p>إعداد: فاطمة الأسمري · مريم الجبري · منى المخلفي</p>
-            <p class="mt-0.5">إشراف: زينب عسكر الحربي</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- قسم المتصدرين -->
-      <section
-        id="leaderboard-section"
-        class="px-4 py-8 md:py-10"
-        style="background: #fffbf7"
-      >
-        <div class="max-w-lg mx-auto">
-          <!-- العنوان -->
-          <div class="flex items-center justify-between mb-1">
-            <h2 class="text-xl md:text-2xl font-black flex items-center gap-2" style="color: #2d2640">
-              لوحة الشرف <span>🏆</span>
-            </h2>
-            <button id="lb-refresh-btn" class="lb-refresh-btn" onclick="refreshLeaderboard()" title="تحديث">
-              🔄
-            </button>
-          </div>
-          <p class="text-sm mb-4" style="color: #94a3b8">
-            الأكثر تميزاً في كل مرحلة دراسية ✨
-          </p>
-
-          <!-- تبويبات الصف -->
-          <div class="flex gap-2 justify-center mb-4">
-            <button id="lb-tab-first" onclick="switchLbTab('first')"
-              class="lb-tab lb-on px-4 py-2.5 rounded-2xl font-bold text-sm transition-all flex-1">
-              📘 الأول متوسط
-            </button>
-            <button id="lb-tab-second" onclick="switchLbTab('second')"
-              class="lb-tab lb-off px-4 py-2.5 rounded-2xl font-bold text-sm transition-all flex-1">
-              📗 الثاني متوسط
-            </button>
-          </div>
-
-          <!-- إحصائيات سريعة -->
-          <div id="lb-stats-bar" class="lb-stats-bar hidden">
-            <div class="lb-stat-item">
-              <div id="lb-stat-students" class="lb-stat-num">0</div>
-              <div class="lb-stat-label">طالبة</div>
-            </div>
-            <div class="lb-divider"></div>
-            <div class="lb-stat-item">
-              <div id="lb-stat-lessons" class="lb-stat-num">0</div>
-              <div class="lb-stat-label">درس مكتمل</div>
-            </div>
-            <div class="lb-divider"></div>
-            <div class="lb-stat-item">
-              <div id="lb-stat-avg" class="lb-stat-num">0%</div>
-              <div class="lb-stat-label">متوسط النتائج</div>
-            </div>
-          </div>
-
-          <!-- المحتوى -->
-          <div id="lb-body" class="space-y-2.5">
-            <div class="text-center py-8 text-sm" style="color: #94a3b8">
-              جاري تحميل الإحصائيات...
-            </div>
-          </div>
-
-          <!-- زر تصفير لوحة الشرف (للمشرفة فقط) -->
-          <div id="lb-admin-actions" class="hidden mt-4 pt-4 border-t" style="border-color:rgba(124,58,237,0.1)">
-            <button onclick="clearLeaderboard()" class="w-full py-2 rounded-xl text-sm font-bold" style="background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.2);">
-              🗑️ تصفير لوحة الشرف لهذا الصف
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- مودال إدخال الاسم -->
-      <div
-        id="name-modal"
-        class="hidden fixed inset-0 z-50 flex items-center justify-center px-4"
-        style="background: rgba(45, 38, 64, 0.6); backdrop-filter: blur(10px)"
-      >
-        <div
-          class="rounded-3xl p-8 max-w-sm w-full shadow-2xl fade-in"
-          style="background: white; border: 1px solid rgba(124, 58, 237, 0.15)"
-        >
-          <div class="text-center mb-6">
-            <div class="text-5xl mb-3">✏️</div>
-            <h3 class="text-xl font-black" style="color: #7c3aed">
-              أدخلي اسمك
-            </h3>
-            <p class="text-sm mt-1" style="color: #94a3b8">
-              سيظهر اسمك في لوحة الشرف ✨
-            </p>
-          </div>
-          <input
-            id="student-name-input"
-            type="text"
-            maxlength="50"
-            placeholder="اسمك الكامل..."
-            class="w-full border rounded-2xl px-4 py-3 text-center text-lg font-bold mb-4 focus:outline-none"
-            style="
-              background: #fffbf7;
-              border-color: rgba(124, 58, 237, 0.2);
-              color: #2d2640;
-              font-family: Cairo, sans-serif;
-            "
-          />
-          <div
-            id="name-error"
-            class="hidden text-sm text-center mb-3"
-            style="color: #ef4444"
-          >
-            الرجاء إدخال اسمك أولاً
-          </div>
-          <button
-            onclick="confirmName()"
-            class="glow-btn w-full py-3.5 rounded-2xl text-white font-bold text-lg"
-          >
-            ابدأ التعلم 🚀
-          </button>
+        <div class="w-16 h-16 rounded-3xl flex-shrink-0 flex items-center justify-center text-4xl"
+             style="background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.3)">
+          👩🏻‍🎓
         </div>
       </div>
-
-      <section id="subjects-section" class="px-4 py-8 md:py-12 hidden">
-        <div class="max-w-lg mx-auto fade-in">
-          <h2
-            class="text-xl md:text-2xl font-black mb-1"
-            style="color: #2d2640"
-          >
-            اختاري دروسك 🚀
-          </h2>
-          <p class="text-sm mb-6" style="color: #94a3b8">
-            اضغطي على الصف لاستكشاف الوحدات الدراسية
-          </p>
-          <div class="flex flex-col gap-4" id="subjects-grid">
-            <div
-              class="grade-card-1 rounded-[28px] p-6"
-              onclick="showUnits('first')"
-            >
-              <div
-                style="
-                  position: absolute;
-                  top: -20px;
-                  right: -20px;
-                  width: 110px;
-                  height: 110px;
-                  background: rgba(255, 255, 255, 0.25);
-                  border-radius: 50%;
-                  filter: blur(20px);
-                "
-              ></div>
-              <div class="flex items-center justify-between relative z-10">
-                <div>
-                  <h3 class="text-2xl font-black mb-1" style="color: #8a2387">
-                    الأول متوسط
-                  </h3>
-                  <p
-                    class="text-sm font-medium"
-                    style="color: rgba(138, 35, 135, 0.7)"
-                  >
-                    الجبر · الهندسة · الإحصاء
-                  </p>
-                </div>
-                <div
-                  class="w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg"
-                  style="
-                    background: rgba(255, 255, 255, 0.55);
-                    backdrop-filter: blur(6px);
-                  "
-                >
-                  📐
-                </div>
-              </div>
-              <div class="mt-4 flex gap-2 relative z-10">
-                <div
-                  class="flex-1 inline-flex items-center justify-center gap-2 text-sm font-bold px-4 py-2 rounded-xl"
-                  style="background: rgba(255,255,255,0.4); color: #8a2387; backdrop-filter: blur(4px);"
-                >
-                  <span>دخول للدروس</span>
-                </div>
-                <div
-                  onclick="event.stopPropagation(); startComprehensiveTest('first')"
-                  class="inline-flex items-center justify-center gap-1 text-sm font-bold px-3 py-2 rounded-xl"
-                  style="background: rgba(138,35,135,0.15); color: #8a2387; backdrop-filter: blur(4px);"
-                >
-                  <span>🎯 اختبار شامل</span>
-                </div>
-              </div>
-            </div>
-            <div
-              class="grade-card-2 rounded-[28px] p-6"
-              onclick="showUnits('second')"
-            >
-              <div
-                style="
-                  position: absolute;
-                  bottom: -20px;
-                  left: -20px;
-                  width: 110px;
-                  height: 110px;
-                  background: rgba(255, 255, 255, 0.25);
-                  border-radius: 50%;
-                  filter: blur(20px);
-                "
-              ></div>
-              <div class="flex items-center justify-between relative z-10">
-                <div>
-                  <h3 class="text-2xl font-black mb-1" style="color: #1e3a8a">
-                    الثاني متوسط
-                  </h3>
-                  <p
-                    class="text-sm font-medium"
-                    style="color: rgba(30, 58, 138, 0.7)"
-                  >
-                    المعادلات · النسبة · التحويلات
-                  </p>
-                </div>
-                <div
-                  class="w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg"
-                  style="
-                    background: rgba(255, 255, 255, 0.55);
-                    backdrop-filter: blur(6px);
-                  "
-                >
-                  🧮
-                </div>
-              </div>
-              <div class="mt-4 flex gap-2 relative z-10">
-                <div
-                  class="flex-1 inline-flex items-center justify-center gap-2 text-sm font-bold px-4 py-2 rounded-xl"
-                  style="background: rgba(255,255,255,0.4); color: #1e3a8a; backdrop-filter: blur(4px);"
-                >
-                  <span>دخول للدروس</span>
-                </div>
-                <div
-                  onclick="event.stopPropagation(); startComprehensiveTest('second')"
-                  class="inline-flex items-center justify-center gap-1 text-sm font-bold px-3 py-2 rounded-xl"
-                  style="background: rgba(30,58,138,0.15); color: #1e3a8a; backdrop-filter: blur(4px);"
-                >
-                  <span>🎯 اختبار شامل</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-              <div
-                style="
-                  position: absolute;
-                  top: -20px;
-                  right: -20px;
-                  width: 110px;
-                  height: 110px;
-                  background: rgba(255, 255, 255, 0.25);
-                  border-radius: 50%;
-                  filter: blur(20px);
-                "
-              ></div>
-              <div class="flex items-center justify-between relative z-10">
-                <div>
-                  <h3 class="text-2xl font-black mb-1" style="color: #8a2387">
-                    الأول متوسط
-                  </h3>
-                  <p
-                    class="text-sm font-medium"
-                    style="color: rgba(138, 35, 135, 0.7)"
-                  >
-                    الجبر · الهندسة · الإحصاء
-                  </p>
-                </div>
-                <div
-                  class="w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg"
-                  style="
-                    background: rgba(255, 255, 255, 0.55);
-                    backdrop-filter: blur(6px);
-                  "
-                >
-                  📐
-                </div>
-              </div>
-              <div
-                class="mt-5 inline-flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl"
-                style="
-                  background: rgba(255, 255, 255, 0.4);
-                  color: #8a2387;
-                  backdrop-filter: blur(4px);
-                "
-              >
-                <span>دخول للدروس</span>
-                <i
-                  data-lucide="arrow-left"
-                  style="width: 16px; height: 16px"
-                ></i>
-              </div>
-            </div>
-            <div
-              class="grade-card-2 rounded-[28px] p-6"
-              onclick="showUnits('second')"
-            >
-              <div
-                style="
-                  position: absolute;
-                  bottom: -20px;
-                  left: -20px;
-                  width: 110px;
-                  height: 110px;
-                  background: rgba(255, 255, 255, 0.25);
-                  border-radius: 50%;
-                  filter: blur(20px);
-                "
-              ></div>
-              <div class="flex items-center justify-between relative z-10">
-                <div>
-                  <h3 class="text-2xl font-black mb-1" style="color: #1e3a8a">
-                    الثاني متوسط
-                  </h3>
-                  <p
-                    class="text-sm font-medium"
-                    style="color: rgba(30, 58, 138, 0.7)"
-                  >
-                    المعادلات · النسبة · التحويلات
-                  </p>
-                </div>
-                <div
-                  class="w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-lg"
-                  style="
-                    background: rgba(255, 255, 255, 0.55);
-                    backdrop-filter: blur(6px);
-                  "
-                >
-                  🧮
-                </div>
-              </div>
-              <div
-                class="mt-5 inline-flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl"
-                style="
-                  background: rgba(255, 255, 255, 0.4);
-                  color: #1e3a8a;
-                  backdrop-filter: blur(4px);
-                "
-              >
-                <span>دخول للدروس</span>
-                <i
-                  data-lucide="arrow-left"
-                  style="width: 16px; height: 16px"
-                ></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section id="units-section" class="px-4 py-8 md:py-12 hidden">
-        <div class="max-w-lg mx-auto fade-in">
-          <div class="flex items-center gap-2 mb-6">
-            <button
-              onclick="goBack('subjects')"
-              class="back-btn flex items-center gap-1 text-sm"
-            >
-              <i data-lucide="arrow-right" style="width: 18px; height: 18px"></i
-              ><span>رجوع</span>
-            </button>
-            <h2
-              id="units-title"
-              class="text-xl md:text-2xl font-black"
-              style="color: #2d2640"
-            ></h2>
-          </div>
-          <div class="grid grid-cols-2 gap-3 md:gap-4" id="units-grid"></div>
-        </div>
-      </section>
-      <section id="lessons-section" class="px-4 py-8 md:py-12 hidden">
-        <div class="max-w-lg mx-auto fade-in">
-          <div class="flex items-center gap-2 mb-6">
-            <button
-              onclick="goBack('units')"
-              class="back-btn flex items-center gap-1 text-sm"
-            >
-              <i data-lucide="arrow-right" style="width: 18px; height: 18px"></i
-              ><span>رجوع</span>
-            </button>
-            <h2
-              id="lessons-title"
-              class="text-xl md:text-2xl font-black"
-              style="color: #2d2640"
-            ></h2>
-          </div>
-          <div id="lessons-grid" class="space-y-3"></div>
-        </div>
-      </section>
-      <section id="lesson-content-section" class="px-4 py-8 md:py-12 hidden">
-        <div class="max-w-lg mx-auto fade-in">
-          <div class="flex items-center gap-2 mb-6">
-            <button
-              onclick="goBack('lessons')"
-              class="back-btn flex items-center gap-1 text-sm"
-            >
-              <i data-lucide="arrow-right" style="width: 18px; height: 18px"></i
-              ><span>رجوع</span>
-            </button>
-            <h2
-              id="lesson-detail-title"
-              class="text-xl md:text-2xl font-black leading-snug"
-              style="color: #2d2640"
-            ></h2>
-          </div>
-          <div
-            id="lesson-detail-content"
-            class="quiz-content-card rounded-2xl p-4 md:p-6"
-          ></div>
-        </div>
-      </section>
-      <section id="quiz-section" class="px-3 py-4 md:px-4 md:py-10 hidden">
-        <div class="max-w-lg mx-auto">
-          <div id="quiz-view" class="fade-in">
-            <div
-              class="quiz-content-card rounded-2xl md:rounded-3xl p-4 md:p-8"
-            >
-              <div class="flex items-center justify-between mb-5 md:mb-8">
-                <button
-                  onclick="goBack('lessons')"
-                  class="back-btn flex items-center gap-1 text-sm px-3 py-2 rounded-xl"
-                >
-                  <i
-                    data-lucide="arrow-right"
-                    style="width: 18px; height: 18px"
-                  ></i
-                  ><span>إغلاق</span>
-                </button>
-                <div
-                  id="quiz-progress"
-                  class="text-sm font-semibold"
-                  style="color: #7c3aed"
-                >
-                  السؤال <span id="current-q">1</span> من
-                  <span id="total-q">5</span>
-                </div>
-                <div id="quiz-timer" class="quiz-timer hidden">
-                  ⏱ <span id="timer-display">00:00</span>
-                </div>
-              </div>
-              <div
-                id="quiz-progress-bar"
-                class="w-full rounded-full h-2 mb-5 md:mb-8"
-                style="background: rgba(124, 58, 237, 0.1)"
-              >
-                <div
-                  id="progress-fill"
-                  class="h-2 rounded-full transition-all duration-300"
-                  style="
-                    width: 20%;
-                    background: linear-gradient(135deg, #7c3aed, #ec4899);
-                  "
-                ></div>
-              </div>
-              <div id="quiz-question-container"></div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <button onclick="startJourney()" class="hero-cta w-full text-white font-black rounded-3xl flex items-center justify-center gap-3 py-4 text-lg">
+        <span style="animation:bounceIn .6s ease .2s both;display:inline-block">🚀</span>
+        <span>اكتشفي الدروس</span>
+      </button>
+      <div class="mt-4 text-center text-xs text-white/55 leading-loose">
+        إعداد: فاطمة الأسمري · مريم الجبري · منى المخلفي<br>
+        إشراف: زينب عسكر الحربي
+      </div>
     </div>
-    <script>
-      const curriculumData = {
+  </section>
+
+  <!-- ===== لوحة الشرف ===== -->
+  <section id="leaderboard-section" class="px-4 py-8">
+    <div class="max-w-lg mx-auto">
+      <div class="flex items-center justify-between mb-1">
+        <h2 class="text-xl font-black flex items-center gap-2" style="color:#1e1535">لوحة الشرف 🏆</h2>
+        <button id="lb-refresh-btn" class="lb-refresh-btn" onclick="refreshLeaderboard()">🔄</button>
+      </div>
+      <p class="text-sm mb-4" style="color:#94a3b8">الأكثر تميزاً في كل مرحلة ✨</p>
+
+      <!-- تبويبات -->
+      <div class="flex gap-2 mb-4">
+        <button id="lb-tab-first" onclick="switchLbTab('first')"
+          class="lb-tab lb-on px-4 py-2 rounded-2xl font-bold text-sm transition-all flex-1">📘 الأول متوسط</button>
+        <button id="lb-tab-second" onclick="switchLbTab('second')"
+          class="lb-tab lb-off px-4 py-2 rounded-2xl font-bold text-sm transition-all flex-1">📗 الثاني متوسط</button>
+      </div>
+
+      <!-- إحصائيات -->
+      <div id="lb-stats-bar" class="lb-stats-bar hidden">
+        <div class="lb-stat-item"><div id="lb-stat-students" class="lb-stat-num">٠</div><div class="lb-stat-label">طالبة</div></div>
+        <div class="lb-divider"></div>
+        <div class="lb-stat-item"><div id="lb-stat-lessons" class="lb-stat-num">٠</div><div class="lb-stat-label">اختبار</div></div>
+        <div class="lb-divider"></div>
+        <div class="lb-stat-item"><div id="lb-stat-avg" class="lb-stat-num">٠%</div><div class="lb-stat-label">متوسط</div></div>
+      </div>
+
+      <div id="lb-body">
+        <div class="text-center py-10"><div style="font-size:30px;animation:spin 1s linear infinite;display:inline-block">⏳</div></div>
+      </div>
+
+      <!-- أزرار المشرفة -->
+      <div id="lb-admin-actions" class="hidden mt-4 pt-4 border-t" style="border-color:rgba(124,58,237,.1)">
+        <button onclick="clearLeaderboard()"
+          class="w-full py-2 rounded-xl text-sm font-bold"
+          style="background:rgba(239,68,68,.07);color:#ef4444;border:1px solid rgba(239,68,68,.18)">
+          🗑️ تصفير لوحة الشرف لهذا الصف
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== اختيار المرحلة ===== -->
+  <section id="subjects-section" class="px-4 py-8 hidden">
+    <div class="max-w-lg mx-auto scale-in">
+      <button onclick="goHome()" class="flex items-center gap-1.5 text-sm font-bold mb-5 px-3 py-1.5 rounded-xl"
+        style="background:rgba(124,58,237,.08);color:#7c3aed">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        رجوع
+      </button>
+      <h2 class="text-xl font-black mb-1" style="color:#1e1535">اختاري مرحلتك 🚀</h2>
+      <p class="text-sm mb-5" style="color:#94a3b8">اضغطي على الصف لاستكشاف الوحدات والدروس</p>
+      <div class="flex flex-col gap-4" id="subjects-grid">
+        <!-- أولى متوسط -->
+        <div class="grade-card grade-card-first" onclick="showUnits('first')">
+          <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,.22);border-radius:50%;filter:blur(20px)"></div>
+          <div class="flex items-center justify-between relative z-10">
+            <div>
+              <h3 class="text-2xl font-black" style="color:#7c2d12">الأول متوسط</h3>
+              <p class="text-sm font-medium mt-0.5" style="color:rgba(124,45,18,.7)">الجبر · الهندسة · الإحصاء</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
+                 style="background:rgba(255,255,255,.5);backdrop-filter:blur(6px)">📐</div>
+          </div>
+          <div class="flex gap-2 mt-4 relative z-10">
+            <div class="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-bold"
+                 style="background:rgba(255,255,255,.38);color:#7c2d12">
+              <span>دخول للدروس</span>
+            </div>
+            <div onclick="event.stopPropagation();startComprehensiveTest('first')"
+                 class="flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-black"
+                 style="background:rgba(124,45,18,.18);color:#7c2d12">
+              🎯 اختبار شامل
+            </div>
+          </div>
+        </div>
+
+        <!-- ثاني متوسط -->
+        <div class="grade-card grade-card-second" onclick="showUnits('second')">
+          <div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;background:rgba(255,255,255,.22);border-radius:50%;filter:blur(20px)"></div>
+          <div class="flex items-center justify-between relative z-10">
+            <div>
+              <h3 class="text-2xl font-black" style="color:#1e3a8a">الثاني متوسط</h3>
+              <p class="text-sm font-medium mt-0.5" style="color:rgba(30,58,138,.7)">المعادلات · النسبة · التحويلات</p>
+            </div>
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
+                 style="background:rgba(255,255,255,.5);backdrop-filter:blur(6px)">🧮</div>
+          </div>
+          <div class="flex gap-2 mt-4 relative z-10">
+            <div class="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-bold"
+                 style="background:rgba(255,255,255,.38);color:#1e3a8a">
+              <span>دخول للدروس</span>
+            </div>
+            <div onclick="event.stopPropagation();startComprehensiveTest('second')"
+                 class="flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-black"
+                 style="background:rgba(30,58,138,.18);color:#1e3a8a">
+              🎯 اختبار شامل
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== الوحدات ===== -->
+  <section id="units-section" class="px-4 py-8 hidden">
+    <div class="max-w-lg mx-auto scale-in">
+      <div class="flex items-center gap-3 mb-6">
+        <button onclick="goBack('subjects')" class="w-9 h-9 rounded-xl flex items-center justify-center"
+          style="background:rgba(124,58,237,.08);color:#7c3aed;border:none;cursor:pointer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <h2 class="text-xl font-black" id="units-title" style="color:#1e1535">الوحدات</h2>
+      </div>
+      <div class="grid grid-cols-2 gap-3" id="units-grid"></div>
+    </div>
+  </section>
+
+  <!-- ===== الدروس ===== -->
+  <section id="lessons-section" class="px-4 py-8 hidden">
+    <div class="max-w-lg mx-auto scale-in">
+      <div class="flex items-center gap-3 mb-6">
+        <button onclick="goBack('units')" class="w-9 h-9 rounded-xl flex items-center justify-center"
+          style="background:rgba(124,58,237,.08);color:#7c3aed;border:none;cursor:pointer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <h2 class="text-xl font-black" id="lessons-title" style="color:#1e1535">الدروس</h2>
+      </div>
+      <div class="flex flex-col gap-2.5" id="lessons-grid"></div>
+    </div>
+  </section>
+
+  <!-- ===== محتوى الدرس ===== -->
+  <section id="lesson-content-section" class="px-3 py-5 hidden">
+    <div class="max-w-lg mx-auto scale-in">
+      <div class="quiz-content-card p-5 md:p-7">
+        <div class="flex items-center justify-between mb-5">
+          <button onclick="goBack('lessons')" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            رجوع
+          </button>
+          <div class="text-sm font-bold text-white/80" id="lesson-detail-title">الدرس</div>
+        </div>
+        <div id="lesson-detail-content" class="text-sm leading-relaxed"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== الاختبار ===== -->
+  <section id="quiz-section" class="px-3 py-4 md:px-4 md:py-8 hidden">
+    <div class="max-w-lg mx-auto">
+      <div class="quiz-content-card p-4 md:p-7">
+        <div class="flex items-center justify-between mb-4">
+          <button onclick="goBack('lessons')" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            إغلاق
+          </button>
+          <div id="quiz-progress" class="text-sm font-bold" style="color:rgba(255,255,255,.9)">
+            السؤال <span id="current-q">1</span> من <span id="total-q">5</span>
+          </div>
+          <div id="quiz-timer" class="quiz-timer hidden">⏱ <span id="timer-display">00:00</span></div>
+        </div>
+        <div id="quiz-progress-bar" class="w-full rounded-full h-2 mb-5" style="background:rgba(255,255,255,.1)">
+          <div id="progress-fill" class="h-2 rounded-full transition-all duration-400"
+            style="width:20%;background:linear-gradient(90deg,#a855f7,#ec4899)"></div>
+        </div>
+        <div id="quiz-question-container"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== مودال الاسم ===== -->
+  <div id="name-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4"
+       style="background:rgba(30,21,53,.65);backdrop-filter:blur(10px)">
+    <div class="rounded-3xl p-7 max-w-sm w-full shadow-2xl scale-in"
+         style="background:white;border:1px solid rgba(124,58,237,.18)">
+      <div class="text-center mb-5">
+        <div class="text-5xl mb-3">✏️</div>
+        <h3 class="text-xl font-black" style="color:#7c3aed">أدخلي اسمك</h3>
+        <p class="text-sm mt-1" style="color:#94a3b8">سيظهر اسمك في لوحة الشرف ✨</p>
+      </div>
+      <input id="student-name-input" type="text" maxlength="50" placeholder="اسمك الكامل..."
+        class="w-full border-2 rounded-2xl px-4 py-3 text-center text-base font-bold mb-3 focus:outline-none transition-all"
+        style="border-color:rgba(124,58,237,.2);color:#1e1535;font-family:Cairo,sans-serif;background:#f8f4ff"/>
+      <div id="name-error" class="hidden text-sm text-center mb-3 font-semibold" style="color:#ef4444">الرجاء إدخال اسمك أولاً</div>
+      <button onclick="confirmName()" class="glow-btn w-full py-3 rounded-2xl font-black text-base">ابدأ التعلم 🚀</button>
+    </div>
+  </div>
+
+</div><!-- end app-wrapper -->
+
+<!-- شريط التنقل -->
+<nav class="glass-nav fixed bottom-0 left-0 right-0 z-50" style="padding-bottom:max(14px,env(safe-area-inset-bottom))">
+  <div class="max-w-lg mx-auto px-6 pt-3 flex justify-between items-center">
+    <button onclick="goHome()" class="flex flex-col items-center gap-1">
+      <div class="w-11 h-8 rounded-xl flex items-center justify-center" style="background:rgba(124,58,237,.12)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <span class="text-[10px] font-bold" style="color:#7c3aed">الرئيسية</span>
+    </button>
+    <button onclick="startJourney()" class="flex flex-col items-center gap-1">
+      <div class="w-11 h-8 rounded-xl flex items-center justify-center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <span class="text-[10px] font-bold" style="color:#94a3b8">دروسي</span>
+    </button>
+    <a href="/admin.html" class="flex flex-col items-center gap-1" style="text-decoration:none">
+      <div class="w-11 h-8 rounded-xl flex items-center justify-center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+      </div>
+      <span class="text-[10px] font-bold" style="color:#94a3b8">المشرفة</span>
+    </a>
+  </div>
+</nav>
+
+<script>
+      // ── تحويل الأرقام العربية ──
+      function toArabicDigits(str) {
+        const supMap = {"⁰":"٠","¹":"١","²":"٢","³":"٣","⁴":"٤","⁵":"٥","⁶":"٦","⁷":"٧","⁸":"٨","⁹":"٩"};
+        return String(str)
+          .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, d => `<sup>${supMap[d]}</sup>`)
+          .replace(/[0-9]/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+      }
+      function escapeHtml(str) {
+        return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+      }
+
+const curriculumData = {
         first: {
           name: "الأول متوسط",
           units: [
@@ -2851,868 +2152,418 @@
         },
       };
 
-      // ── تحويل الأرقام الغربية إلى الأرقام الهندية العربية ─────
-      function toArabicDigits(str) {
-        const supMap = {
-          "⁰": "٠",
-          "¹": "١",
-          "²": "٢",
-          "³": "٣",
-          "⁴": "٤",
-          "⁵": "٥",
-          "⁶": "٦",
-          "⁷": "٧",
-          "⁸": "٨",
-          "⁹": "٩",
-        };
-        return String(str)
-          .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, (d) => `<sup>${supMap[d]}</sup>`)
-          .replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
-      }
+      // ── المتغيرات ──
+      let currentGrade = null, currentUnitIndex = null;
+      let currentLeaderboardGrade = "first", currentLbGrade = "first";
+      let _pendingGrade = null, _timerInterval = null;
+      let _timerSeconds = 0, _timerElapsed = 0;
 
-      let currentGrade = null;
-      let currentUnitIndex = null;
-      let currentLeaderboardGrade = "first";
-      let _pendingGrade = null;
-
-      // ── اسم الطالبة ──────────────────────────────────────
-      function getStudentName(grade) {
-        return sessionStorage.getItem("student_name_" + grade) || null;
-      }
-
+      // ── اسم الطالبة ──
+      function getStudentName(g) { return sessionStorage.getItem("student_name_"+g)||null; }
       function showNameModal(grade) {
         _pendingGrade = grade;
         const inp = document.getElementById("student-name-input");
-        inp.value = "";
-        document.getElementById("name-error").classList.add("hidden");
+        inp.value=""; document.getElementById("name-error").classList.add("hidden");
         document.getElementById("name-modal").classList.remove("hidden");
-        setTimeout(() => inp.focus(), 100);
+        setTimeout(()=>inp.focus(),100);
       }
-
       function confirmName() {
         const name = document.getElementById("student-name-input").value.trim();
-        if (!name) {
-          document.getElementById("name-error").classList.remove("hidden");
-          return;
-        }
-        sessionStorage.setItem("student_name_" + _pendingGrade, name);
+        if (!name) { document.getElementById("name-error").classList.remove("hidden"); return; }
+        sessionStorage.setItem("student_name_"+_pendingGrade, name);
         document.getElementById("name-modal").classList.add("hidden");
-        _proceedToUnits(_pendingGrade);
+        if (window._afterNameAction==="comprehensive") { window._afterNameAction=null; startComprehensiveTest(_pendingGrade); }
+        else _proceedToUnits(_pendingGrade);
       }
+      document.getElementById("student-name-input").addEventListener("keydown",e=>{if(e.key==="Enter")confirmName();});
 
-      document
-        .getElementById("student-name-input")
-        .addEventListener("keydown", (e) => {
-          if (e.key === "Enter") confirmName();
-        });
-
+      // ── التنقل ──
       function startJourney() {
-        document.getElementById("hero-section").classList.add("hidden");
-        document.getElementById("leaderboard-section").classList.add("hidden");
+        ["hero-section","leaderboard-section"].forEach(s=>document.getElementById(s).classList.add("hidden"));
         document.getElementById("subjects-section").classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({top:0,behavior:"smooth"});
       }
-
       function showUnits(grade) {
-        const name = getStudentName(grade);
-        if (!name) {
-          showNameModal(grade);
-          return;
-        }
+        if (!getStudentName(grade)) { showNameModal(grade); return; }
         _proceedToUnits(grade);
       }
-
       function _proceedToUnits(grade) {
         currentGrade = grade;
         const data = curriculumData[grade];
         document.getElementById("units-title").textContent = data.name;
         const grid = document.getElementById("units-grid");
         grid.innerHTML = "";
-
-        data.units.forEach((unit, idx) => {
+        data.units.forEach((unit,idx) => {
           const card = document.createElement("div");
-          card.className = "unit-card rounded-2xl p-5";
-          card.innerHTML = `
-          <div class="text-3xl mb-3">${unit.emoji}</div>
-          <h3 class="text-base font-bold mb-1" style="color:#2D2640;">${unit.title}</h3>
-          <p class="text-xs" style="color:#94a3b8;">${unit.lessons.length} دروس</p>
-        `;
-          card.onclick = () => showLessons(idx);
+          card.className = "unit-card";
+          card.innerHTML = `<div style="font-size:30px;margin-bottom:8px">${unit.emoji}</div>
+            <h3 style="font-size:13px;font-weight:800;color:#1e1535;margin-bottom:3px;line-height:1.3">${unit.title}</h3>
+            <p style="font-size:11px;color:#94a3b8">${toArabicDigits(unit.lessons.length)} دروس</p>`;
+          card.onclick = ()=>showLessons(idx);
           grid.appendChild(card);
         });
-
         document.getElementById("subjects-section").classList.add("hidden");
         document.getElementById("units-section").classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        lucide.createIcons();
+        window.scrollTo({top:0,behavior:"smooth"});
       }
-
       async function showLessons(unitIdx) {
         currentUnitIndex = unitIdx;
         const unit = curriculumData[currentGrade].units[unitIdx];
         document.getElementById("lessons-title").textContent = unit.title;
         const grid = document.getElementById("lessons-grid");
         grid.innerHTML = "";
-
-        unit.lessons.forEach((lesson, idx) => {
+        unit.lessons.forEach((lesson,idx) => {
           const card = document.createElement("div");
-          card.className = "lesson-card rounded-xl p-4 flex items-center gap-4";
+          card.className = "lesson-card fade-up";
+          card.style.animationDelay = (idx*.04)+"s";
           card.innerHTML = `
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0" style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(236,72,153,0.15));color:#7C3AED;">${toArabicDigits(idx + 1)}</div>
-          <div class="flex-1">
-            <h3 class="font-bold text-sm mb-0.5" style="color:#2D2640;">${lesson.title}</h3>
-            <p class="text-xs" id="q-count-${unitIdx}-${idx}" style="color:#94a3b8;">
-              <span class="inline-block w-12 h-3 rounded animate-pulse" style="background:#e2e8f0;"></span>
-            </p>
-          </div>
-          <i data-lucide="chevron-left" style="width:18px;height:18px;color:#C4B5FD;"></i>
-        `;
-          card.onclick = () => showLessonContent(idx);
+            <div style="width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(236,72,153,.12));color:#7c3aed">${toArabicDigits(idx+1)}</div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:700;color:#1e1535;margin-bottom:2px">${lesson.title}</div>
+              <div id="q-count-${unitIdx}-${idx}" style="font-size:11px;color:#94a3b8">
+                <span style="display:inline-block;width:48px;height:9px;border-radius:4px;background:#e2e8f0"></span>
+              </div>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c4b5fd" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>`;
+          card.onclick = ()=>showLessonContent(idx);
           grid.appendChild(card);
         });
-
         document.getElementById("units-section").classList.add("hidden");
         document.getElementById("lessons-section").classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        lucide.createIcons();
-
-        // جلب العدادات الحقيقية من قاعدة البيانات
+        window.scrollTo({top:0,behavior:"smooth"});
         try {
           const resp = await fetch(`/api/questions/counts?gradeKey=${currentGrade}`);
           if (resp.ok) {
             const counts = await resp.json();
-            unit.lessons.forEach((_, idx) => {
+            unit.lessons.forEach((_,idx) => {
               const el = document.getElementById(`q-count-${unitIdx}-${idx}`);
               if (!el) return;
-              const n = counts[`${unitIdx}|${idx}`] || 0;
-              el.innerHTML = n > 0
-                ? `<span style="color:#7C3AED;font-weight:700;">${toArabicDigits(n)}</span> <span>سؤال ✅</span>`
-                : `<span style="color:#f59e0b;font-weight:600;">لا توجد أسئلة بعد</span>`;
+              const n = counts[`${unitIdx}|${idx}`]||0;
+              el.innerHTML = n>0 ? `<span style="color:#7c3aed;font-weight:700">${toArabicDigits(n)}</span> سؤال ✅`
+                                 : `<span style="color:#f59e0b;font-weight:600">لا توجد أسئلة بعد</span>`;
             });
           }
-        } catch { /* إذا فشل الجلب تظل الأرقام مخفية */ }
+        } catch {}
       }
-
       async function showLessonContent(lessonIdx) {
         window._currentLessonIndex = lessonIdx;
-        const lesson =
-          curriculumData[currentGrade].units[currentUnitIndex].lessons[
-            lessonIdx
-          ];
-        document.getElementById("lesson-detail-title").textContent =
-          lesson.title;
+        const lesson = curriculumData[currentGrade].units[currentUnitIndex].lessons[lessonIdx];
+        document.getElementById("lesson-detail-title").textContent = lesson.title;
         const content = document.getElementById("lesson-detail-content");
-
-        // تحميل الشرح: من قاعدة البيانات أولاً، ثم الافتراضي
-        content.innerHTML = '<div class="text-center py-4 text-slate-400 text-sm">جاري تحميل الشرح...</div>';
+        content.innerHTML = '<div style="text-align:center;padding:24px;color:rgba(255,255,255,.4);font-size:13px">⏳ جاري التحميل...</div>';
         try {
-          const r = await fetch(
-            `/api/lessons/content?gradeKey=${currentGrade}&unitIndex=${currentUnitIndex}&lessonIndex=${lessonIdx}`,
-            { cache: "no-store" }
-          );
+          const r = await fetch(`/api/lessons/content?gradeKey=${currentGrade}&unitIndex=${currentUnitIndex}&lessonIndex=${lessonIdx}`,{cache:"no-store"});
           const d = await r.json();
-          if (d.content && d.content !== "__RESET__") {
-            content.innerHTML = d.content;
-          } else {
-            content.innerHTML = lesson.content;
-          }
-        } catch {
-          content.innerHTML = lesson.content;
-        }
-
-        const quizBtn = document.createElement("button");
-        quizBtn.className =
-          "glow-btn w-full mt-6 py-3 px-6 rounded-2xl text-white font-bold text-lg flex items-center justify-center gap-2";
-        quizBtn.innerHTML =
-          '<i data-lucide="brain" style="width:20px;height:20px;"></i> <span>ابدأ الاختبار</span>';
-        quizBtn.onclick = () => openQuiz(lessonIdx);
-        content.appendChild(quizBtn);
-
+          content.innerHTML = (d.content&&d.content!=="__RESET__") ? d.content : lesson.content;
+        } catch { content.innerHTML = lesson.content; }
+        const btn = document.createElement("button");
+        btn.className = "glow-btn w-full mt-6 py-3 px-6 rounded-2xl font-black text-base flex items-center justify-center gap-2";
+        btn.innerHTML = "🧠 ابدأ الاختبار";
+        btn.onclick = ()=>openQuiz(lessonIdx);
+        content.appendChild(btn);
         document.getElementById("lessons-section").classList.add("hidden");
-        document
-          .getElementById("lesson-content-section")
-          .classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        lucide.createIcons();
+        document.getElementById("lesson-content-section").classList.remove("hidden");
+        window.scrollTo({top:0,behavior:"smooth"});
       }
-
       function goBack(target) {
-        const sections = [
-          "hero-section",
-          "subjects-section",
-          "units-section",
-          "lessons-section",
-          "lesson-content-section",
-          "quiz-section",
-          "leaderboard-section",
-        ];
-        sections.forEach((s) =>
-          document.getElementById(s).classList.add("hidden"),
-        );
-
-        if (target === "subjects") {
-          document.getElementById("hero-section").classList.remove("hidden");
-          document
-            .getElementById("leaderboard-section")
-            .classList.remove("hidden");
-          document
-            .getElementById("subjects-section")
-            .classList.remove("hidden");
-        } else if (target === "units") {
-          document.getElementById("units-section").classList.remove("hidden");
-        } else if (target === "lessons") {
-          document.getElementById("lessons-section").classList.remove("hidden");
-        }
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        lucide.createIcons();
+        ["hero-section","subjects-section","units-section","lessons-section","lesson-content-section","quiz-section"]
+          .forEach(s=>document.getElementById(s)?.classList.add("hidden"));
+        const map = {home:["hero-section","leaderboard-section"],subjects:["subjects-section"],units:["units-section"],lessons:["lessons-section"]};
+        (map[target]||[]).forEach(s=>document.getElementById(s)?.classList.remove("hidden"));
+        window.scrollTo({top:0,behavior:"smooth"});
+      }
+      function goHome() {
+        ["subjects-section","units-section","lessons-section","lesson-content-section","quiz-section"]
+          .forEach(s=>document.getElementById(s)?.classList.add("hidden"));
+        document.getElementById("hero-section").classList.remove("hidden");
+        document.getElementById("leaderboard-section").classList.remove("hidden");
+        window.scrollTo({top:0,behavior:"smooth"});
       }
 
+      // ── الاختبار ──
       async function openQuiz(lessonIdx) {
         window._currentLessonIndex = lessonIdx;
-        const lesson =
-          curriculumData[currentGrade].units[currentUnitIndex].lessons[
-            lessonIdx
-          ];
+        window._comprehensiveMode = false;
+        const lesson = curriculumData[currentGrade].units[currentUnitIndex].lessons[lessonIdx];
         let quizArr = [];
-
         try {
-          const resp = await fetch(
-            `/api/questions?gradeKey=${currentGrade}&unitIndex=${currentUnitIndex}&lessonIndex=${lessonIdx}`,
-          );
+          const resp = await fetch(`/api/questions?gradeKey=${currentGrade}&unitIndex=${currentUnitIndex}&lessonIndex=${lessonIdx}`);
           if (resp.ok) {
             const dbQs = await resp.json();
             if (dbQs.length > 0) {
-              quizArr = dbQs.map((q) => ({
-                q: q.question_text,
-                options: [q.option_a, q.option_b, q.option_c, q.option_d],
-                answer: Number(q.correct_answer),
-                image: q.image_url || null,
-              }));
+              quizArr = dbQs.map(q => {
+                const opts = [q.option_a,q.option_b,q.option_c,q.option_d];
+                const correctText = opts[q.correct_answer];
+                const shuffled = [...opts].sort(()=>Math.random()-.5);
+                return {q:q.question_text, options:shuffled, answer:shuffled.indexOf(correctText), image:q.image_url||null};
+              });
             }
           }
-        } catch (e) {}
-
-        // لا يوجد رجوع احتياطي — الأسئلة تأتي من قاعدة البيانات فقط
-
-        // إذا لم توجد أسئلة في قاعدة البيانات، أظهري رسالة واضحة
-        if (quizArr.length === 0) {
-          const sections = ["hero-section","subjects-section","units-section","lessons-section","lesson-content-section"];
-          sections.forEach(s => document.getElementById(s).classList.add("hidden"));
+        } catch {}
+        if (!quizArr.length && lesson.quiz?.length) {
+          quizArr = lesson.quiz.map(q => {
+            const shuffled = [...q.options].sort(()=>Math.random()-.5);
+            return {q:q.q, options:shuffled, answer:shuffled.indexOf(q.options[q.answer]), image:q.image||null};
+          });
+        }
+        if (!quizArr.length) {
+          ["hero-section","subjects-section","units-section","lessons-section","lesson-content-section"]
+            .forEach(s=>document.getElementById(s)?.classList.add("hidden"));
           document.getElementById("quiz-section").classList.remove("hidden");
-          const pb = document.getElementById("quiz-progress-bar");
-          if (pb) pb.style.display = "none";
-          const pd = document.getElementById("quiz-progress");
-          if (pd) pd.innerHTML = "";
-          document.getElementById("quiz-question-container").innerHTML = `
-            <div class="text-center py-6">
-              <div class="text-5xl mb-4">📭</div>
-              <h3 class="text-xl font-black mb-2" style="color:#7C3AED;">لا توجد أسئلة بعد</h3>
-              <p class="text-sm mb-6" style="color:#64748b;">لم يتم إضافة أسئلة لهذا الدرس من لوحة الإدارة بعد.</p>
-              <button onclick="goBack('lessons')" class="btn btn-primary px-6 py-2 text-sm"
-                style="background:linear-gradient(135deg,#7C3AED,#EC4899);">← العودة للدروس</button>
-            </div>`;
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          document.getElementById("quiz-progress-bar").style.display="none";
+          document.getElementById("quiz-progress").innerHTML="";
+          document.getElementById("quiz-question-container").innerHTML=`<div style="text-align:center;padding:30px"><div style="font-size:46px;margin-bottom:12px">📭</div><h3 style="font-size:17px;font-weight:900;color:#a855f7;margin-bottom:8px">لا توجد أسئلة بعد</h3><p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:18px">أضيفي أسئلة من لوحة الإدارة</p><button onclick="goBack('lessons')" class="glow-btn px-6 py-2.5 rounded-2xl text-sm font-bold">← العودة</button></div>`;
           return;
         }
-
-        window._quizState = {
-          quiz: quizArr,
-          currentQuestion: 0,
-          score: 0,
-          answers: [],
-          finished: false,
-        };
-
-        const progressDiv = document.getElementById("quiz-progress");
-        if (progressDiv) {
-          progressDiv.innerHTML = `السؤال <span id="current-q">1</span> من <span id="total-q">${quizArr.length}</span>`;
-        }
-        const progressBar = document.getElementById("quiz-progress-bar");
-        if (progressBar) progressBar.style.display = "";
-
-        const sections = [
-          "hero-section",
-          "subjects-section",
-          "units-section",
-          "lessons-section",
-          "lesson-content-section",
-        ];
-        sections.forEach((s) =>
-          document.getElementById(s).classList.add("hidden"),
-        );
+        window._quizState = {quiz:quizArr, currentQuestion:0, score:0, answers:[], finished:false};
+        document.getElementById("quiz-progress").innerHTML = `السؤال <span id="current-q">١</span> من <span id="total-q">${toArabicDigits(quizArr.length)}</span>`;
+        document.getElementById("quiz-progress-bar").style.display="";
+        ["hero-section","subjects-section","units-section","lessons-section","lesson-content-section"]
+          .forEach(s=>document.getElementById(s)?.classList.add("hidden"));
         document.getElementById("quiz-section").classList.remove("hidden");
-
-        const timerSecs = getTimerSetting();
-        startTimer(timerSecs);
-
+        startTimer(getTimerSetting());
         displayCurrentQuestion();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({top:0,behavior:"smooth"});
       }
-
       function displayCurrentQuestion() {
         const state = window._quizState;
         const q = state.quiz[state.currentQuestion];
         const container = document.getElementById("quiz-question-container");
-        const pct = ((state.currentQuestion + 1) / state.quiz.length) * 100;
-
-        document.getElementById("current-q").textContent =
-          state.currentQuestion + 1;
-        document.getElementById("progress-fill").style.width = pct + "%";
-        const progressDiv = document.getElementById("quiz-progress");
-        if (progressDiv) {
-          progressDiv.innerHTML = `السؤال <span id="current-q">${toArabicDigits(state.currentQuestion + 1)}</span> من <span id="total-q">${toArabicDigits(state.quiz.length)}</span>`;
-        }
-
-        let html = `<h3 class="text-xl font-bold mb-4 text-center">${toArabicDigits(q.q)}</h3>`;
-        if (q.image) {
-          html += `<div class="flex justify-center mb-5"><img src="${q.image}" alt="صورة السؤال" class="max-h-48 rounded-xl border border-white/10 object-contain"></div>`;
-        }
-        html += `<div class="space-y-3">`;
-        q.options.forEach((opt, idx) => {
-          html += `<div class="quiz-option rounded-xl p-4 text-center font-medium" onclick="selectAnswer(${idx})" id="opt-${idx}">${toArabicDigits(opt)}</div>`;
-        });
+        const pct = ((state.currentQuestion+1)/state.quiz.length)*100;
+        document.getElementById("progress-fill").style.width = pct+"%";
+        document.getElementById("quiz-progress").innerHTML = `السؤال <span id="current-q">${toArabicDigits(state.currentQuestion+1)}</span> من <span id="total-q">${toArabicDigits(state.quiz.length)}</span>`;
+        let html = `<h3 style="font-size:16px;font-weight:800;color:white;margin-bottom:14px;line-height:1.5;text-align:center">${toArabicDigits(q.q)}</h3>`;
+        if (q.image) html += `<div style="display:flex;justify-content:center;margin-bottom:12px"><img src="${q.image}" style="max-height:150px;border-radius:12px;border:1px solid rgba(255,255,255,.15)"></div>`;
+        html += `<div style="display:flex;flex-direction:column;gap:9px">`;
+        q.options.forEach((opt,idx) => { html += `<div class="quiz-option" onclick="selectAnswer(${idx})" id="opt-${idx}">${toArabicDigits(opt)}</div>`; });
         html += "</div>";
         container.innerHTML = html;
-        lucide.createIcons();
       }
-
       function selectAnswer(idx) {
         const state = window._quizState;
         if (state.finished) return;
-
         const q = state.quiz[state.currentQuestion];
-        const isCorrect = idx === q.answer;
-
+        const isCorrect = idx===q.answer;
         if (isCorrect) state.score++;
-
-        state.answers.push({
-          question: q.q,
-          userAnswer: q.options[idx],
-          correctAnswer: q.options[q.answer],
-          isCorrect,
+        state.answers.push({question:q.q, userAnswer:q.options[idx], correctAnswer:q.options[q.answer], isCorrect});
+        document.querySelectorAll(".quiz-option").forEach((el,i)=>{
+          el.onclick=null; el.style.cursor="default";
+          if (i===q.answer) el.classList.add("correct");
+          if (i===idx&&!isCorrect) el.classList.add("wrong");
         });
-
-        document.querySelectorAll(".quiz-option").forEach((el, i) => {
-          el.onclick = null;
-          el.style.cursor = "default";
-          if (i === q.answer) el.classList.add("correct");
-          if (i === idx && !isCorrect) el.classList.add("wrong");
-        });
-
         const container = document.getElementById("quiz-question-container");
-        const nextBtn = document.createElement("button");
-        nextBtn.className =
-          "glow-btn w-full mt-6 py-3 px-6 rounded-2xl text-white font-bold text-lg flex items-center justify-center gap-2";
-
-        if (state.currentQuestion < state.quiz.length - 1) {
-          nextBtn.innerHTML =
-            '<span>السؤال التالي</span> <i data-lucide="arrow-left" style="width:20px;height:20px;"></i>';
-          nextBtn.onclick = () => {
-            state.currentQuestion++;
-            displayCurrentQuestion();
-          };
+        const btn = document.createElement("button");
+        btn.className = "glow-btn w-full mt-5 py-3 px-6 rounded-2xl font-black text-base";
+        if (state.currentQuestion < state.quiz.length-1) {
+          btn.innerHTML = "التالي ◄";
+          btn.onclick = ()=>{state.currentQuestion++; displayCurrentQuestion();};
         } else {
-          nextBtn.innerHTML =
-            '<span>عرض النتائج</span> <i data-lucide="check-circle" style="width:20px;height:20px;"></i>';
-          nextBtn.onclick = () => {
-            state.finished = true;
-            showQuizResults();
-          };
+          btn.innerHTML = "عرض النتائج 🏁";
+          btn.onclick = ()=>{state.finished=true; showQuizResults();};
         }
-
-        container.appendChild(nextBtn);
-        lucide.createIcons();
+        container.appendChild(btn);
       }
-
       async function submitScore() {
         try {
           const state = window._quizState;
           const studentName = getStudentName(currentGrade);
           if (!studentName) return;
-          await fetch("/api/scores", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              studentName,
-              gradeKey: currentGrade,
-              unitIndex: currentUnitIndex,
+          await fetch("/api/scores",{
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({studentName, gradeKey:currentGrade,
+              unitIndex: window._comprehensiveMode ? -1 : currentUnitIndex,
               lessonIndex: window._currentLessonIndex,
-              score: state.score,
-              total: state.quiz.length,
-            }),
+              score: Math.min(state.score, state.quiz.length),
+              total: state.quiz.length})
           });
-          // أعد تحميل المتصدرين بعد حفظ النتيجة
           loadLeaderboard(currentGrade);
-        } catch (e) {}
+        } catch {}
       }
-
-      function showQuizResults(timeUp = false) {
-        stopTimer();
+      function showQuizResults(timeUp=false) {
+        stopTimer(); submitScore();
         const state = window._quizState;
-        submitScore();
         const container = document.getElementById("quiz-question-container");
-        const pct = Math.round((state.score / state.quiz.length) * 100);
-
-        // نجوم التقييم
-        let stars = pct >= 90 ? 5 : pct >= 75 ? 4 : pct >= 60 ? 3 : pct >= 40 ? 2 : 1;
-        const starsHTML = Array.from({length:5}, (_,i) =>
-          `<span class="star">${i < stars ? "⭐" : "☆"}</span>`
-        ).join("");
-
-        // شارة الأداء
-        let badge, badgeClass, emoji;
-        if (pct >= 80) { badge="ممتاز 🌟"; badgeClass="badge-excellent"; emoji="🎉"; }
-        else if (pct >= 60) { badge="جيد 👍"; badgeClass="badge-good"; emoji="😊"; }
-        else { badge="حاولي مجدداً 💪"; badgeClass="badge-tryagain"; emoji="💪"; }
-
-        // وقت الإجابة
-        const mins = Math.floor(_timerElapsed / 60);
-        const secs = _timerElapsed % 60;
-        const timeStr = mins > 0 ? `${mins} دقيقة ${secs} ثانية` : `${secs} ثانية`;
-
-        let resultHTML = `
-        <div class="text-center mb-6">
-          ${timeUp ? '<div class="text-sm font-bold mb-2" style="color:#ef4444;">⏰ انتهى الوقت!</div>' : ''}
-          <div class="text-6xl mb-3">${emoji}</div>
-          <div class="star-rating">${starsHTML}</div>
-          <span class="result-badge ${badgeClass}">${badge}</span>
-          <h2 class="text-2xl font-black mb-1" style="color:#2d2640">النتيجة النهائية</h2>
-          <p class="text-4xl font-bold mb-1" style="color:#7C3AED;">${toArabicDigits(state.score)} / ${toArabicDigits(state.quiz.length)}</p>
-          <p class="text-2xl font-bold mb-2" style="color:#EC4899;">${toArabicDigits(pct)}%</p>
-          <p class="text-xs" style="color:#94a3b8;">⏱ وقت الإجابة: ${timeStr}</p>
-        </div>
-
-        <div class="quiz-results-scroll space-y-3 mb-6 max-h-96 overflow-y-auto pr-1">
-          ${state.answers.map((answer, idx) => `
-            <div class="rounded-xl p-4 border-r-4" style="background:white;border-top:1px solid rgba(0,0,0,0.05);border-bottom:1px solid rgba(0,0,0,0.05);border-left:1px solid rgba(0,0,0,0.05);border-right-color:${answer.isCorrect ? "#10b981" : "#ef4444"};">
-              <p class="text-sm font-bold mb-2" style="color:${answer.isCorrect ? "#10b981" : "#ef4444"};">
-                السؤال ${toArabicDigits(idx + 1)}: ${answer.isCorrect ? "✓ صحيح" : "✗ خاطئ"}
-              </p>
-              <p class="text-sm mb-2" style="color:#2D2640;"><strong>السؤال:</strong> ${toArabicDigits(answer.question)}</p>
-              <p class="text-sm mb-1" style="color:#64748b;"><strong>إجابتك:</strong> ${toArabicDigits(answer.userAnswer)}</p>
-              ${!answer.isCorrect ? `<p class="text-sm font-semibold" style="color:#10b981;"><strong>الإجابة الصحيحة:</strong> ${toArabicDigits(answer.correctAnswer)}</p>` : ""}
-            </div>
-          `).join("")}
-        </div>
-
-        <div class="flex gap-3">
-          <button onclick="goBack('lessons')" class="flex-1 py-3 px-4 rounded-2xl font-bold transition flex items-center justify-center gap-2" style="background:rgba(124,58,237,0.08);color:#7C3AED;border:1px solid rgba(124,58,237,0.15);">
-            <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
-            <span>العودة</span>
-          </button>
-          <button onclick="retakeQuiz()" class="flex-1 glow-btn py-3 px-4 rounded-2xl text-white font-bold flex items-center justify-center gap-2">
-            <i data-lucide="repeat-2" style="width:18px;height:18px;"></i>
-            <span>إعادة الاختبار</span>
-          </button>
-        </div>
-        `;
-
-        container.innerHTML = resultHTML;
-        document.getElementById("quiz-progress-bar").style.display = "none";
-        const progressDiv = document.getElementById("quiz-progress");
-        if (progressDiv) {
-          progressDiv.innerHTML =
-            '<span class="font-bold" style="color:#7C3AED;">✓ انتهى الاختبار</span>';
-        }
-        lucide.createIcons();
+        const pct = Math.min(100, Math.round((state.score/state.quiz.length)*100));
+        const stars = pct>=90?5:pct>=75?4:pct>=60?3:pct>=40?2:1;
+        const starsHTML = Array.from({length:5},(_,i)=>`<span class="star">${i<stars?"⭐":"☆"}`).join("");
+        let badge,badgeClass,emoji;
+        if (pct>=80){badge="ممتاز 🌟";badgeClass="badge-excellent";emoji="🎉";}
+        else if(pct>=60){badge="جيد 👍";badgeClass="badge-good";emoji="😊";}
+        else{badge="حاولي مجدداً 💪";badgeClass="badge-tryagain";emoji="💪";}
+        const mins=Math.floor(_timerElapsed/60),secs=_timerElapsed%60;
+        const timeStr=mins>0?`${mins} دقيقة ${secs} ثانية`:`${secs} ثانية`;
+        container.innerHTML=`
+          <div style="text-align:center;margin-bottom:18px">
+            ${timeUp?'<div style="font-size:12px;font-weight:700;color:#f87171;margin-bottom:5px">⏰ انتهى الوقت!</div>':""}
+            <div style="font-size:50px;margin-bottom:7px">${emoji}</div>
+            <div class="star-rating">${starsHTML}</div>
+            <span class="result-badge ${badgeClass}">${badge}</span>
+            <h2 style="font-size:18px;font-weight:900;color:white;margin-bottom:3px">النتيجة النهائية</h2>
+            <p style="font-size:34px;font-weight:900;color:#a855f7;margin-bottom:1px">${toArabicDigits(state.score)} / ${toArabicDigits(state.quiz.length)}</p>
+            <p style="font-size:20px;font-weight:900;color:#ec4899;margin-bottom:5px">${toArabicDigits(pct)}%</p>
+            <p style="font-size:11px;color:rgba(255,255,255,.45)">⏱ ${timeStr}</p>
+          </div>
+          <div style="max-height:38vh;overflow-y:auto;margin-bottom:14px;display:flex;flex-direction:column;gap:7px">
+            ${state.answers.map((a,i)=>`
+              <div style="background:rgba(255,255,255,.07);border-right:3px solid ${a.isCorrect?"#10b981":"#ef4444"};border-radius:11px;padding:11px">
+                <p style="font-size:11px;font-weight:700;color:${a.isCorrect?"#6ee7b7":"#fca5a5"};margin-bottom:3px">${toArabicDigits(i+1)}. ${a.isCorrect?"✓ صحيح":"✗ خاطئ"}</p>
+                <p style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:2px">${toArabicDigits(a.question)}</p>
+                <p style="font-size:11px;color:rgba(255,255,255,.5)">إجابتك: ${toArabicDigits(a.userAnswer)}</p>
+                ${!a.isCorrect?`<p style="font-size:11px;color:#6ee7b7;font-weight:600">الصحيحة: ${toArabicDigits(a.correctAnswer)}</p>`:""}
+              </div>`).join("")}
+          </div>
+          <div style="display:flex;gap:9px">
+            <button onclick="${window._comprehensiveMode?"goBack('subjects')":"goBack('lessons')"}" style="flex:1;padding:12px;border-radius:16px;font-family:Cairo,sans-serif;font-weight:700;font-size:13px;cursor:pointer;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.18)">← العودة</button>
+            <button onclick="retakeQuiz()" class="glow-btn" style="flex:1;padding:12px;border-radius:16px;font-size:13px">🔄 إعادة</button>
+          </div>`;
+        document.getElementById("quiz-progress-bar").style.display="none";
+        document.getElementById("quiz-progress").innerHTML='<span style="font-weight:800;color:#a855f7">✓ انتهى الاختبار</span>';
       }
-
       function retakeQuiz() {
-        if (!window._currentLessonIndex && window._currentLessonIndex !== 0) {
-          goBack("lessons");
-          return;
-        }
-        openQuiz(window._currentLessonIndex);
+        if (window._comprehensiveMode) {startComprehensiveTest(currentGrade);return;}
+        if (window._currentLessonIndex!==undefined) openQuiz(window._currentLessonIndex);
+        else goBack("lessons");
       }
 
-      // ── لوحة المتصدرين ────────────────────────────────────
+      // ── الاختبار الشامل ──
+      async function startComprehensiveTest(grade) {
+        if (!getStudentName(grade)) { _pendingGrade=grade; window._afterNameAction="comprehensive"; showNameModal(grade); return; }
+        try {
+          const resp = await fetch(`/api/questions/comprehensive?gradeKey=${grade}`);
+          if (!resp.ok) throw new Error();
+          const rawQs = await resp.json();
+          if (!rawQs.length) {alert("لا توجد أسئلة كافية للاختبار الشامل");return;}
+          const quizArr = rawQs.map(q=>{
+            const opts=[q.option_a,q.option_b,q.option_c,q.option_d];
+            const correctText=opts[q.correct_answer];
+            const shuffled=[...opts].sort(()=>Math.random()-.5);
+            return {q:q.question_text, options:shuffled, answer:shuffled.indexOf(correctText), image:q.image_url||null};
+          }).sort(()=>Math.random()-.5);
+          currentGrade=grade; window._comprehensiveMode=true; window._currentLessonIndex=-1;
+          window._quizState={quiz:quizArr, currentQuestion:0, score:0, answers:[], finished:false};
+          document.getElementById("quiz-progress").innerHTML=`🎯 اختبار شامل — السؤال <span id="current-q">١</span> من <span id="total-q">${toArabicDigits(quizArr.length)}</span>`;
+          document.getElementById("quiz-progress-bar").style.display="";
+          ["hero-section","subjects-section","units-section","lessons-section","lesson-content-section"]
+            .forEach(s=>document.getElementById(s)?.classList.add("hidden"));
+          document.getElementById("quiz-section").classList.remove("hidden");
+          startTimer(getTimerSetting()); displayCurrentQuestion();
+          window.scrollTo({top:0,behavior:"smooth"});
+        } catch {alert("حدث خطأ في تحميل الأسئلة");}
+      }
+
+      // ── المؤقت ──
+      function startTimer(seconds) {
+        clearInterval(_timerInterval);
+        const timerEl=document.getElementById("quiz-timer"), displayEl=document.getElementById("timer-display");
+        if (!timerEl||!displayEl||!seconds||seconds<=0){if(timerEl)timerEl.classList.add("hidden");return;}
+        _timerSeconds=seconds; _timerElapsed=0;
+        timerEl.classList.remove("hidden","warning","danger");
+        _timerInterval=setInterval(()=>{
+          _timerElapsed++;
+          const rem=_timerSeconds-_timerElapsed;
+          displayEl.textContent=`${String(Math.floor(rem/60)).padStart(2,"0")}:${String(rem%60).padStart(2,"0")}`;
+          timerEl.classList.remove("warning","danger");
+          if(rem<=30)timerEl.classList.add("danger"); else if(rem<=60)timerEl.classList.add("warning");
+          if(rem<=0){clearInterval(_timerInterval);const st=window._quizState;if(st&&!st.finished){st.finished=true;showQuizResults(true);}}
+        },1000);
+      }
+      function stopTimer(){clearInterval(_timerInterval);document.getElementById("quiz-timer")?.classList.add("hidden");}
+      function getTimerSetting(){try{return parseInt(localStorage.getItem("quiz_timer_minutes")||"0")*60;}catch{return 0;}}
+
+      // ── لوحة الشرف ──
       function switchLbTab(grade) {
-        currentLeaderboardGrade = grade;
-        const on = ["first", "second"];
-        on.forEach((g) => {
-          const btn = document.getElementById("lb-tab-" + g);
-          if (g === grade) {
-            btn.className = btn.className.replace("lb-off", "lb-on");
-          } else {
-            btn.className = btn.className.replace("lb-on", "lb-off");
-          }
+        currentLeaderboardGrade=grade;
+        ["first","second"].forEach(g=>{
+          const btn=document.getElementById("lb-tab-"+g);
+          if(!btn)return;
+          if(g===grade){btn.className=btn.className.replace("lb-off","lb-on");}
+          else{btn.className=btn.className.replace("lb-on","lb-off");}
         });
         loadLeaderboard(grade);
       }
-
-      // ======== اختبار شامل ========
-      async function startComprehensiveTest(grade) {
-        const studentName = getStudentName(grade);
-        if (!studentName) { showNameModal(grade, () => startComprehensiveTest(grade)); return; }
-
-        try {
-          const resp = await fetch(`/api/questions/comprehensive?gradeKey=${grade}`);
-          if (!resp.ok) throw new Error("fetch error");
-          const rawQuestions = await resp.json();
-
-          if (!rawQuestions.length) {
-            alert("لا توجد أسئلة كافية للاختبار الشامل بعد");
-            return;
-          }
-
-          // تحويل الأسئلة مع خلط الإجابات
-          const quizArr = rawQuestions.map(q => {
-            const opts = [q.option_a, q.option_b, q.option_c, q.option_d];
-            const correctText = opts[q.correct_answer];
-            // خلط عشوائي للخيارات
-            const shuffled = [...opts].sort(() => Math.random() - 0.5);
-            const newAnswer = shuffled.indexOf(correctText);
-            return {
-              q: q.question_text,
-              options: shuffled,
-              answer: newAnswer,
-              image: q.image_url || null,
-              lessonIndex: q.lesson_index,
-              unitIndex: q.unit_index,
-              isComprehensive: true,
-            };
-          });
-
-          // خلط ترتيب الأسئلة نفسها
-          quizArr.sort(() => Math.random() - 0.5);
-
-          currentGrade = grade;
-          window._comprehensiveMode = true;
-          window._quizState = {
-            quiz: quizArr,
-            currentQuestion: 0,
-            score: 0,
-            answers: [],
-            finished: false,
-          };
-
-          const progressDiv = document.getElementById("quiz-progress");
-          if (progressDiv) progressDiv.innerHTML = `🎯 اختبار شامل — السؤال <span id="current-q">1</span> من <span id="total-q">${quizArr.length}</span>`;
-          const progressBar = document.getElementById("quiz-progress-bar");
-          if (progressBar) progressBar.style.display = "";
-
-          ["hero-section","subjects-section","units-section","lessons-section","lesson-content-section"]
-            .forEach(s => document.getElementById(s)?.classList.add("hidden"));
-          document.getElementById("quiz-section").classList.remove("hidden");
-
-          const timerSecs = getTimerSetting();
-          startTimer(timerSecs);
-
-          displayCurrentQuestion();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        } catch(e) {
-          alert("حدث خطأ في تحميل الأسئلة");
-        }
-      }
-
-      function showNameModal(grade, callback) {
-        const modal = document.getElementById("name-modal");
-        if (modal) modal.classList.remove("hidden");
-        window._nameCallback = callback;
-      }
-
-      // تعديل confirmName ليدعم الـ callback
-      const _origConfirmName = window.confirmName;
-
-      let _timerSeconds = 0;
-      let _timerElapsed = 0;
-
-      function startTimer(seconds) {
-        clearInterval(_timerInterval);
-        const timerEl = document.getElementById("quiz-timer");
-        const displayEl = document.getElementById("timer-display");
-        if (!timerEl || !displayEl) return;
-
-        if (!seconds || seconds <= 0) { timerEl.classList.add("hidden"); return; }
-
-        _timerSeconds = seconds;
-        _timerElapsed = 0;
-        timerEl.classList.remove("hidden", "warning", "danger");
-
-        _timerInterval = setInterval(() => {
-          _timerElapsed++;
-          const remaining = _timerSeconds - _timerElapsed;
-          const mins = Math.floor(remaining / 60);
-          const secs = remaining % 60;
-          displayEl.textContent = `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
-
-          timerEl.classList.remove("warning","danger");
-          if (remaining <= 30) timerEl.classList.add("danger");
-          else if (remaining <= 60) timerEl.classList.add("warning");
-
-          if (remaining <= 0) {
-            clearInterval(_timerInterval);
-            const state = window._quizState;
-            if (state && !state.finished) {
-              state.finished = true;
-              showQuizResults(true);
-            }
-          }
-        }, 1000);
-      }
-
-      function stopTimer() {
-        clearInterval(_timerInterval);
-        const timerEl = document.getElementById("quiz-timer");
-        if (timerEl) timerEl.classList.add("hidden");
-      }
-
-      function getTimerSetting() {
-        try { return parseInt(localStorage.getItem("quiz_timer_minutes") || "0") * 60; } catch(e) { return 0; }
-      }
-
       async function loadLeaderboard(grade) {
-        currentLbGrade = grade;
-        const body = document.getElementById("lb-body");
-        if (!body) return;
-        body.innerHTML = '<div class="text-center py-10"><div style="font-size:32px;animation:spin 1s linear infinite;display:inline-block">⏳</div></div>';
+        currentLbGrade=grade;
+        const body=document.getElementById("lb-body");
+        if(!body)return;
+        body.innerHTML='<div style="text-align:center;padding:28px;font-size:28px;animation:spin 1s linear infinite;display:inline-block">⏳</div>';
         try {
-          const resp = await fetch("/api/scores/leaderboard?gradeKey=" + grade);
-          if (!resp.ok) throw new Error("fetch error");
-          const rows = await resp.json();
-
-          // فحص إذا كانت المشرفة مسجلة دخول لإظهار أزرار الحذف
-          const meResp = await fetch("/api/auth/me");
-          const me = await meResp.json();
-          window._isAdmin = me.isAdmin || false;
-          const adminActions = document.getElementById("lb-admin-actions");
-          if (adminActions) adminActions.classList.toggle("hidden", !window._isAdmin);
-
+          const [lbResp,meResp]=await Promise.all([fetch("/api/scores/leaderboard?gradeKey="+grade),fetch("/api/auth/me")]);
+          const rows=await lbResp.json(), me=await meResp.json();
+          window._isAdmin=me.isAdmin||false;
+          document.getElementById("lb-admin-actions")?.classList.toggle("hidden",!window._isAdmin);
           renderLeaderboard(rows);
-        } catch (e) {
-          body.innerHTML = '<div class="text-center text-slate-600 py-8 text-sm">تعذّر تحميل البيانات 😕</div>';
+        } catch {body.innerHTML='<div style="text-align:center;padding:28px;color:#94a3b8;font-size:13px">تعذّر التحميل 😕</div>';}
+      }
+      function renderLeaderboard(rows) {
+        const body=document.getElementById("lb-body"), statsBar=document.getElementById("lb-stats-bar");
+        const isAdmin=window._isAdmin||false;
+        if(!rows?.length){
+          body.innerHTML=`<div style="text-align:center;padding:34px"><div style="font-size:42px;margin-bottom:9px">🌟</div><div style="font-weight:700;color:#1e1535">لا توجد نتائج بعد</div><div style="font-size:12px;color:#94a3b8;margin-top:4px">كوني أول المتصدرات!</div></div>`;
+          statsBar?.classList.add("hidden");return;
         }
+        statsBar?.classList.remove("hidden");
+        const totalL=rows.reduce((s,r)=>s+Number(r.lessons_count),0);
+        const avgP=Math.min(100,Math.round(rows.reduce((s,r)=>s+Number(r.pct),0)/rows.length));
+        document.getElementById("lb-stat-students").textContent=toArabicDigits(rows.length);
+        document.getElementById("lb-stat-lessons").textContent=toArabicDigits(totalL);
+        document.getElementById("lb-stat-avg").textContent=toArabicDigits(avgP)+"%";
+        const top3=rows.slice(0,3), rest=rows.slice(3);
+        const podiumOrder=top3.length>=2?[top3[1],top3[0],top3[2]].filter(Boolean):top3;
+        const podiumRanks=top3.length>=2?[2,1,3]:[1,2,3];
+        const avatars=["👩‍🎓","🌟","💫","✨","🎓"];
+        let html=`<div class="lb-podium">`;
+        podiumOrder.forEach((r,idx)=>{
+          const rank=podiumRanks[idx], realRank=top3.indexOf(r)+1;
+          const pct=Math.min(100,Number(r.pct));
+          html+=`<div class="lb-podium-item">
+            <div class="lb-avatar r${rank}">${rank===1?'<span class="lb-crown">👑</span>':""}${avatars[realRank-1]}</div>
+            <div class="lb-pname">${escapeHtml(r.student_name)}</div>
+            <div class="lb-ppct">${toArabicDigits(pct)}%</div>
+            ${isAdmin?`<button onclick="deleteLbStudent('${currentLbGrade}','${escapeHtml(r.student_name)}')" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;border-radius:6px;padding:2px 6px;font-size:10px;cursor:pointer;margin-bottom:2px;font-family:Cairo,sans-serif">🗑️</button>`:""}
+            <div class="lb-base r${rank}">${rank===1?"🥇":rank===2?"🥈":"🥉"}</div>
+          </div>`;
+        });
+        html+=`</div>`;
+        if(rest.length){
+          html+=`<div style="display:flex;flex-direction:column;gap:7px">`;
+          rest.forEach((r,i)=>{
+            const rank=i+4, pct=Math.min(100,Number(r.pct));
+            html+=`<div class="lb-card" style="animation:slideIn .4s ease-out ${i*.07}s both">
+              <div class="lb-rank-badge lb-rank-${rank}">${rank}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;font-weight:700;color:#1e1535;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(r.student_name)}</div>
+                <div class="lb-progress-bar"><div class="lb-progress-fill" style="width:${pct}%"></div></div>
+              </div>
+              <div style="text-align:left;flex-shrink:0">
+                <div style="font-size:14px;font-weight:900;color:#7c3aed">${toArabicDigits(pct)}%</div>
+                <div style="font-size:10px;color:#94a3b8">${toArabicDigits(r.lessons_count)} درس</div>
+              </div>
+              ${isAdmin?`<button onclick="deleteLbStudent('${currentLbGrade}','${escapeHtml(r.student_name)}')" style="background:rgba(239,68,68,.1);color:#ef4444;border:none;border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:Cairo,sans-serif">🗑️</button>`:""}
+            </div>`;
+          });
+          html+=`</div>`;
+        }
+        body.innerHTML=html;
       }
-
-      async function deleteLbStudent(grade, studentName) {
-        if (!confirm(`حذف "${studentName}" من لوحة الشرف؟`)) return;
-        try {
-          const r = await fetch(`/api/scores/student?gradeKey=${grade}&studentName=${encodeURIComponent(studentName)}`, { method: "DELETE" });
-          if (r.ok) loadLeaderboard(grade);
-          else alert("حدث خطأ في الحذف");
-        } catch(e) { alert("حدث خطأ"); }
+      async function deleteLbStudent(grade,studentName) {
+        if(!confirm(`حذف "${studentName}" من لوحة الشرف؟`))return;
+        try{const r=await fetch(`/api/scores/student?gradeKey=${grade}&studentName=${encodeURIComponent(studentName)}`,{method:"DELETE"});if(r.ok)loadLeaderboard(grade);else alert("حدث خطأ");}
+        catch{alert("حدث خطأ");}
       }
-
       async function clearLeaderboard() {
-        const label = currentLbGrade === "first" ? "الأول متوسط" : "الثاني متوسط";
-        if (!confirm(`تصفير لوحة شرف ${label} بالكامل؟`)) return;
-        try {
-          await fetch(`/api/scores?gradeKey=${currentLbGrade}`, { method: "DELETE" });
-          loadLeaderboard(currentLbGrade);
-        } catch(e) { alert("حدث خطأ"); }
+        const label=currentLbGrade==="first"?"الأول متوسط":"الثاني متوسط";
+        if(!confirm(`تصفير لوحة شرف ${label} بالكامل؟`))return;
+        try{await fetch(`/api/scores?gradeKey=${currentLbGrade}`,{method:"DELETE"});loadLeaderboard(currentLbGrade);}
+        catch{alert("حدث خطأ");}
       }
-
       function refreshLeaderboard() {
-        const btn = document.getElementById("lb-refresh-btn");
-        if (btn) { btn.classList.add("spinning"); setTimeout(() => btn.classList.remove("spinning"), 800); }
+        const btn=document.getElementById("lb-refresh-btn");
+        btn?.classList.add("spinning"); setTimeout(()=>btn?.classList.remove("spinning"),700);
         loadLeaderboard(currentLbGrade);
       }
 
-      function renderLeaderboard(rows) {
-        const body = document.getElementById("lb-body");
-        const statsBar = document.getElementById("lb-stats-bar");
-        const isAdmin = window._isAdmin || false;
-
-        if (!rows || rows.length === 0) {
-          body.innerHTML = `
-            <div class="text-center py-10">
-              <div style="font-size:48px;margin-bottom:12px">🌟</div>
-              <div class="font-bold" style="color:#2d2640">لا توجد نتائج حتى الآن</div>
-              <div class="text-sm mt-1" style="color:#94a3b8">كوني أول المتصدرات!</div>
-            </div>`;
-          if (statsBar) statsBar.classList.add("hidden");
-          return;
-        }
-
-        if (statsBar) {
-          statsBar.classList.remove("hidden");
-          const totalLessons = rows.reduce((s, r) => s + Number(r.lessons_count), 0);
-          const avgPct = Math.min(100, Math.round(rows.reduce((s, r) => s + Number(r.pct), 0) / rows.length));
-          document.getElementById("lb-stat-students").textContent = toArabicDigits(rows.length);
-          document.getElementById("lb-stat-lessons").textContent = toArabicDigits(totalLessons);
-          document.getElementById("lb-stat-avg").textContent = toArabicDigits(avgPct) + "%";
-        }
-
-        const top3 = rows.slice(0, 3);
-        const rest = rows.slice(3);
-        const podiumOrder = top3.length >= 2 ? [top3[1], top3[0], top3[2]].filter(Boolean) : top3;
-        const podiumRanks = top3.length >= 2 ? [2, 1, 3] : [1, 2, 3];
-
-        let html = "";
-
-        if (top3.length > 0) {
-          html += `<div class="lb-podium mb-4">`;
-          podiumOrder.forEach((r, idx) => {
-            const rank = podiumRanks[idx];
-            const realRank = top3.indexOf(r) + 1;
-            const avatarEmojis = ["👩‍🎓","🌟","💫","✨","🎓"];
-            html += `
-              <div class="lb-podium-item">
-                <div class="lb-podium-avatar rank-${rank}" style="position:relative">
-                  ${rank === 1 ? '<span class="lb-podium-crown">👑</span>' : ''}
-                  ${avatarEmojis[realRank-1]}
-                </div>
-                <div class="lb-podium-name">${escapeHtml(r.student_name)}</div>
-                <div class="lb-podium-pct">${toArabicDigits(Math.min(100, Number(r.pct)))}%</div>
-                ${isAdmin ? `<button onclick="deleteLbStudent('${currentLbGrade}','${escapeHtml(r.student_name)}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:none;border-radius:6px;padding:2px 6px;font-size:10px;cursor:pointer;margin-bottom:2px">🗑️</button>` : ''}
-                <div class="lb-podium-base rank-${rank}">${rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉"}</div>
-              </div>`;
-          });
-          html += `</div>`;
-        }
-
-        if (rest.length > 0) {
-          html += `<div class="space-y-2">`;
-          rest.forEach((r, i) => {
-            const rank = i + 4;
-            const pct = Math.min(100, Number(r.pct));
-            html += `
-              <div class="lb-card" style="animation-delay:${i * 0.1}s">
-                <div class="lb-rank-badge lb-rank-${rank}">${rank}</div>
-                <div class="flex-1 min-w-0">
-                  <div class="font-bold text-sm truncate" style="color:#2d2640">${escapeHtml(r.student_name)}</div>
-                  <div class="lb-progress-bar mt-1.5"><div class="lb-progress-fill" style="width:${pct}%"></div></div>
-                </div>
-                <div class="text-left flex-shrink-0">
-                  <div class="font-black text-base" style="color:#7C3AED;">${toArabicDigits(pct)}%</div>
-                  <div class="text-xs" style="color:#94a3b8;">${toArabicDigits(r.lessons_count)} درس</div>
-                </div>
-                ${isAdmin ? `<button onclick="deleteLbStudent('${currentLbGrade}','${escapeHtml(r.student_name)}')" style="background:rgba(239,68,68,0.1);color:#ef4444;border:none;border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer">🗑️</button>` : ''}
-              </div>`;
-          });
-          html += `</div>`;
-        }
-
-        body.innerHTML = html;
-      }
-
-      function escapeHtml(str) {
-        return String(str)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-      }
-
-      function goHome() {
-        const sections = [
-          "subjects-section",
-          "units-section",
-          "lessons-section",
-          "lesson-content-section",
-          "quiz-section",
-        ];
-        sections.forEach((s) =>
-          document.getElementById(s).classList.add("hidden"),
-        );
-        document.getElementById("hero-section").classList.remove("hidden");
-        document
-          .getElementById("leaderboard-section")
-          .classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        lucide.createIcons();
-      }
-
-      function scrollToLeaderboard() {
-        goHome();
-        setTimeout(() => {
-          document
-            .getElementById("leaderboard-section")
-            .scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      }
-
-      // تهيئة: تحميل المتصدرين عند فتح الصفحة
+      // ── تهيئة ──
       loadLeaderboard("first");
-
-      lucide.createIcons();
     </script>
-
-    <!-- شريط التنقل السفلي -->
-    <div
-      id="bottom-nav"
-      class="glass-bottom-nav fixed bottom-0 left-0 right-0 z-50"
-      style="padding-bottom: max(16px, env(safe-area-inset-bottom))"
-    >
-      <div class="max-w-lg mx-auto px-6 pt-3 flex justify-between items-center">
-        <button
-          onclick="goHome()"
-          class="flex flex-col items-center gap-1"
-          id="bn-home"
-        >
-          <div
-            class="w-12 h-9 rounded-2xl flex items-center justify-center"
-            style="background: rgba(124, 58, 237, 0.12)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#7C3AED"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </div>
-          <span class="text-[10px] font-bold" style="color: #7c3aed"
-            >الرئيسية</span
-          >
-        </button>
-        <button
-          onclick="startJourney()"
-          class="flex flex-col items-center gap-1"
-        >
-          <div class="w-12 h-9 rounded-2xl flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#94a3b8"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-            </svg>
-          </div>
-          <span class="text-[10px] font-bold" style="color: #94a3b8"
-            >دروسي</span
-          >
-        </button>
-        <a
-          href="/admin.html"
-          class="flex flex-col items-center gap-1"
-          style="text-decoration: none"
-        >
-          <div class="w-12 h-9 rounded-2xl flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#94a3b8"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M20 21a8 8 0 1 0-16 0" />
-            </svg>
-          </div>
-          <span class="text-[10px] font-bold" style="color: #94a3b8"
-            >المشرفة</span
-          >
-        </a>
-      </div>
-    </div>
-  </body>
+</body>
 </html>
